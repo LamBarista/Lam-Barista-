@@ -5,23 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Công thức — LamBarista</title>
 <link rel="stylesheet" href="assets/style.min.css">
+<style>
+.filter-chip{padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:.85rem}
+.filter-chip.active,.filter-chip:hover{background:var(--gold);color:#1a1208;border-color:var(--gold)}
+.strength{display:inline-flex;gap:2px}
+.strength span{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.strength span.on{background:var(--gold)}
+.heart{float:right;cursor:pointer;font-size:1.2rem;opacity:.5}
+.heart.on{opacity:1}
+</style>
 </head>
 <body>
 <nav class="top">
   <div class="wrap">
-    <a class="brand" href="index.html">🍸 <span>LamBarista</span></a>
+    <a class="brand" href="index.html">🍸 <span>Cẩm nang pha chế</span></a>
     <div class="links">
-      <a href="index.html">Trang chủ</a>
+      <a href="index.html">Tổng quan</a>
       <a href="cong-thuc.html" aria-current="page">Công thức</a>
       <a href="nguyen-lieu.html">Nguyên liệu</a>
       <a href="ky-thuat.html">Kỹ thuật</a>
     </div>
-    <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-    <button class="iconbtn" id="themeBtn" title="Đổi giao diện">🌓</button>
+    <button class="iconbtn menu-btn" id="menuBtn">☰</button>
+    <button class="iconbtn" id="themeBtn">🌓</button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Trang chủ</a>
-    <a href="cong-thuc.html" aria-current="page">Công thức</a>
+    <a href="index.html">Tổng quan</a>
+    <a href="cong-thuc.html">Công thức</a>
     <a href="nguyen-lieu.html">Nguyên liệu</a>
     <a href="ky-thuat.html">Kỹ thuật</a>
   </div>
@@ -31,76 +40,53 @@
   <div class="wrap">
     <span class="eyebrow">Công thức</span>
     <h2>Thư viện cocktail & mocktail</h2>
-    <p class="lead">Tìm kiếm theo tên hoặc nguyên liệu. Lọc theo base rượu và loại đồ uống.</p>
+
+    <div style="margin:16px 0;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <span style="font-size:.85rem;color:var(--muted)">LỌC</span>
+      <button class="filter-chip active" data-filter="all">Tất cả</button>
+      <button class="filter-chip" data-filter="tươi mát">Giải nhiệt</button>
+      <button class="filter-chip" data-filter="mạnh">Mạnh</button>
+      <button class="filter-chip" data-filter="đắng">Đắng</button>
+      <button class="filter-chip" data-filter="không cồn">Không cồn</button>
+    </div>
 
     <div class="filters">
-      <input type="text" id="search" placeholder="Tìm tên hoặc nguyên liệu…">
-      <select id="baseFilter">
-        <option value="all">Tất cả base</option>
-        <option>Rum</option>
-        <option>Whiskey</option>
-        <option>Gin</option>
-        <option>Tequila</option>
-        <option>Vodka</option>
-        <option>Mocktail</option>
-        <option>Khác</option>
-      </select>
-      <select id="typeFilter">
-        <option value="all">Tất cả</option>
-        <option value="cocktail">Cocktail</option>
-        <option value="mocktail">Mocktail</option>
+      <input type="text" id="search" placeholder="Tìm tên, nguyên liệu hoặc hương vị…">
+      <select id="sortSelect">
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="easy">Dễ → khó</option>
+        <option value="strong">Mạnh → nhẹ</option>
       </select>
     </div>
 
-    <details style="margin-bottom:24px">
+    <p id="count" style="color:var(--muted);font-size:.9rem;margin:8px 0 16px"></p>
+    <div class="grid" id="recipeGrid"></div>
+    <div id="recipeDetail"></div>
+
+    <details style="margin-top:32px">
       <summary style="background:var(--gold-soft);color:var(--gold)">＋ Thêm công thức mới</summary>
       <div class="in" style="padding-top:16px">
         <form id="addForm" style="display:grid;gap:12px">
           <input type="text" id="fName" placeholder="Tên công thức *" required>
           <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <select id="fType" required>
-              <option value="cocktail">Cocktail</option>
-              <option value="mocktail">Mocktail</option>
-            </select>
-            <select id="fBase" required>
-              <option>Rum</option>
-              <option>Whiskey</option>
-              <option>Gin</option>
-              <option>Tequila</option>
-              <option>Vodka</option>
-              <option>Mocktail</option>
-              <option>Khác</option>
-            </select>
-            <select id="fDiff">
-              <option>Dễ</option>
-              <option>Trung bình</option>
-              <option>Khó</option>
-            </select>
-            <input type="text" id="fGlass" placeholder="Loại ly (vd: Highball)" style="flex:1;min-width:140px">
+            <select id="fType"><option value="cocktail">Cocktail</option><option value="mocktail">Mocktail</option></select>
+            <select id="fBase"><option>Rum</option><option>Whiskey</option><option>Gin</option><option>Tequila</option><option>Vodka</option><option>Mocktail</option></select>
+            <select id="fDiff"><option>Dễ</option><option>Trung bình</option><option>Khó</option></select>
           </div>
-          <textarea id="fIngredients" placeholder="Nguyên liệu (mỗi dòng 1 nguyên liệu) *" rows="4" required style="font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)"></textarea>
-          <textarea id="fSteps" placeholder="Các bước làm (mỗi dòng 1 bước) *" rows="4" required style="font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)"></textarea>
-          <button type="submit" style="padding:12px 20px;background:var(--gold);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;justify-self:start">Lưu công thức</button>
+          <textarea id="fIngredients" placeholder="Nguyên liệu (mỗi dòng 1 cái) *" rows="3" required style="font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)"></textarea>
+          <textarea id="fSteps" placeholder="Các bước (mỗi dòng 1 bước) *" rows="3" required style="font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)"></textarea>
+          <button type="submit" style="padding:12px 20px;background:var(--gold);color:#1a1208;border:none;border-radius:12px;font-weight:700;cursor:pointer;justify-self:start">Lưu</button>
         </form>
-        <p id="formMsg" style="margin-top:8px;font-size:.9rem;color:var(--mock)"></p>
+        <p id="formMsg" style="margin-top:8px;font-size:.9rem"></p>
       </div>
     </details>
-
-    <div class="grid" id="recipeGrid"></div>
-    <div id="recipeDetail"></div>
   </div>
 </main>
 
-<footer>
-  <div class="wrap">LamBarista • Nhấp vào card để xem chi tiết công thức</div>
-</footer>
-
+<footer>LamBarista</footer>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>

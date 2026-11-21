@@ -3,72 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LamBarista — Cẩm nang Cocktail</title>
-<meta name="description" content="LamBarista — Lưu trữ và khám phá công thức cocktail & mocktail">
+<title>LamBarista — Cẩm nang Cocktail & Mocktail</title>
 <link rel="stylesheet" href="assets/style.min.css">
-<link rel="preload" href="assets/style.min.css" as="style">
-<meta name="theme-color" content="#15110d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍸</text></svg>">
+<meta name="theme-color" content="#0f0d0b">
 </head>
 <body>
 <nav class="top">
   <div class="wrap">
-    <a class="brand" href="index.html">🍸 <span>LamBarista</span></a>
+    <a class="brand" href="index.html">🍸 <span>Cẩm nang pha chế</span></a>
     <div class="links">
-      <a href="index.html" aria-current="page">Trang chủ</a>
+      <a href="index.html" aria-current="page">Tổng quan</a>
       <a href="cong-thuc.html">Công thức</a>
       <a href="nguyen-lieu.html">Nguyên liệu</a>
       <a href="ky-thuat.html">Kỹ thuật</a>
     </div>
-    <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu">☰</button>
-    <button class="iconbtn" id="themeBtn" title="Đổi giao diện">🌓</button>
+    <button class="iconbtn menu-btn" id="menuBtn">☰</button>
+    <button class="iconbtn" id="themeBtn">🌓</button>
   </div>
   <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html" aria-current="page">Trang chủ</a>
+    <a href="index.html">Tổng quan</a>
     <a href="cong-thuc.html">Công thức</a>
     <a href="nguyen-lieu.html">Nguyên liệu</a>
     <a href="ky-thuat.html">Kỹ thuật</a>
   </div>
 </nav>
 
-<main class="page">
+<main>
   <div class="wrap">
-    <span class="eyebrow">LamBarista</span>
-    <h2>Cẩm nang pha chế của bạn</h2>
-    <p class="lead">Lưu trữ, tìm kiếm và học các công thức cocktail & mocktail yêu thích. Giao diện sạch, chạy offline sau khi tải.</p>
-
-    <div class="grid">
-      <a href="cong-thuc.html" class="card" style="text-decoration:none;color:inherit;overflow:hidden">
-        <img src="assets/images/old-fashioned.webp" alt="Old Fashioned" loading="lazy" style="width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:12px">
-        <div class="badge cock">166+</div>
-        <h3>Công thức</h3>
-        <p class="meta">Tìm kiếm, lọc theo base rượu và độ khó</p>
-      </a>
-      <a href="nguyen-lieu.html" class="card" style="text-decoration:none;color:inherit">
-        <div class="badge" style="background:var(--gold-soft);color:var(--gold)">Base</div>
-        <h3>Nguyên liệu</h3>
-        <p class="meta">Rượu nền, rượu mùi, vị chua ngọt…</p>
-      </a>
-      <a href="ky-thuat.html" class="card" style="text-decoration:none;color:inherit">
-        <div class="badge mock">Tips</div>
-        <h3>Kỹ thuật</h3>
-        <p class="meta">Shake, stir, build, muddle…</p>
-      </a>
-    </div>
+    <section class="hero">
+      <div class="eyebrow">Cẩm nang cho người mới bắt đầu</div>
+      <h1>Cocktail <span class="pink">&</span> <span class="teal">Mocktail</span></h1>
+      <p>Từ lịch sử, dụng cụ, nguyên liệu đến kỹ thuật pha chế — kèm bộ sưu tập công thức chi tiết có thể lọc theo hương vị, loại rượu nền và độ khó. Mọi thứ chạy ngay trên máy bạn.</p>
+      <div class="btn-row">
+        <a href="cong-thuc.html" class="btn btn-primary">Xem công thức</a>
+        <a href="nguyen-lieu.html" class="btn btn-outline">Bắt đầu từ kiến thức nền</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>6</b><span>công thức mẫu</span></div>
+        <div class="stat"><b>5</b><span>cocktail</span></div>
+        <div class="stat"><b>1</b><span>mocktail</span></div>
+        <div class="stat"><b>4</b><span>kỹ thuật</span></div>
+        <div class="stat"><b>∞</b><span>công thức bạn thêm</span></div>
+      </div>
+    </section>
   </div>
 </main>
 
-<footer>
-  <div class="wrap">LamBarista • Lưu công thức pha chế • 2026</div>
-</footer>
-
+<footer>LamBarista • Cẩm nang pha chế</footer>
 <script src="assets/app.js"></script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
-</script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
 </body>
 </html>
