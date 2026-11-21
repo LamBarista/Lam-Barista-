@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Công thức — LamBarista</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">🍸 <span>LamBarista</span></a>
+    <div class="links">
+      <a href="index.html">Trang chủ</a>
+      <a href="cong-thuc.html" aria-current="page">Công thức</a>
+      <a href="nguyen-lieu.html">Nguyên liệu</a>
+      <a href="ky-thuat.html">Kỹ thuật</a>
+    </div>
+    <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <button class="iconbtn" id="themeBtn" title="Đổi giao diện">🌓</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Trang chủ</a>
+    <a href="cong-thuc.html" aria-current="page">Công thức</a>
+    <a href="nguyen-lieu.html">Nguyên liệu</a>
+    <a href="ky-thuat.html">Kỹ thuật</a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="wrap">
+    <span class="eyebrow">Công thức</span>
+    <h2>Thư viện cocktail & mocktail</h2>
+    <p class="lead">Tìm kiếm theo tên hoặc nguyên liệu. Lọc theo base rượu và loại đồ uống.</p>
+
+    <div class="filters">
+      <input type="text" id="search" placeholder="Tìm tên hoặc nguyên liệu…">
+      <select id="baseFilter">
+        <option value="all">Tất cả base</option>
+        <option>Rum</option>
+        <option>Whiskey</option>
+        <option>Gin</option>
+        <option>Tequila</option>
+        <option>Vodka</option>
+        <option>Mocktail</option>
+        <option>Khác</option>
+      </select>
+      <select id="typeFilter">
+        <option value="all">Tất cả</option>
+        <option value="cocktail">Cocktail</option>
+        <option value="mocktail">Mocktail</option>
+      </select>
+    </div>
+
+    <details style="margin-bottom:24px">
+      <summary style="background:var(--gold-soft);color:var(--gold)">＋ Thêm công thức mới</summary>
+      <div class="in" style="padding-top:16px">
+        <form id="addForm" style="display:grid;gap:12px">
+          <input type="text" id="fName" placeholder="Tên công thức *" required>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <select id="fType" required>
+              <option value="cocktail">Cocktail</option>
+              <option value="mocktail">Mocktail</option>
+            </select>
+            <select id="fBase" required>
+              <option>Rum</option>
+              <option>Whiskey</option>
+              <option>Gin</option>
+              <option>Tequila</option>
+              <option>Vodka</option>
+              <option>Mocktail</option>
+              <option>Khác</option>
+            </select>
+            <select id="fDiff">
+              <option>Dễ</option>
+              <option>Trung bình</option>
+              <option>Khó</option>
+            </select>
+            <input type="text" id="fGlass" placeholder="Loại ly (vd: Highball)" style="flex:1;min-width:140px">
+          </div>
+          <textarea id="fIngredients" placeholder="Nguyên liệu (mỗi dòng 1 nguyên liệu) *" rows="4" required style="font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)"></textarea>
+          <textarea id="fSteps" placeholder="Các bước làm (mỗi dòng 1 bước) *" rows="4" required style="font-family:inherit;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink)"></textarea>
+          <button type="submit" style="padding:12px 20px;background:var(--gold);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;justify-self:start">Lưu công thức</button>
+        </form>
+        <p id="formMsg" style="margin-top:8px;font-size:.9rem;color:var(--mock)"></p>
+      </div>
+    </details>
+
+    <div class="grid" id="recipeGrid"></div>
+    <div id="recipeDetail"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">LamBarista • Nhấp vào card để xem chi tiết công thức</div>
+</footer>
+
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
