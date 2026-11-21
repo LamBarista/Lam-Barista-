@@ -3,54 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LamBarista — Cẩm nang Cocktail & Mocktail</title>
-<link rel="stylesheet" href="assets/style.min.css">
-<meta name="theme-color" content="#0f0d0b">
+<title>LamBarista — Nghệ thuật pha chế</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav class="top">
+<nav>
   <div class="wrap">
-    <a class="brand" href="index.html">🍸 <span>Cẩm nang pha chế</span></a>
-    <div class="links">
-      <a href="index.html" aria-current="page">Tổng quan</a>
-      <a href="cong-thuc.html">Công thức</a>
-      <a href="nguyen-lieu.html">Nguyên liệu</a>
-      <a href="ky-thuat.html">Kỹ thuật</a>
+    <a class="logo" href="index.html">LamBarista</a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Trang chủ</a>
+      <a href="recipes.html">Công thức</a>
+      <a href="learn.html">Học pha chế</a>
     </div>
-    <button class="iconbtn menu-btn" id="menuBtn">☰</button>
-    <button class="iconbtn" id="themeBtn">🌓</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Tổng quan</a>
-    <a href="cong-thuc.html">Công thức</a>
-    <a href="nguyen-lieu.html">Nguyên liệu</a>
-    <a href="ky-thuat.html">Kỹ thuật</a>
   </div>
 </nav>
 
-<main>
+<section class="hero">
   <div class="wrap">
-    <section class="hero">
-      <div class="eyebrow">Cẩm nang cho người mới bắt đầu</div>
-      <h1>Cocktail <span class="pink">&</span> <span class="teal">Mocktail</span></h1>
-      <p>Từ lịch sử, dụng cụ, nguyên liệu đến kỹ thuật pha chế — kèm bộ sưu tập công thức chi tiết có thể lọc theo hương vị, loại rượu nền và độ khó. Mọi thứ chạy ngay trên máy bạn.</p>
-      <div class="btn-row">
-        <a href="cong-thuc.html" class="btn btn-primary">Xem công thức</a>
-        <a href="nguyen-lieu.html" class="btn btn-outline">Bắt đầu từ kiến thức nền</a>
-      </div>
-      <div class="stats">
-        <div class="stat"><b>6</b><span>công thức mẫu</span></div>
-        <div class="stat"><b>5</b><span>cocktail</span></div>
-        <div class="stat"><b>1</b><span>mocktail</span></div>
-        <div class="stat"><b>4</b><span>kỹ thuật</span></div>
-        <div class="stat"><b>∞</b><span>công thức bạn thêm</span></div>
-      </div>
-    </section>
+    <h1>Nghệ thuật<br><em>trong từng ly</em></h1>
+    <p>Khám phá công thức cocktail & mocktail được tuyển chọn kỹ, từ classic đến sáng tạo. Lưu công thức của riêng bạn ngay trên trình duyệt.</p>
+    <div class="cta">
+      <a href="recipes.html" class="btn btn-gold">Khám phá công thức</a>
+      <a href="learn.html" class="btn btn-ghost">Bắt đầu học</a>
+    </div>
   </div>
-</main>
+</section>
 
-<footer>LamBarista • Cẩm nang pha chế</footer>
-<script src="assets/app.js"></script>
-<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
+<section class="section">
+  <div class="wrap">
+    <h2>Nổi bật tuần này</h2>
+    <p class="sub">Những công thức được yêu thích nhất</p>
+    <div class="cards" id="featured"></div>
+  </div>
+</section>
+
+<footer>LamBarista • 2026</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Công thức — LamBarista</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="logo" href="index.html">LamBarista</a>
+    <div class="nav-links">
+      <a href="index.html">Trang chủ</a>
+      <a href="recipes.html" class="active">Công thức</a>
+      <a href="learn.html">Học pha chế</a>
+    </div>
+  </div>
+</nav>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Thư viện công thức</h2>
+    <p class="sub">Tìm kiếm, lọc và khám phá</p>
+
+    <div class="filters">
+      <input type="text" id="q" placeholder="Tìm tên hoặc nguyên liệu…">
+      <button class="chip on" data-t="all">Tất cả</button>
+      <button class="chip" data-t="cocktail">Cocktail</button>
+      <button class="chip" data-t="mocktail">Mocktail</button>
+      <select id="sort">
+        <option value="name">Tên A-Z</option>
+        <option value="str">Độ mạnh</option>
+      </select>
+    </div>
+
+    <div class="cards" id="grid"></div>
+    <div id="detail"></div>
+  </div>
+</section>
+
+<footer>LamBarista</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
