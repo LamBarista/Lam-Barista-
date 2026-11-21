@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="LamBarista — Thư viện công thức cocktail & mocktail, tìm kiếm theo nguyên liệu, lọc theo loại và lưu món yêu thích.">
 <title>Công thức — LamBarista</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -21,16 +22,17 @@
 <section class="section">
   <div class="wrap">
     <h2>Thư viện công thức</h2>
-    <p class="sub">Tìm kiếm, lọc và khám phá</p>
+    <p class="sub">Tìm kiếm, lọc theo loại đồ uống, sắp xếp và lưu món bạn yêu thích</p>
 
     <div class="filters">
-      <input type="text" id="q" placeholder="Tìm tên hoặc nguyên liệu…">
-      <button class="chip on" data-t="all">Tất cả</button>
-      <button class="chip" data-t="cocktail">Cocktail</button>
-      <button class="chip" data-t="mocktail">Mocktail</button>
-      <select id="sort">
-        <option value="name">Tên A-Z</option>
-        <option value="str">Độ mạnh</option>
+      <input type="text" id="q" placeholder="Tìm tên, nguyên liệu hoặc tag (ví dụ: cam, bạc hà, gin)…">
+      <button type="button" class="chip on" data-t="all">Tất cả</button>
+      <button type="button" class="chip" data-t="cocktail">Cocktail</button>
+      <button type="button" class="chip" data-t="mocktail">Mocktail</button>
+      <button type="button" class="chip" data-t="fav">♥ Đã lưu</button>
+      <select id="sort" aria-label="Sắp xếp công thức">
+        <option value="name">Tên A–Z</option>
+        <option value="str">Độ mạnh cao → thấp</option>
       </select>
     </div>
 
@@ -39,7 +41,7 @@
   </div>
 </section>
 
-<footer>LamBarista</footer>
+<footer>LamBarista • 2026</footer>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
