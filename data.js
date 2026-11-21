@@ -1,4 +1,3 @@
-// Lam's Barista — Thư viện 25 Công thức Cocktail Kinh điển & Signature
 const COCKTAIL_DATA = [
   {
     "id": "ferlatum-passion",
@@ -33,7 +32,9 @@ const COCKTAIL_DATA = [
       "Rót hỗn hợp ra ly đã có sẵn 1 viên đá lớn.",
       "Rót nhẹ soda (đã làm lạnh) vào ly (khoảng 60 ml).",
       "Trang trí tùy theo sở thích, khuấy nhẹ và thưởng thức."
-    ]
+    ],
+    "spirit": "Mocktail",
+    "tip": "Sử dụng Rocks (1 viên đá lớn) và kỹ thuật Shake & Top Soda đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "negroni",
@@ -65,7 +66,9 @@ const COCKTAIL_DATA = [
       "Khuấy đều theo một chiều trong 25-30 giây để đạt độ lạnh và độ loãng chuẩn.",
       "Rót ra ly Rocks có sẵn viên đá khối lớn (Clear Ice Cube).",
       "Xịt tinh dầu vỏ cam vàng lên bề mặt và cài vỏ cam vào thành ly."
-    ]
+    ],
+    "spirit": "Gin",
+    "tip": "Sử dụng Old Fashioned (Rocks) và kỹ thuật Stir & Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "old-fashioned",
@@ -98,7 +101,9 @@ const COCKTAIL_DATA = [
       "Thêm viên đá khối lớn và rót 60ml Bourbon Whiskey vào.",
       "Khuấy nhẹ nhàng khoảng 20-25 vòng để hòa quyện hương vị.",
       "Xịt tinh dầu vỏ cam lên ly và trang trí vỏ cam xoắn."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Old Fashioned (Rocks) và kỹ thuật Build & Stir đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "manhattan",
@@ -130,7 +135,9 @@ const COCKTAIL_DATA = [
       "Khuấy đều Rye Whiskey, Sweet Vermouth và Bitters với đá già trong Mixing Glass 25 giây.",
       "Lọc qua rây Julep Strainer ra ly đã làm lạnh.",
       "Thả quả anh đào Luxardo vào đáy ly để hoàn thiện."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Nick & Nora / Coupe và kỹ thuật Stir & Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "dry-martini",
@@ -162,7 +169,9 @@ const COCKTAIL_DATA = [
       "Khuấy Gin và Dry Vermouth trong Mixing Glass với nhiều đá già trong 30 giây.",
       "Lọc mịn ra ly Martini lạnh buốt.",
       "Xịt tinh dầu vỏ chanh vàng lên bề mặt ly."
-    ]
+    ],
+    "spirit": "Gin",
+    "tip": "Sử dụng Martini / Coupe và kỹ thuật Stir & Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "whiskey-sour",
@@ -195,7 +204,9 @@ const COCKTAIL_DATA = [
       "Thêm đá viên đầy bình và lắc mạnh (Wet Shake) trong 12 giây.",
       "Lọc đôi ra ly Rocks có đá khối lớn.",
       "Nhỏ 2 giọt Angostura Bitters lên lớp bọt trắng và kéo vân nghệ thuật."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Old Fashioned (Rocks) và kỹ thuật Dry Shake & Wet Shake đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "margarita",
@@ -227,7 +238,9 @@ const COCKTAIL_DATA = [
       "Xát lát chanh lên nửa ngoài miệng ly Coupe và lăn nhẹ qua đĩa muối biển mịn.",
       "Lắc mạnh Tequila, Cointreau, nước cốt chanh và Agave với đá già trong 12 giây.",
       "Lọc đôi ra ly đã viền muối và trang trí lát chanh mỏng."
-    ]
+    ],
+    "spirit": "Tequila",
+    "tip": "Sử dụng Coupe / Margarita và kỹ thuật Shake & Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "daiquiri",
@@ -258,7 +271,9 @@ const COCKTAIL_DATA = [
       "Làm lạnh ly Coupe thật sâu.",
       "Cho Rum, nước cốt chanh và syrup vào Shaker đầy đá già, lắc dứt khoát 12 giây.",
       "Lọc đôi qua rây mịn để loại bỏ vụn đá và tép chanh, trang trí lát chanh."
-    ]
+    ],
+    "spirit": "Rum",
+    "tip": "Sử dụng Coupe và kỹ thuật Shake & Double Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "mojito",
@@ -290,7 +305,9 @@ const COCKTAIL_DATA = [
       "Vỗ nhẹ lá bạc hà và cho vào ly Highball cùng syrup đường và nước cốt chanh.",
       "Dầm nhẹ nhàng bằng chày Muddler (tránh làm nát gân lá gây đắng).",
       "Rót Rum, thêm đầy đá viên/đá bào, khuấy đều từ dưới lên và châm đầy Soda."
-    ]
+    ],
+    "spirit": "Rum",
+    "tip": "Sử dụng Highball / Collins và kỹ thuật Muddle & Build đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "espresso-martini",
@@ -322,7 +339,9 @@ const COCKTAIL_DATA = [
       "Chiết xuất 1 shot Espresso đậm đặc và làm nguội nhanh.",
       "Cho tất cả nguyên liệu vào Shaker cùng đá già, lắc thật mạnh (Hard Shake) 15 giây để tạo lớp bọt dày.",
       "Lọc đôi ra ly Coupe lạnh và đặt 3 hạt cà phê lên tâm lớp bọt."
-    ]
+    ],
+    "spirit": "Vodka",
+    "tip": "Sử dụng Coupe / Martini và kỹ thuật Hard Shake & Double Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "pornstar-martini",
@@ -355,7 +374,9 @@ const COCKTAIL_DATA = [
       "Lắc mạnh Vodka, Passoã, chanh dây, chanh xanh và syrup với đá già trong 12 giây.",
       "Lọc đôi ra ly Coupe lạnh, thả nửa quả chanh dây tươi lên mặt bọt.",
       "Phục vụ kèm ly shot Prosecco lạnh bên cạnh."
-    ]
+    ],
+    "spirit": "Vodka",
+    "tip": "Sử dụng Coupe + Shot Glass và kỹ thuật Shake & Double Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "cosmopolitan",
@@ -386,7 +407,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Lắc đều tất cả nguyên liệu lỏng với đá già trong 12 giây.",
       "Lọc đôi ra ly Coupe lạnh và xịt tinh dầu vỏ cam lên bề mặt."
-    ]
+    ],
+    "spirit": "Vodka",
+    "tip": "Sử dụng Coupe / Martini và kỹ thuật Shake & Double Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "aperol-spritz",
@@ -417,7 +440,9 @@ const COCKTAIL_DATA = [
       "Cho nhiều đá viên lớn vào ly vang lớn.",
       "Rót lần lượt Prosecco, tiếp đến là Aperol và cuối cùng là Soda.",
       "Khuấy nhẹ 1 vòng duy nhất để giữ bọt gas và trang trí lát cam tươi."
-    ]
+    ],
+    "spirit": "Brandy",
+    "tip": "Sử dụng Large Wine Glass và kỹ thuật Build đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "gin-fizz",
@@ -449,7 +474,9 @@ const COCKTAIL_DATA = [
       "Dry shake Gin, chanh vàng, syrup và lòng trắng trứng trong 10 giây.",
       "Thêm đá viên, lắc mạnh 12 giây rồi lọc ra ly Highball không đá (hoặc ít đá).",
       "Châm từ từ Soda lạnh vào tâm ly để đẩy lớp bọt trắng cao lên miệng ly."
-    ]
+    ],
+    "spirit": "Gin",
+    "tip": "Sử dụng Highball và kỹ thuật Dry Shake, Wet Shake & Top đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "tom-collins",
@@ -480,7 +507,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Lắc nhanh Gin, nước cốt chanh vàng và syrup với đá viên.",
       "Rót ra ly Collins đầy đá già, châm đầy Soda và khuấy nhẹ."
-    ]
+    ],
+    "spirit": "Gin",
+    "tip": "Sử dụng Collins và kỹ thuật Shake & Top đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "paloma",
@@ -512,7 +541,9 @@ const COCKTAIL_DATA = [
       "Viền muối hồng lên nửa miệng ly Highball và cho đầy đá viên.",
       "Lắc nhanh Tequila, nước ép bưởi hồng, chanh và syrup, rót vào ly.",
       "Châm thêm Soda lạnh và trang trí lát bưởi hồng tươi."
-    ]
+    ],
+    "spirit": "Tequila",
+    "tip": "Sử dụng Highball và kỹ thuật Build / Shake & Top đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "moscow-mule",
@@ -543,7 +574,9 @@ const COCKTAIL_DATA = [
       "Cho đầy đá viên vào cốc đồng (Copper Mug).",
       "Rót Vodka và nước cốt chanh xanh vào cốc, sau đó châm đầy Ginger Beer.",
       "Khuấy nhẹ và trang trí nhánh bạc hà tươi."
-    ]
+    ],
+    "spirit": "Vodka",
+    "tip": "Sử dụng Copper Mug và kỹ thuật Build đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "dark-n-stormy",
@@ -573,7 +606,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Cho đá đầy ly Highball, rót bia gừng và nước cốt chanh xanh vào trước.",
       "Rót từ từ Dark Rum qua lưng thìa Barspoon để tạo tầng mây đen trên bề mặt."
-    ]
+    ],
+    "spirit": "Rum",
+    "tip": "Sử dụng Highball và kỹ thuật Build & Float đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "pina-colada",
@@ -604,7 +639,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Lắc mạnh tất cả nguyên liệu với đá viên (hoặc xay mịn với 120g đá bào).",
       "Rót ra ly Hurricane và trang trí miếng dứa tươi cùng lá dứa."
-    ]
+    ],
+    "spirit": "Rum",
+    "tip": "Sử dụng Hurricane và kỹ thuật Shake / Blend đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "mai-tai",
@@ -635,7 +672,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Lắc mạnh Aged Rum, Orange Curaçao, Orgeat và nước cốt chanh với đá bào.",
       "Rót toàn bộ ra ly Rocks, rót nổi 15ml Dark Rum lên trên và trang trí ngọn bạc hà."
-    ]
+    ],
+    "spirit": "Rum",
+    "tip": "Sử dụng Double Old Fashioned và kỹ thuật Shake & Float đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "boulevardier",
@@ -665,7 +704,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Khuấy đều Bourbon, Campari và Sweet Vermouth với đá già trong Mixing Glass 25 giây.",
       "Lọc ra ly Rocks có đá khối lớn và xịt tinh dầu vỏ cam vàng."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Old Fashioned (Rocks) và kỹ thuật Stir & Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "clover-club",
@@ -696,7 +737,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Dry shake không đá tất cả nguyên liệu trong 12 giây để tạo bọt mịn.",
       "Thêm đá viên, lắc mạnh 12 giây và lọc đôi ra ly Coupe lạnh."
-    ]
+    ],
+    "spirit": "Gin",
+    "tip": "Sử dụng Coupe và kỹ thuật Dry Shake & Wet Shake đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "amaretto-sour",
@@ -727,7 +770,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Thực hiện Dry Shake 12 giây cho tất cả nguyên liệu.",
       "Lắc mạnh với đá viên trong 12 giây và lọc đôi ra ly Rocks có đá khối lớn."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Old Fashioned (Rocks) và kỹ thuật Dry Shake & Wet Shake đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "penicillin",
@@ -758,7 +803,9 @@ const COCKTAIL_DATA = [
     "steps": [
       "Lắc mạnh Blended Scotch, chanh vàng và syrup gừng mật ong với đá già.",
       "Lọc đôi ra ly Rocks có đá khối lớn, rót nổi 7.5ml Islay Scotch lên bề mặt."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Old Fashioned (Rocks) và kỹ thuật Shake & Float đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   },
   {
     "id": "paper-plane",
@@ -788,38 +835,8 @@ const COCKTAIL_DATA = [
     "steps": [
       "Cho cả 4 nguyên liệu vào Shaker đầy đá già và lắc mạnh trong 12 giây.",
       "Lọc đôi qua rây mịn ra ly Coupe đã làm lạnh sâu."
-    ]
-  }
-];
-
-const MIXOLOGY_STANDARDS = [
-  {
-    "id": "std-1",
-    "title": "1. Tỷ lệ Cân bằng Vàng (Golden Ratios)",
-    "summary": "Nền tảng cấu trúc hương vị trong pha chế Cocktail & Signature.",
-    "points": [
-      "Sours & Daisy: 2 phần Spirit : 1 phần Sour (Chanh tươi) : 0.75 - 1 phần Sweet (Syrup/Liqueur).",
-      "Spirit-Forward (Old Fashioned / Manhattan): 2 phần Base Spirit : 1 phần Vermouth hoặc 0.25 phần Rich Syrup + Bitters.",
-      "Highball, Spritz & Soda Top: Cân bằng độ chua ngọt của cốt trái cây trước khi châm thêm soda lạnh (khoảng 60 ml với Ferlatum Passion)."
-    ]
-  },
-  {
-    "id": "std-2",
-    "title": "2. Kỹ thuật Lắc (Shaking) & Khuấy (Stirring)",
-    "summary": "Kiểm soát nhiệt độ, độ hòa quyện và độ sủi bọt chuẩn xác.",
-    "points": [
-      "Stirring: Áp dụng cho cocktail thuần rượu (Negroni, Martini, Manhattan) để giữ độ trong suốt.",
-      "Layered Shake (Ferlatum Passion): Lắc chanh dây, nước chanh, đá viên và siro đường 30 giây trước, sau đó thêm Ferlatum lắc thêm 10 giây.",
-      "Rót nhẹ soda lạnh sau cùng để giữ độ sủi bọt sảng khoái."
-    ]
-  },
-  {
-    "id": "std-3",
-    "title": "3. Quản trị Đá & Ly phục vụ (Glassware)",
-    "summary": "Đá là thành phần quan trọng quyết định tốc độ tan và trải nghiệm thị giác.",
-    "points": [
-      "1 viên đá lớn (Large Ice Cube): Dùng cho ly phục vụ của Ferlatum Passion và dòng Rocks giúp giữ lạnh lâu mà hạn chế loãng.",
-      "Chilled Coupe / Martini: Luôn làm lạnh ly trước tối thiểu 10 phút để giữ nhiệt độ phục vụ lý tưởng."
-    ]
+    ],
+    "spirit": "Whiskey",
+    "tip": "Sử dụng Coupe và kỹ thuật Shake & Double Strain đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
   }
 ];
