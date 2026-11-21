@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LamBarista — Cẩm nang Cocktail</title>
 <meta name="description" content="LamBarista — Lưu trữ và khám phá công thức cocktail & mocktail">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.min.css">
+<link rel="preload" href="assets/style.min.css" as="style">
+<meta name="theme-color" content="#15110d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍸</text></svg>">
 </head>
 <body>
@@ -36,7 +40,8 @@
     <p class="lead">Lưu trữ, tìm kiếm và học các công thức cocktail & mocktail yêu thích. Giao diện sạch, chạy offline sau khi tải.</p>
 
     <div class="grid">
-      <a href="cong-thuc.html" class="card" style="text-decoration:none;color:inherit">
+      <a href="cong-thuc.html" class="card" style="text-decoration:none;color:inherit;overflow:hidden">
+        <img src="assets/images/old-fashioned.webp" alt="Old Fashioned" loading="lazy" style="width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:12px">
         <div class="badge cock">166+</div>
         <h3>Công thức</h3>
         <p class="meta">Tìm kiếm, lọc theo base rượu và độ khó</p>
@@ -60,5 +65,10 @@
 </footer>
 
 <script src="assets/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 </body>
 </html>
