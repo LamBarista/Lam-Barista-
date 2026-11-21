@@ -1,21 +1,9 @@
-# ☕ LamBarista-v6
+# Lam's Barista — 25 Cocktail Archive
 
-Phiên bản **Lam’s Barista v6** hoàn thiện với toàn bộ mã nguồn web tĩnh (`index.html`, `style.css`, `app.js`, `data.js`) và bộ 25 hình ảnh minh họa đồng bộ kích thước `1200×900` (tỷ lệ `4:3`), định dạng `.webp` tối ưu tốc độ tải trang cho GitHub Pages.
+## Cách mở xem
+1. Giải nén file `LamBarista-v6.zip`.
+2. Mở trực tiếp `index.html` trên trình duyệt hoặc chạy local server (`python3 -m http.server`).
 
-## 📂 Cấu trúc Thư mục
-
-```text
-LamBarista-v6/
-├── index.html          # Giao diện ứng dụng tra cứu công thức & giáo trình
-├── style.css           # Hệ thống giao diện Responsive Dark-Gold Theme
-├── app.js              # Logic lọc danh mục, tìm kiếm & hiển thị Modal chi tiết
-├── data.js             # Dữ liệu 25 công thức chuẩn định lượng & 4 chương giáo trình
-├── README.md           # Tài liệu hướng dẫn triển khai
-└── images/             # 25 ảnh minh họa đồng bộ 1200x900 (4:3) định dạng .webp
-```
-
-## 🚀 Triển khai lên GitHub Pages
-
-1. Giải nén `LamBarista-v6.zip`.
-2. Tải toàn bộ thư mục `LamBarista-v6/` (hoặc nội dung bên trong) lên Repository GitHub của bạn.
-3. Vào **Settings $ightarrow$ Pages**, chọn nhánh `main` và lưu lại để kích hoạt website trực tuyến.
+## Nội dung
+- **25 công thức Cocktail & Signature** (mở đầu bằng **Ferlatum Passion** chuẩn công thức 1 lọ Ferlatum, 1 quả chanh dây tươi, 1/2 quả chanh tươi, 5ml siro đường / 1 muỗng cà phê đường, ~60ml soda lạnh trên ly 1 viên đá lớn).
+- **25 ảnh minh họa chuẩn 4:3 (`1200×900`)** định dạng `.webp` trong thư mục `images/`.
