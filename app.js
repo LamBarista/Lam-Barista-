@@ -25,6 +25,47 @@ function renderStrength(str) {
   return `${"●".repeat(str)}${"○".repeat(5 - str)} (${str}/5)`;
 }
 
+function getStrengthBucket(str) {
+  if (str === 0) return "0/5 — Không cồn (Mocktail)";
+  if (str <= 2) return "1–2/5 — Nhẹ nhàng, sảng khoái";
+  if (str === 3) return "3/5 — Cân bằng, vừa vặn";
+  return "4–5/5 — Mạnh & đậm vị";
+}
+
+function buildCardHTML(r, favs) {
+  const isSaved = favs.has(r.id);
+  const mediaHTML = r.img
+    ? `<img src="${r.img}" alt="${r.name}" loading="lazy">`
+    : `<div class="card-placeholder">
+         <span class="ph-base">${r.base}</span>
+         <span class="ph-title">${r.name}</span>
+         <span class="ph-glass">${r.glass || ""}</span>
+       </div>`;
+
+  return `
+    <div class="card" onclick="show('${r.id}')">
+      <div class="card-img-wrap">
+        <span class="rarity-badge">${r.rarity || "Kinh điển"}</span>
+        ${mediaHTML}
+      </div>
+      <div class="card-content">
+        <div class="card-top">
+          <h3>${r.name}</h3>
+          <button type="button" class="fav-btn ${isSaved ? "saved" : ""}" onclick="toggleFavorite(event, '${r.id}')">
+            ${isSaved ? "♥ Đã lưu" : "♡ Lưu"}
+          </button>
+        </div>
+        <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+        <p class="card-desc">${r.desc}</p>
+        <div class="meta">
+          <span>${r.base} • ${r.diff}</span>
+          <span>${renderStrength(r.str)}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderCards(list, target) {
   const el = document.getElementById(target);
   if (!el) return;
@@ -34,31 +75,7 @@ function renderCards(list, target) {
     el.innerHTML = `<p style="color:var(--muted)">Không tìm thấy công thức phù hợp. Hãy thử từ khóa hoặc bộ lọc khác.</p>`;
     return;
   }
-
-  el.innerHTML = list.map(r => {
-    const isSaved = favs.has(r.id);
-    return `
-      <div class="card" onclick="show('${r.id}')">
-        <div class="card-img-wrap">
-          ${r.img ? `<img src="${r.img}" alt="${r.name}" loading="lazy">` : ""}
-        </div>
-        <div class="card-content">
-          <div class="card-top">
-            <h3>${r.name}</h3>
-            <button type="button" class="fav-btn ${isSaved ? "saved" : ""}" onclick="toggleFavorite(event, '${r.id}')">
-              ${isSaved ? "♥ Đã lưu" : "♡ Lưu"}
-            </button>
-          </div>
-          <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-          <p class="card-desc">${r.desc}</p>
-          <div class="meta">
-            <span>${r.base} • ${r.diff}</span>
-            <span>${renderStrength(r.str)}</span>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join("");
+  el.innerHTML = list.map(r => buildCardHTML(r, favs)).join("");
 }
 
 function ensureDetailContainer() {
@@ -87,10 +104,10 @@ function show(id) {
         </button>
       </div>
       <p style="color:var(--muted);margin-top:6px;">
-        Nền: <strong>${r.base}</strong> · Độ khó: <strong>${r.diff}</strong> · Ly đề xuất: <strong>${r.glass || "Tùy chọn"}</strong>
+        Rượu nền: <strong>${r.base}</strong> · Phân loại: <strong>${r.rarity || "Kinh điển"}</strong> · Độ mạnh: <strong>${renderStrength(r.str)}</strong> · Ly: <strong>${r.glass || "Tùy chọn"}</strong>
       </p>
       ${r.img ? `<img src="${r.img}" alt="${r.name}">` : ""}
-      <p style="color:var(--muted);margin-bottom:16px;">${r.desc}</p>
+      <p style="color:var(--muted);margin:14px 0 16px;">${r.desc}</p>
       <h3>Nguyên liệu</h3>
       <ul style="margin:10px 0 20px 22px;">${r.ings.map(i => `<li>${i}</li>`).join("")}</ul>
       <h3>Cách pha chế</h3>
@@ -103,56 +120,153 @@ function show(id) {
 
 let rerenderCurrentView = () => {};
 
+// Homepage: Base spirit shortcuts + Featured cards
+if (document.getElementById("baseSummary")) {
+  const bases = ["Whiskey", "Gin", "Rum", "Tequila", "Vodka", "Brandy", "Không cồn"];
+  document.getElementById("baseSummary").innerHTML = bases.map(b => {
+    const count = recipes.filter(r => r.base === b).length;
+    return `
+      <a class="base-pill" href="recipes.html?base=${encodeURIComponent(b)}">
+        <strong>${b}</strong>
+        <span>${count} công thức →</span>
+      </a>
+    `;
+  }).join("");
+}
+
 if (document.getElementById("featured")) {
-  const renderFeatured = () => renderCards(recipes.slice(0, 3), "featured");
+  const featuredIds = ["old-fashioned", "negroni", "mojito", "margarita", "espresso-martini", "virgin-mojito"];
+  const featuredList = featuredIds.map(id => recipes.find(r => r.id === id)).filter(Boolean);
+  const renderFeatured = () => renderCards(featuredList, "featured");
   rerenderCurrentView = renderFeatured;
   renderFeatured();
 }
 
-if (document.getElementById("grid")) {
-  let type = "all";
+// Recipes library page
+if (document.getElementById("gridContainer")) {
+  let rarityFilter = "all";
+
+  // Pre-select base spirit if passed via URL (?base=Gin)
+  const params = new URLSearchParams(window.location.search);
+  const initialBase = params.get("base");
+  if (initialBase && document.getElementById("baseFilter")) {
+    document.getElementById("baseFilter").value = initialBase;
+    if (document.getElementById("groupMode")) {
+      document.getElementById("groupMode").value = "flat";
+    }
+  }
 
   function update() {
     let list = recipes.slice();
     const favSet = new Set(getFavorites());
-    const qInput = document.getElementById("q");
-    const sortSelect = document.getElementById("sort");
-    const q = qInput ? qInput.value.trim().toLowerCase() : "";
+    const q = (document.getElementById("q")?.value || "").trim().toLowerCase();
+    const baseVal = document.getElementById("baseFilter")?.value || "all";
+    const strVal = document.getElementById("strFilter")?.value || "all";
+    const groupMode = document.getElementById("groupMode")?.value || "flat";
+    const sortVal = document.getElementById("sort")?.value || "name";
 
     if (q) {
       list = list.filter(r =>
         r.name.toLowerCase().includes(q) ||
         r.desc.toLowerCase().includes(q) ||
         r.base.toLowerCase().includes(q) ||
+        (r.rarity || "").toLowerCase().includes(q) ||
         r.tags.some(t => t.toLowerCase().includes(q)) ||
         r.ings.some(i => i.toLowerCase().includes(q))
       );
     }
-    if (type === "fav") {
-      list = list.filter(r => favSet.has(r.id));
-    } else if (type !== "all") {
-      list = list.filter(r => r.type === type);
+
+    if (baseVal !== "all") {
+      list = list.filter(r => r.base === baseVal);
     }
-    const s = sortSelect ? sortSelect.value : "name";
-    if (s === "str") {
-      list.sort((a, b) => b.str - a.str);
+
+    if (strVal !== "all") {
+      if (strVal === "0") list = list.filter(r => r.str === 0);
+      else if (strVal === "light") list = list.filter(r => r.str >= 1 && r.str <= 2);
+      else if (strVal === "medium") list = list.filter(r => r.str === 3);
+      else if (strVal === "strong") list = list.filter(r => r.str >= 4);
+    }
+
+    if (rarityFilter === "fav") {
+      list = list.filter(r => favSet.has(r.id));
+    } else if (rarityFilter !== "all") {
+      list = list.filter(r => r.rarity === rarityFilter);
+    }
+
+    if (sortVal === "str-desc") {
+      list.sort((a, b) => b.str - a.str || a.name.localeCompare(b.name, "vi"));
+    } else if (sortVal === "str-asc") {
+      list.sort((a, b) => a.str - b.str || a.name.localeCompare(b.name, "vi"));
     } else {
       list.sort((a, b) => a.name.localeCompare(b.name, "vi"));
     }
-    renderCards(list, "grid");
+
+    const countBadge = document.getElementById("countBadge");
+    if (countBadge) countBadge.textContent = `${list.length} công thức`;
+
+    const container = document.getElementById("gridContainer");
+    if (!list.length) {
+      container.innerHTML = `<p style="color:var(--muted)">Không tìm thấy công thức phù hợp. Hãy thử xóa bớt bộ lọc hoặc nhập từ khóa khác.</p>`;
+      return;
+    }
+
+    if (groupMode === "base") {
+      const baseOrder = ["Whiskey", "Gin", "Rum", "Tequila", "Vodka", "Brandy", "Không cồn"];
+      const groups = baseOrder
+        .map(b => ({ title: b === "Không cồn" ? "Không cồn (Mocktail)" : `Nhóm ${b}`, items: list.filter(r => r.base === b) }))
+        .filter(g => g.items.length > 0);
+
+      container.innerHTML = groups.map(g => `
+        <div class="group-block">
+          <div class="group-header">
+            <h3>${g.title}</h3>
+            <span>${g.items.length} món</span>
+          </div>
+          <div class="cards">${g.items.map(r => buildCardHTML(r, favSet)).join("")}</div>
+        </div>
+      `).join("");
+    } else if (groupMode === "strength") {
+      const strengthOrder = [
+        "4–5/5 — Mạnh & đậm vị",
+        "3/5 — Cân bằng, vừa vặn",
+        "1–2/5 — Nhẹ nhàng, sảng khoái",
+        "0/5 — Không cồn (Mocktail)"
+      ];
+      const groups = strengthOrder
+        .map(label => ({ title: label, items: list.filter(r => getStrengthBucket(r.str) === label) }))
+        .filter(g => g.items.length > 0);
+
+      container.innerHTML = groups.map(g => `
+        <div class="group-block">
+          <div class="group-header">
+            <h3>Độ mạnh: ${g.title}</h3>
+            <span>${g.items.length} món</span>
+          </div>
+          <div class="cards">${g.items.map(r => buildCardHTML(r, favSet)).join("")}</div>
+        </div>
+      `).join("");
+    } else {
+      container.innerHTML = `<div class="cards">${list.map(r => buildCardHTML(r, favSet)).join("")}</div>`;
+    }
   }
 
   rerenderCurrentView = update;
 
-  if (document.getElementById("q")) document.getElementById("q").oninput = update;
-  if (document.getElementById("sort")) document.getElementById("sort").onchange = update;
+  ["q", "baseFilter", "strFilter", "groupMode", "sort"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener(id === "q" ? "input" : "change", update);
+    }
+  });
+
   document.querySelectorAll(".chip").forEach(c => {
     c.onclick = () => {
       document.querySelectorAll(".chip").forEach(x => x.classList.remove("on"));
       c.classList.add("on");
-      type = c.dataset.t;
+      rarityFilter = c.dataset.t;
       update();
     };
   });
+
   update();
 }

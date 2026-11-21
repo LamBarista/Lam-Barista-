@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="LamBarista — Thư viện công thức cocktail & mocktail, tìm kiếm theo nguyên liệu, lọc theo loại và lưu món yêu thích.">
+<meta name="description" content="LamBarista — Thư viện 25 công thức cocktail & mocktail, lọc theo rượu nền, độ mạnh, mức độ phổ biến và lưu công thức yêu thích.">
 <title>Công thức — LamBarista</title>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -21,22 +21,52 @@
 
 <section class="section">
   <div class="wrap">
-    <h2>Thư viện công thức</h2>
-    <p class="sub">Tìm kiếm, lọc theo loại đồ uống, sắp xếp và lưu món bạn yêu thích</p>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
+      <h2>Thư viện công thức</h2>
+      <span id="countBadge" class="count-badge">25 công thức</span>
+    </div>
+    <p class="sub">Lọc theo rượu nền, độ mạnh, mức độ phổ biến hoặc gom nhóm trực tiếp để dễ tra cứu</p>
 
     <div class="filters">
-      <input type="text" id="q" placeholder="Tìm tên, nguyên liệu hoặc tag (ví dụ: cam, bạc hà, gin)…">
-      <button type="button" class="chip on" data-t="all">Tất cả</button>
-      <button type="button" class="chip" data-t="cocktail">Cocktail</button>
-      <button type="button" class="chip" data-t="mocktail">Mocktail</button>
-      <button type="button" class="chip" data-t="fav">♥ Đã lưu</button>
+      <input type="text" id="q" placeholder="Tìm tên món, nguyên liệu hoặc hương vị (ví dụ: khói, gin, bạc hà, campari)…">
+      <select id="baseFilter" aria-label="Lọc theo rượu nền">
+        <option value="all">Tất cả rượu nền</option>
+        <option value="Whiskey">Whiskey</option>
+        <option value="Gin">Gin</option>
+        <option value="Rum">Rum</option>
+        <option value="Tequila">Tequila &amp; Mezcal</option>
+        <option value="Vodka">Vodka</option>
+        <option value="Brandy">Brandy / Cognac</option>
+        <option value="Không cồn">Không cồn (Mocktail)</option>
+      </select>
+      <select id="strFilter" aria-label="Lọc theo độ mạnh">
+        <option value="all">Tất cả độ mạnh</option>
+        <option value="0">0/5 — Không cồn</option>
+        <option value="light">1–2/5 — Nhẹ nhàng, dễ uống</option>
+        <option value="medium">3/5 — Cân bằng, vừa vặn</option>
+        <option value="strong">4–5/5 — Mạnh &amp; đậm vị</option>
+      </select>
+      <select id="groupMode" aria-label="Chế độ hiển thị">
+        <option value="flat">Hiển thị dạng lưới</option>
+        <option value="base">Gom nhóm theo Rượu nền</option>
+        <option value="strength">Gom nhóm theo Độ mạnh</option>
+      </select>
       <select id="sort" aria-label="Sắp xếp công thức">
-        <option value="name">Tên A–Z</option>
-        <option value="str">Độ mạnh cao → thấp</option>
+        <option value="name">Sắp xếp: Tên A–Z</option>
+        <option value="str-desc">Độ mạnh: Cao → Thấp</option>
+        <option value="str-asc">Độ mạnh: Thấp → Cao</option>
       </select>
     </div>
 
-    <div class="cards" id="grid"></div>
+    <div class="chip-row">
+      <button type="button" class="chip on" data-t="all">Tất cả</button>
+      <button type="button" class="chip" data-t="Phổ biến">★ Phổ biến</button>
+      <button type="button" class="chip" data-t="Kinh điển ít gặp">✦ Kinh điển ít gặp</button>
+      <button type="button" class="chip" data-t="Hiện đại đặc sắc">❖ Hiện đại đặc sắc</button>
+      <button type="button" class="chip" data-t="fav">♥ Đã lưu</button>
+    </div>
+
+    <div id="gridContainer"></div>
     <div id="detail"></div>
   </div>
 </section>
