@@ -1,656 +1,660 @@
-// Lam's Barista v6 - Complete 25-Drink Dataset & Curriculum Data
-const BARISTA_DATA = [
+const DRINKS = [
   {
-    "id": "ferlatum-passion",
-    "name": "Ferlatum Passion",
-    "category": "Signature Mocktail",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "55.000đ",
-    "color": [
-      195,
-      55,
-      65
+    id: "old-fashioned",
+    name: "Old Fashioned",
+    spirit: "Whiskey",
+    type: "Cocktail",
+    method: "Stir (Khuấy)",
+    glass: "Rocks / Old Fashioned",
+    ice: "Đá viên lớn (Large Rock)",
+    garnish: "Vỏ cam xoắn (Orange Twist)",
+    abv: "~32% ABV",
+    taste: "Đậm đà, ấm áp, đắng nhẹ thảo mộc và thơm tinh dầu cam.",
+    image: "images/old-fashioned.webp",
+    story: "Nguyên bản của khái niệm 'cocktail' từ thế kỷ 19: rượu nền mạnh kết hợp đường, nước và rượu đắng (bitters).",
+    ingredients: [
+      { item: "Bourbon hoặc Rye Whiskey", amount: "60 ml" },
+      { item: "Simple Syrup (hoặc 1 viên đường)", amount: "7.5 ml" },
+      { item: "Angostura Bitters", amount: "2–3 dashes" },
+      { item: "Orange Bitters (tùy chọn)", amount: "1 dash" }
     ],
-    "desc": "Thức uống biểu tượng của Lam's Barista kết hợp vị chua thanh chanh dây nhiệt đới, hương thảo mộc và lớp bọt mịn quyến rũ.",
-    "ingredients": [
-      "45ml Nước cốt chanh dây tươi",
-      "20ml Syrup đường mía vàng",
-      "15ml Nước cốt tắc",
-      "100ml Trà lài ủ lạnh",
-      "1 nhánh hương thảo (Rosemary)"
+    steps: [
+      "Cho đường/syrup và bitters vào ly khuấy (mixing glass) hoặc trực tiếp vào ly Rocks.",
+      "Thêm 60 ml Bourbon/Rye Whiskey và cho đầy đá già.",
+      "Khuấy đều theo chiều kim đồng hồ trong 25–30 giây để làm lạnh và đạt độ loãng chuẩn (dilution).",
+      "Lọc ra ly Rocks có sẵn 1 viên đá khối lớn, vắt nhẹ vỏ cam lên bề mặt để lấy tinh dầu rồi cài lên miệng ly."
     ],
-    "steps": [
-      "Cho chanh dây, syrup đường và nước cốt tắc vào bình Shaker cùng đá viên.",
-      "Lắc mạnh trong 12 giây để tạo lớp bọt mịn tự nhiên.",
-      "Rót ra ly Highball đầy đá già, châm nhẹ trà lài lên trên và trang trí nhánh hương thảo."
-    ]
+    tip: "Dùng đá già (khô, trong suốt) để tránh ly cocktail bị nhạt nước quá nhanh khi thưởng thức chậm."
   },
   {
-    "id": "saigon-bac-xiu",
-    "name": "Bạc Xỉu Sài Gòn Cổ Điển",
-    "category": "Cà Phê Việt",
-    "temp": "Cold",
-    "prep": "4 phút",
-    "price": "39.000đ",
-    "color": [
-      165,
-      115,
-      75
+    id: "whiskey-sour",
+    name: "Whiskey Sour",
+    spirit: "Whiskey",
+    type: "Cocktail",
+    method: "Dry Shake & Wet Shake",
+    glass: "Rocks Glass",
+    ice: "Đá viên (Cubed Ice)",
+    garnish: "Vỏ cam & Cherry ngâm rượu",
+    abv: "~21% ABV",
+    taste: "Cân bằng chuẩn mực giữa vị chua thanh chanh vàng, ngọt dịu và lớp bọt mịn.",
+    image: "images/whiskey-sour.svg",
+    story: "Đại diện kinh điển của họ Sour, nổi tiếng nhờ kỹ thuật lắc khô (Dry Shake) tạo lớp bọt trắng mượt mà như nhung.",
+    ingredients: [
+      { item: "Bourbon Whiskey", amount: "60 ml" },
+      { item: "Nước cốt chanh vàng tươi", amount: "25 ml" },
+      { item: "Simple Syrup (1:1)", amount: "20 ml" },
+      { item: "Lòng trắng trứng tươi (hoặc Aquafaba)", amount: "15 ml" },
+      { item: "Angostura Bitters", amount: "2 giọt (tạo hình trên bọt)" }
     ],
-    "desc": "Sự hòa quyện béo ngậy của sữa đặc, sữa tươi thanh trùng và lớp bọt cà phê Robusta đánh bông đậm đà.",
-    "ingredients": [
-      "40ml Sữa đặc có đường",
-      "80ml Sữa tươi không đường",
-      "25ml Cốt cà phê phin / Espresso Robusta",
-      "Đá viên già"
+    steps: [
+      "Cho tất cả nguyên liệu (trừ bitters) vào bình lắc (shaker) KHÔNG đá.",
+      "Thực hiện Dry Shake (lắc khô) mạnh trong 12–15 giây để đánh bông protein tạo bọt.",
+      "Thêm đầy đá viên vào shaker và tiếp tục Wet Shake (lắc ướt) mạnh trong 12 giây.",
+      "Lọc kép (double strain) qua rây mịn vào ly Rocks có đá, nhỏ 2 giọt bitters lên lớp bọt và trang trí."
     ],
-    "steps": [
-      "Rót sữa đặc xuống đáy ly thủy tinh.",
-      "Thêm đầy đá viên, rót từ từ sữa tươi lên trên để tạo tầng.",
-      "Đánh bông nhẹ phần cốt cà phê rồi rót lên trên cùng."
-    ]
+    tip: "Luôn dùng rây lọc mịn (fine strainer) để giữ lại vụn đá nhỏ, giúp bề mặt lớp bọt trắng phẳng và mịn."
   },
   {
-    "id": "salted-cream-coffee",
-    "name": "Cà Phê Kem Muối Huế",
-    "category": "Cà Phê Việt",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "45.000đ",
-    "color": [
-      140,
-      95,
-      65
+    id: "manhattan",
+    name: "Manhattan",
+    spirit: "Whiskey",
+    type: "Cocktail",
+    method: "Stir (Khuấy)",
+    glass: "Coupe / Martini",
+    ice: "Không đá (Served Up)",
+    garnish: "Cherry Maraschino",
+    abv: "~30% ABV",
+    taste: "Nồng nàn, cay nhẹ vị lúa mạch đen hòa quyện thảo mộc ngọt của Sweet Vermouth.",
+    image: "images/manhattan.svg",
+    story: "Ra đời tại New York vào thập niên 1870, là chuẩn mực vàng cho các dòng cocktail khuấy (stirred) phục vụ không đá.",
+    ingredients: [
+      { item: "Rye Whiskey (hoặc Bourbon)", amount: "60 ml" },
+      { item: "Sweet Vermouth (Vermouth đỏ)", amount: "30 ml" },
+      { item: "Angostura Bitters", amount: "2 dashes" }
     ],
-    "desc": "Cà phê đậm vị cân bằng hoàn hảo với lớp kem sữa béo mặn nhẹ đánh bông mịn màng.",
-    "ingredients": [
-      "35ml Cốt cà phê Espresso / Phin đậm",
-      "15ml Sữa đặc",
-      "40ml Kem béo thực vật (Rich's)",
-      "15ml Sữa tươi",
-      "1g Muối biển hồng"
+    steps: [
+      "Làm lạnh trước ly Coupe trong tủ đông hoặc ngâm nước đá.",
+      "Cho Rye Whiskey, Sweet Vermouth và Angostura Bitters vào mixing glass đầy đá.",
+      "Khuấy mượt trong 25–30 giây cho đến khi thành bình phủ sương lạnh.",
+      "Dùng Julep strainer lọc rượu vào ly Coupe lạnh và thả 1 trái cherry ngâm rượu."
     ],
-    "steps": [
-      "Đánh bông kem béo, sữa tươi và muối biển ở tốc độ vừa trong 45 giây đến khi sệt mịn.",
-      "Khuấy đều cà phê nóng với sữa đặc, rót vào ly đá.",
-      "Phủ lớp kem muối dày 2cm lên bề mặt và rắc nhẹ bột cacao."
-    ]
+    tip: "Sweet Vermouth là rượu vang cường hóa nên cần bảo quản trong ngăn mát tủ lạnh sau khi mở nắp để tránh oxy hóa."
   },
   {
-    "id": "classic-espresso",
-    "name": "Espresso Normale",
-    "category": "Espresso Bar",
-    "temp": "Hot",
-    "prep": "2 phút",
-    "price": "35.000đ",
-    "color": [
-      75,
-      45,
-      30
+    id: "boulevardier",
+    name: "Boulevardier",
+    spirit: "Whiskey",
+    type: "Cocktail",
+    method: "Stir (Khuấy)",
+    glass: "Rocks Glass",
+    ice: "Đá viên lớn (Large Rock)",
+    garnish: "Vỏ cam xoắn (Orange Peel)",
+    abv: "~28% ABV",
+    taste: "Đắng thanh lịch, sâu lắng và ấm áp hơn người anh em Negroni nhờ nền Bourbon.",
+    image: "images/boulevardier.svg",
+    story: "Phiên bản thay Gin bằng Bourbon của Negroni, gắn liền với giới văn nghệ sĩ Paris những năm 1920.",
+    ingredients: [
+      { item: "Bourbon Whiskey", amount: "45 ml" },
+      { item: "Campari", amount: "30 ml" },
+      { item: "Sweet Vermouth", amount: "30 ml" }
     ],
-    "desc": "Chiết xuất chuẩn tỷ lệ 1:2 từ hạt Arabica Cầu Đất rang vừa, lớp crema nâu hổ phách dày mịn.",
-    "ingredients": [
-      "18g Cà phê hạt Arabica rang vừa",
-      "36g Nước tinh khiết đạt chuẩn TDS 100ppm"
+    steps: [
+      "Cho Bourbon, Campari và Sweet Vermouth vào ly khuấy đầy đá già.",
+      "Khuấy đều tay trong 25 giây để các tầng hương hòa quyện mượt mà.",
+      "Rót ra ly Rocks có sẵn viên đá khối lớn.",
+      "Xịt tinh dầu vỏ cam lên bề mặt ly và cài vỏ cam lên thành ly."
     ],
-    "steps": [
-      "Xay mịn 18g cà phê, dàn đều (WDT) và nén phẳng lực 15kg.",
-      "Xả nước tráng họng pha 2 giây, lắp tay cầm và chiết xuất trong 27-30 giây.",
-      "Phục vụ kèm ly nước lọc thanh vị."
-    ]
+    tip: "Tỷ lệ 1.5 : 1 : 1 giúp vị ngọt và vani của Bourbon cân bằng tốt độ đắng đặc trưng của Campari."
   },
   {
-    "id": "velvet-latte",
-    "name": "Velvet Caffè Latte",
-    "category": "Espresso Bar",
-    "temp": "Hot",
-    "prep": "4 phút",
-    "price": "55.000đ",
-    "color": [
-      185,
-      145,
-      110
+    id: "penicillin",
+    name: "Penicillin",
+    spirit: "Whiskey",
+    type: "Cocktail",
+    method: "Shake & Float",
+    glass: "Rocks Glass",
+    ice: "Đá viên lớn (Large Rock)",
+    garnish: "Gừng sên đường (Candied Ginger)",
+    abv: "~22% ABV",
+    taste: "Cay ấm nồng nàn từ gừng tươi, ngọt thanh mật ong và hậu vị khói than bùn đặc trưng.",
+    image: "images/penicillin.svg",
+    story: "Kiệt tác hiện đại của Sam Ross (New York, 2005), kết hợp tài tình giữa Blended Scotch và Single Malt khói Islay.",
+    ingredients: [
+      { item: "Blended Scotch Whisky", amount: "60 ml" },
+      { item: "Nước cốt chanh vàng tươi", amount: "22.5 ml" },
+      { item: "Honey-Ginger Syrup (mật ong gừng)", amount: "22.5 ml" },
+      { item: "Islay Single Malt Scotch (vị khói)", amount: "7.5 ml (rót nổi trên mặt)" }
     ],
-    "desc": "Double shot Espresso hòa quyện cùng 200ml sữa tươi đánh microfoam bóng mượt ở 60°C.",
-    "ingredients": [
-      "18g Cà phê Arabica (36ml Espresso)",
-      "200ml Sữa tươi thanh trùng lạnh 4°C"
+    steps: [
+      "Lắc mạnh Blended Scotch, nước cốt chanh vàng và Honey-Ginger Syrup với đá trong 12 giây.",
+      "Lọc kép vào ly Rocks có viên đá lớn.",
+      "Dùng thìa bar (barspoon) rót nhẹ 7.5 ml Islay Scotch nổi lên lớp trên cùng (float).",
+      "Trang trí bằng một lát gừng sên đường xiên que."
     ],
-    "steps": [
-      "Chiết xuất double shot Espresso vào tách sứ 240ml đã làm ấm.",
-      "Đánh sữa tạo bọt mịn (microfoam) dừng ở nhiệt độ 58°C - 60°C.",
-      "Rót tạo hình Latte Art trái tim hoặc Tulip."
-    ]
+    tip: "Lớp rượu khói rót nổi giúp người uống cảm nhận mùi khói ngay khi đưa ly lên mũi trước ngụm đầu tiên."
   },
   {
-    "id": "cappuccino-classico",
-    "name": "Cappuccino Classico",
-    "category": "Espresso Bar",
-    "temp": "Hot",
-    "prep": "4 phút",
-    "price": "55.000đ",
-    "color": [
-      160,
-      120,
-      88
+    id: "negroni",
+    name: "Negroni",
+    spirit: "Gin",
+    type: "Cocktail",
+    method: "Stir / Build",
+    glass: "Rocks Glass",
+    ice: "Đá viên lớn (Large Rock)",
+    garnish: "Vỏ cam tươi (Orange Peel)",
+    abv: "~24% ABV",
+    taste: "Đắng quyến rũ, thơm thảo mộc phức hợp và kết thúc khô ráo kích thích vị giác.",
+    image: "images/negroni.webp",
+    story: "Biểu tượng khai vị (aperitivo) của nước Ý với công thức tỷ lệ vàng 1:1:1 bất biến suốt hơn một thế kỷ.",
+    ingredients: [
+      { item: "London Dry Gin", amount: "30 ml" },
+      { item: "Campari", amount: "30 ml" },
+      { item: "Sweet Vermouth", amount: "30 ml" }
     ],
-    "desc": "Cấu trúc cân bằng 1/3 Espresso, 1/3 sữa nóng và 1/3 lớp bọt sữa dày bồng bềnh.",
-    "ingredients": [
-      "18g Cà phê Espresso",
-      "150ml Sữa tươi thanh trùng",
-      "Bột cacao nguyên chất"
+    steps: [
+      "Cho trực tiếp Gin, Campari và Sweet Vermouth vào ly Rocks có sẵn 1 viên đá khối lớn.",
+      "Dùng barspoon khuấy nhẹ nhàng theo vòng tròn trong 15–20 giây để làm lạnh đồng đều.",
+      "Vắt nhẹ miếng vỏ cam tươi hướng vào mặt ly để tinh dầu cam phủ lên rượu rồi thả vào ly."
     ],
-    "steps": [
-      "Chiết xuất Espresso vào tách 180ml.",
-      "Tạo bọt sữa dày hơn Latte (tăng thời gian stretching thêm 3 giây).",
-      "Rót sữa vào tâm tách tạo viền nâu đẹp mắt."
-    ]
+    tip: "Chọn London Dry Gin có hương bách xù (juniper) rõ nét để không bị Campari lấn át."
   },
   {
-    "id": "caramel-macchiato",
-    "name": "Iced Caramel Macchiato",
-    "category": "Espresso Bar",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "59.000đ",
-    "color": [
-      190,
-      140,
-      90
+    id: "gin-tonic",
+    name: "Gin & Tonic",
+    spirit: "Gin",
+    type: "Cocktail",
+    method: "Build (Rót trực tiếp)",
+    glass: "Highball / Copa",
+    ice: "Đá viên đầy ly",
+    garnish: "Lát chanh xanh (Lime Wheel)",
+    abv: "~13% ABV",
+    taste: "Sảng khoái, sủi bọt thanh khiết, đắng nhẹ vị ký ninh (quinine) và hương thảo mộc.",
+    image: "images/gin-tonic.svg",
+    story: "Thức uống giải nhiệt kinh điển nhất thế giới, nơi chất lượng đá và nước Tonic quyết định 70% trải nghiệm.",
+    ingredients: [
+      { item: "Gin (London Dry hoặc Botanical)", amount: "50 ml" },
+      { item: "Nước Tonic ướp lạnh", amount: "120–150 ml" },
+      { item: "Chanh xanh tươi", amount: "1 lát" }
     ],
-    "desc": "Hương vani ngọt ngào, sữa tươi mát lạnh và dấu ấn Espresso đậm đà phủ sốt caramel.",
-    "ingredients": [
-      "15ml Syrup Vanilla",
-      "180ml Sữa tươi không đường",
-      "36ml Espresso",
-      "15ml Sốt Caramel"
+    steps: [
+      "Cho đầy đá viên già vào ly Highball đã được làm lạnh.",
+      "Rót 50 ml rượu Gin lên trên đá.",
+      "Rót từ từ nước Tonic ướp lạnh dọc theo thành ly (hoặc theo thân barspoon) để giữ trọn bọt ga.",
+      "Nhấc nhẹ đá một lần duy nhất bằng barspoon và trang trí lát chanh xanh."
     ],
-    "steps": [
-      "Rót syrup vanilla vào đáy ly, thêm đá và sữa tươi.",
-      "Rót nhẹ Espresso lên trên lớp đá để tạo phân tầng.",
-      "Vẽ lưới sốt caramel lên bề mặt."
-    ]
+    tip: "Tuyệt đối không khuấy mạnh sau khi rót Tonic vì sẽ làm vỡ cấu trúc bọt khí CO2."
   },
   {
-    "id": "cold-brew-orange",
-    "name": "Cold Brew Cam Vàng Thảo Mộc",
-    "category": "Cold Brew",
-    "temp": "Cold",
-    "prep": "3 phút",
-    "price": "55.000đ",
-    "color": [
-      180,
-      95,
-      45
+    id: "dry-martini",
+    name: "Dry Martini",
+    spirit: "Gin",
+    type: "Cocktail",
+    method: "Stir (Khuấy)",
+    glass: "Martini Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Trái Olive xanh (hoặc vỏ chanh vàng)",
+    abv: "~33% ABV",
+    taste: "Sắc sảo, tinh khiết, lạnh buốt và thanh thoát hương thảo mộc khô.",
+    image: "images/dry-martini.svg",
+    story: "Được mệnh danh là 'Vua của các loại cocktail', đòi hỏi sự chuẩn xác tuyệt đối về nhiệt độ và độ loãng.",
+    ingredients: [
+      { item: "London Dry Gin", amount: "60 ml" },
+      { item: "Dry Vermouth (Vermouth trắng khô)", amount: "10 ml" },
+      { item: "Orange Bitters", amount: "1 dash (tùy chọn)" }
     ],
-    "desc": "Cà phê ủ lạnh 16 giờ mượt mà kết hợp nước cam vàng tươi và hương sả thanh khiết.",
-    "ingredients": [
-      "100ml Cà phê Cold Brew (tỷ lệ 1:10)",
-      "60ml Nước ép cam vàng tươi",
-      "15ml Syrup đường phèn",
-      "1 lát cam sấy & nhánh sả"
+    steps: [
+      "Làm lạnh sâu ly Martini trước khi pha.",
+      "Cho Gin và Dry Vermouth vào mixing glass đầy đá viên già.",
+      "Khuấy liên tục 30 giây để rượu đạt nhiệt độ dưới 0°C mà không làm đục rượu.",
+      "Lọc ra ly Martini lạnh và xiên 1–3 trái olive xanh đặt ngang miệng ly."
     ],
-    "steps": [
-      "Khuấy đều nước cam vàng và syrup đường phèn với đá viên.",
-      "Rót từ từ Cold Brew lên trên để tạo hiệu ứng chuyển màu 2 tầng.",
-      "Trang trí lát cam và sả đập dập."
-    ]
+    tip: "Muốn làm Dirty Martini, hãy thêm 10 ml nước ngâm olive (olive brine) vào bước khuấy."
   },
   {
-    "id": "cold-brew-tonic",
-    "name": "Espresso / Cold Brew Tonic",
-    "category": "Cold Brew",
-    "temp": "Cold",
-    "prep": "3 phút",
-    "price": "55.000đ",
-    "color": [
-      130,
-      85,
-      50
+    id: "aviation",
+    name: "Aviation",
+    spirit: "Gin",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Coupe Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Cherry Maraschino",
+    abv: "~24% ABV",
+    taste: "Thanh tao, chua dịu chanh vàng hòa quyện hương hoa violet tím lãng mạn.",
+    image: "images/aviation.svg",
+    story: "Sáng tạo năm 1916 để tôn vinh kỷ nguyên hàng không, nổi bật với sắc xanh tím nhạt như bầu trời lúc chạng vạng.",
+    ingredients: [
+      { item: "London Dry Gin", amount: "45 ml" },
+      { item: "Maraschino Liqueur", amount: "15 ml" },
+      { item: "Crème de Violette", amount: "7.5 ml" },
+      { item: "Nước cốt chanh vàng tươi", amount: "15 ml" }
     ],
-    "desc": "Sự bùng nổ sảng khoái giữa vị đắng ngọt của Cold Brew và bọt gas thanh mát từ nước Tonic.",
-    "ingredients": [
-      "80ml Cà phê Cold Brew đậm đặc",
-      "120ml Nước Tonic ướp lạnh",
-      "10ml Nước cốt chanh vàng",
-      "Vỏ chanh vàng xoắn"
+    steps: [
+      "Cho tất cả nguyên liệu vào shaker cùng đá viên già.",
+      "Lắc mạnh và dứt khoát trong 12 giây.",
+      "Lọc kép qua rây mịn vào ly Coupe đã ướp lạnh.",
+      "Thả nhẹ một trái cherry xuống đáy ly."
     ],
-    "steps": [
-      "Rót nước Tonic và nước cốt chanh vào ly đầy đá già.",
-      "Rót nhẹ nhàng Cold Brew qua lưng thìa Barspoon lên trên.",
-      "Xịt tinh dầu vỏ chanh vàng lên miệng ly."
-    ]
+    tip: "Chỉ dùng đúng lượng nhỏ Crème de Violette (5–7.5 ml) để tạo màu và hương thoang thoảng, tránh bị mùi xà phòng."
   },
   {
-    "id": "v60-pour-over",
-    "name": "V60 Specialty Pour-Over",
-    "category": "Manual Brew",
-    "temp": "Hot",
-    "prep": "4 phút",
-    "price": "65.000đ",
-    "color": [
-      150,
-      75,
-      40
+    id: "last-word",
+    name: "The Last Word",
+    spirit: "Gin",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Coupe Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Cherry Maraschino",
+    abv: "~26% ABV",
+    taste: "Bùng nổ vị thảo mộc xanh, chua sắc sảo và ngọt hậu cực kỳ cân bằng.",
+    image: "images/last-word.svg",
+    story: "Công thức tỷ lệ bằng nhau (Equal Parts 1:1:1:1) huyền thoại từ Detroit Athletic Club thời kỳ Cấm rượu.",
+    ingredients: [
+      { item: "London Dry Gin", amount: "22.5 ml" },
+      { item: "Green Chartreuse", amount: "22.5 ml" },
+      { item: "Maraschino Liqueur", amount: "22.5 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "22.5 ml" }
     ],
-    "desc": "Chiết xuất thủ công làm nổi bật nốt hương hoa trắng, quả mọng và hậu vị ngọt thanh.",
-    "ingredients": [
-      "15g Cà phê Specialty rang sáng (Medium-Light)",
-      "240g Nước tinh khiết 92°C"
+    steps: [
+      "Đong chính xác 4 thành phần theo tỷ lệ 1:1:1:1 vào bình lắc.",
+      "Thêm đá đầy bình và lắc mạnh trong 12–15 giây.",
+      "Lọc kép vào ly Coupe ướp lạnh và trang trí bằng cherry."
     ],
-    "steps": [
-      "Tráng giấy lọc V60 bằng nước nóng và làm ấm bình Server.",
-      "Rót 45g nước ủ (Blooming) trong 35 giây.",
-      "Chia 2 lần rót xoáy tròn đều đến 240g, kết thúc chiết xuất ở 2 phút 30 giây."
-    ]
+    tip: "Đây là công thức nền tảng tuyệt vời để hiểu về cấu trúc Equal-Part Cocktail trong pha chế."
   },
   {
-    "id": "peach-lemongrass-tea",
-    "name": "Trà Đào Cam Sả Trứ Danh",
-    "category": "Trà Trái Cây",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "49.000đ",
-    "color": [
-      215,
-      125,
-      65
+    id: "mojito",
+    name: "Mojito",
+    spirit: "Rum",
+    type: "Cocktail",
+    method: "Muddle & Build",
+    glass: "Highball / Collins",
+    ice: "Đá bào / Đá viên nhỏ",
+    garnish: "Ngọn bạc hà tươi & lát chanh",
+    abv: "~12% ABV",
+    taste: "Mát lạnh tức thì, thơm tinh dầu bạc hà tươi, chua ngọt hài hòa.",
+    image: "images/mojito.webp",
+    story: "Niềm tự hào của Havana (Cuba), gắn liền với văn hào Ernest Hemingway tại quán La Bodeguita del Medio.",
+    ingredients: [
+      { item: "White Rum (Rum trắng Cuba)", amount: "50 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "25 ml" },
+      { item: "Simple Syrup (hoặc đường mía)", amount: "20 ml" },
+      { item: "Lá bạc hà tươi", amount: "8–10 lá" },
+      { item: "Nước Soda lạnh", amount: "60 ml (rót đầy)" }
     ],
-    "desc": "Hồng trà ủ chuẩn nhiệt hòa quyện cùng đào ngâm giòn ngọt, cam vàng và sả tươi.",
-    "ingredients": [
-      "120ml Cốt Hồng trà ủ chuẩn",
-      "25ml Syrup Đào",
-      "10ml Nước cốt tắc",
-      "10ml Nước đường",
-      "3 miếng đào ngâm & 1 lát cam vàng"
+    steps: [
+      "Vỗ nhẹ lá bạc hà trong lòng bàn tay để đánh thức tinh dầu rồi thả vào ly Highball.",
+      "Thêm nước cốt chanh và đường/syrup, dùng chày (muddler) ấn nhẹ 2–3 lần (không nghiền nát lá).",
+      "Rót 50 ml White Rum, cho đá đầy 3/4 ly và dùng barspoon đảo đều từ dưới lên.",
+      "Rót thêm nước Soda lạnh lên trên và cắm một ngọn bạc hà tươi đẹp mắt."
     ],
-    "steps": [
-      "Cho cốt trà, syrup đào, nước cốt tắc và nước đường vào Shaker lắc đều với đá.",
-      "Rót ra ly, xếp 3 miếng đào ngâm và lát cam vàng lên trên.",
-      "Cắm 1 nhánh sả tươi trang trí."
-    ]
+    tip: "Không nghiền nát gân lá bạc hà vì sẽ giải phóng chất diệp lục gây vị đắng chát."
   },
   {
-    "id": "lychee-rose-tea",
-    "name": "Trà Vải Hoa Hồng",
-    "category": "Trà Trái Cây",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "49.000đ",
-    "color": [
-      210,
-      130,
-      140
+    id: "daiquiri",
+    name: "Classic Daiquiri",
+    spirit: "Rum",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Coupe Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Lát chanh xanh mỏng",
+    abv: "~22% ABV",
+    taste: "Sắc nét, tươi sáng, ngọt thanh mía đường và chua giòn chanh xanh.",
+    image: "images/daiquiri.svg",
+    story: "Bài kiểm tra tay nghề kinh điển của mọi Bartender: chỉ 3 nguyên liệu nhưng phơi bày toàn bộ kỹ thuật lắc.",
+    ingredients: [
+      { item: "White Rum chất lượng cao", amount: "60 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "25 ml" },
+      { item: "Simple Syrup (1:1)", amount: "15 ml" }
     ],
-    "desc": "Hương thơm thanh tao của lục trà lài, vải thiều mọng nước và cánh hoa hồng hữu cơ.",
-    "ingredients": [
-      "120ml Cốt Lục trà lài sốc nhiệt",
-      "25ml Syrup Vải",
-      "5ml Syrup Hoa hồng",
-      "10ml Nước cốt chanh",
-      "3 quả vải ngâm"
+    steps: [
+      "Cho White Rum, nước cốt chanh và Simple Syrup vào shaker.",
+      "Thêm đầy đá viên già và lắc thật mạnh trong 12 giây.",
+      "Lọc kép qua rây mịn vào ly Coupe đã làm lạnh sâu."
     ],
-    "steps": [
-      "Lắc đều tất cả nguyên liệu lỏng với đá viên trong 10 giây.",
-      "Rót ra ly thủy tinh cao, trang trí 3 quả vải ngâm và nụ hoa hồng khô."
-    ]
+    tip: "Tỷ lệ vàng 2 : 1 : 0.75 (hoặc 60 : 25 : 15 ml) tạo nên chuẩn mực cho mọi dòng Sour không trứng."
   },
   {
-    "id": "tropical-guava-tea",
-    "name": "Trà Ổi Hồng Nhiệt Đới",
-    "category": "Trà Trái Cây",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "49.000đ",
-    "color": [
-      220,
-      110,
-      120
+    id: "pina-colada",
+    name: "Piña Colada",
+    spirit: "Rum",
+    type: "Cocktail",
+    method: "Blend / Shake",
+    glass: "Hurricane Glass",
+    ice: "Đá xay / Đá viên nhỏ",
+    garnish: "Miếng dứa tươi, lá dứa & cherry",
+    abv: "~14% ABV",
+    taste: "Béo ngậy cốt dừa, ngọt thơm dứa chín nhiệt đới và êm dịu vị Rum.",
+    image: "images/pina-colada.svg",
+    story: "Quốc tửu của Puerto Rico từ năm 1978, mang trọn không khí kỳ nghỉ biển vùng Caribe.",
+    ingredients: [
+      { item: "White Rum (hoặc Gold Rum)", amount: "50 ml" },
+      { item: "Nước ép dứa tươi", amount: "90 ml" },
+      { item: "Kem dừa (Cream of Coconut)", amount: "30 ml" },
+      { item: "Nước cốt chanh xanh", amount: "10 ml (cân bằng độ béo)" }
     ],
-    "desc": "Vị ngọt dịu của ổi hồng tươi xay nhuyễn quyện cùng trà Ô Long thanh mát và chút muối xí muội.",
-    "ingredients": [
-      "100ml Cốt Trà Ô Long",
-      "50ml Nước ép / Puree ổi hồng",
-      "15ml Syrup đường",
-      "10ml Nước cốt tắc",
-      "1 lát ổi hồng tươi"
+    steps: [
+      "Cho tất cả nguyên liệu cùng 1 chén đá nhỏ vào máy xay sinh tố (hoặc lắc mạnh với đá).",
+      "Xay ở tốc độ cao trong 15 giây đến khi hỗn hợp sánh mịn như kem.",
+      "Rót ra ly Hurricane và trang trí miếng dứa, lá dứa cùng trái cherry đỏ."
     ],
-    "steps": [
-      "Lắc mạnh trà Ô Long, puree ổi hồng, syrup và tắc với đá.",
-      "Rót ra ly, trang trí lát ổi tươi viền nhẹ muối xí muội."
-    ]
+    tip: "Thêm 10 ml nước cốt chanh xanh giúp ly Piña Colada thanh thoát và không bị ngấy."
   },
   {
-    "id": "kumquat-honey-tea",
-    "name": "Trà Tắc Mật Ong Nha Đam",
-    "category": "Trà Trái Cây",
-    "temp": "Cold",
-    "prep": "4 phút",
-    "price": "42.000đ",
-    "color": [
-      205,
-      165,
-      55
+    id: "jungle-bird",
+    name: "Jungle Bird",
+    spirit: "Rum",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Rocks Glass",
+    ice: "Đá viên",
+    garnish: "Lá dứa & miếng dứa tươi",
+    abv: "~18% ABV",
+    taste: "Độc đáo với sự giao thoa giữa dứa nhiệt đới ngọt ngào và vị đắng sắc sảo của Campari.",
+    image: "images/jungle-bird.svg",
+    story: "Sáng tạo tại Kuala Lumpur (Malaysia) năm 1973, là một trong số ít cocktail Tiki sử dụng rượu đắng Campari.",
+    ingredients: [
+      { item: "Dark Rum / Blackstrap Rum", amount: "45 ml" },
+      { item: "Campari", amount: "22.5 ml" },
+      { item: "Nước ép dứa tươi", amount: "45 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "15 ml" },
+      { item: "Simple Syrup", amount: "15 ml" }
     ],
-    "desc": "Thức uống giải nhiệt thanh mát với mật ong rừng nguyên chất, tắc tươi và thạch nha đam giòn sần sật.",
-    "ingredients": [
-      "130ml Cốt Lục trà",
-      "25ml Mật ong nguyên chất",
-      "15ml Nước cốt tắc tươi",
-      "40g Nha đam đường phèn"
+    steps: [
+      "Cho toàn bộ nguyên liệu vào shaker với đầy đá viên.",
+      "Lắc mạnh trong 12 giây để tạo lớp bọt dứa tự nhiên đẹp mắt.",
+      "Lọc ra ly Rocks đầy đá và trang trí bằng lá dứa."
     ],
-    "steps": [
-      "Hòa tan mật ong vào cốt trà ấm nhẹ, thêm nước cốt tắc và đá viên.",
-      "Khuấy đều, múc nha đam lên trên cùng và trang trí 2 lát tắc tươi."
-    ]
+    tip: "Dark Rum có hương mật mía (molasses) đậm sẽ kết nối Campari và nước dứa tốt nhất."
   },
   {
-    "id": "oolong-milk-tea",
-    "name": "Trà Sữa Ô Long Nướng Trân Châu",
-    "category": "Trà Sữa Hiện Đại",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "45.000đ",
-    "color": [
-      185,
-      140,
-      100
+    id: "margarita",
+    name: "Classic Margarita",
+    spirit: "Tequila",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Coupe / Margarita",
+    ice: "Không đá (hoặc Rocks)",
+    garnish: "Viền muối biển & lát chanh xanh",
+    abv: "~24% ABV",
+    taste: "Sảng khoái, đậm hương cây thùa (agave), chua giòn chanh tươi và vị mặn tinh tế ở vành ly.",
+    image: "images/margarita.webp",
+    story: "Công thức Daisy kinh điển dùng Tequila, rượu mùi cam Cointreau và nước cốt chanh tươi.",
+    ingredients: [
+      { item: "Tequila Blanco (100% Agave)", amount: "50 ml" },
+      { item: "Cointreau (hoặc Triple Sec)", amount: "25 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "25 ml" },
+      { item: "Agave Syrup (tùy chọn)", amount: "5 ml" }
     ],
-    "desc": "Hương trà Ô Long rang đậm quyện sữa béo mịn cùng trân châu đen nấu chuẩn dẻo mềm.",
-    "ingredients": [
-      "150ml Cốt Trà Ô Long đậm đặc",
-      "30g Bột kem béo thực vật",
-      "25ml Syrup đường nâu",
-      "80g Trân châu đen đường nâu"
+    steps: [
+      "Xát lát chanh quanh nửa vành ngoài miệng ly và lăn nhẹ qua đĩa muối biển hạt mịn.",
+      "Cho Tequila, Cointreau và nước cốt chanh vào shaker đầy đá.",
+      "Lắc mạnh trong 12 giây cho thật lạnh.",
+      "Lọc kép vào ly đã viền muối (tránh làm ướt phần muối) và cài lát chanh."
     ],
-    "steps": [
-      "Hòa tan bột kem béo vào cốt trà nóng, sốc nhiệt với đá viên.",
-      "Cho trân châu đen vào đáy ly, lắc đều hỗn hợp trà sữa với đường nâu rồi rót vào."
-    ]
+    tip: "Chỉ viền muối nửa miệng ly để người uống có thể chủ động chọn ngụm có muối hoặc không muối."
   },
   {
-    "id": "earl-grey-cheese-tea",
-    "name": "Trà Bá Tước Kem Cheese",
-    "category": "Trà Sữa Hiện Đại",
-    "temp": "Cold",
-    "prep": "6 phút",
-    "price": "52.000đ",
-    "color": [
-      175,
-      130,
-      95
+    id: "paloma",
+    name: "Paloma",
+    spirit: "Tequila",
+    type: "Cocktail",
+    method: "Build (Rót trực tiếp)",
+    glass: "Highball Glass",
+    ice: "Đá viên",
+    garnish: "Miếng bưởi hồng & viền muối",
+    abv: "~13% ABV",
+    taste: "Chua ngọt thanh mát vị bưởi hồng, sủi bọt nhẹ và mặn mà hậu vị.",
+    image: "images/paloma.svg",
+    story: "Thức uống được người dân Mexico yêu thích còn hơn cả Margarita nhờ sự nhẹ nhàng và dễ uống.",
+    ingredients: [
+      { item: "Tequila Blanco / Reposado", amount: "50 ml" },
+      { item: "Nước ép bưởi hồng tươi", amount: "60 ml" },
+      { item: "Nước cốt chanh xanh", amount: "15 ml" },
+      { item: "Agave Syrup", amount: "10 ml" },
+      { item: "Nước Soda lạnh", amount: "60 ml" }
     ],
-    "desc": "Hương cam Bergamot quý phái từ trà Earl Grey phủ lớp kem phô mai mặn béo tan chảy.",
-    "ingredients": [
-      "150ml Cốt Trà Bá Tước (Earl Grey)",
-      "20ml Syrup đường",
-      "50ml Kem Cheese (Cream cheese + Whipping + Sữa tươi + Muối)"
+    steps: [
+      "Viền muối một nửa miệng ly Highball và cho đầy đá viên.",
+      "Rót Tequila, nước ép bưởi hồng, nước chanh và Agave Syrup vào ly, khuấy nhẹ.",
+      "Rót đầy nước Soda lạnh lên trên và trang trí một miếng bưởi hồng tươi."
     ],
-    "steps": [
-      "Lắc cốt trà Bá Tước với syrup và đá viên, rót ra ly (chừa 2.5cm miệng ly).",
-      "Rót nhẹ lớp kem Cheese đánh bông mịn lên bề mặt và rắc vụn bánh quy."
-    ]
+    tip: "Thêm một nhúm muối biển nhỏ trực tiếp vào ly giúp làm bật vị ngọt tự nhiên của bưởi hồng."
   },
   {
-    "id": "brown-sugar-boba-milk",
-    "name": "Sữa Tươi Trân Châu Đường Đen",
-    "category": "Trà Sữa Hiện Đại",
-    "temp": "Cold",
-    "prep": "4 phút",
-    "price": "49.000đ",
-    "color": [
-      135,
-      85,
-      55
+    id: "naked-and-famous",
+    name: "Naked & Famous",
+    spirit: "Tequila",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Coupe Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Lát chanh xanh",
+    abv: "~25% ABV",
+    taste: "Khói nhẹ quyến rũ từ Mezcal, ngọt thảo mộc Yellow Chartreuse và đắng cam Aperol.",
+    image: "images/naked-and-famous.svg",
+    story: "Sáng tạo của Joaquín Simó (New York, 2011), được ví như đứa con lai hoàn hảo giữa Paper Plane và Last Word.",
+    ingredients: [
+      { item: "Mezcal Espadín", amount: "22.5 ml" },
+      { item: "Yellow Chartreuse", amount: "22.5 ml" },
+      { item: "Aperol", amount: "22.5 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "22.5 ml" }
     ],
-    "desc": "Vân hổ đường đen Hàn Quốc nấu kẹo thơm lừng hòa cùng sữa tươi thanh trùng mát lạnh.",
-    "ingredients": [
-      "60g Trân châu đen ngâm sốt đường đen",
-      "25ml Sốt đường đen cô đặc",
-      "180ml Sữa tươi thanh trùng không đường"
+    steps: [
+      "Đong 4 thành phần theo tỷ lệ bằng nhau 22.5 ml vào shaker.",
+      "Lắc mạnh với đá già trong 12 giây.",
+      "Lọc kép vào ly Coupe ướp lạnh và cài lát chanh xanh."
     ],
-    "steps": [
-      "Múc trân châu và sốt đường đen xoay đều quanh thành ly tạo vân hổ.",
-      "Thêm đầy đá viên và rót sữa tươi thanh trùng lên trên."
-    ]
+    tip: "Màu cam san hô rực rỡ tự nhiên của ly cocktail này hoàn toàn đến từ Aperol và Yellow Chartreuse."
   },
   {
-    "id": "matcha-latte-uji",
-    "name": "Uji Matcha Latte",
-    "category": "Matcha & Cacao",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "55.000đ",
-    "color": [
-      105,
-      155,
-      80
+    id: "espresso-martini",
+    name: "Espresso Martini",
+    spirit: "Vodka",
+    type: "Cocktail",
+    method: "Hard Shake",
+    glass: "Coupe / Martini",
+    ice: "Không đá (Served Up)",
+    garnish: "3 hạt cà phê rang nguyên hạt",
+    abv: "~20% ABV",
+    taste: "Đậm đà hương cà phê rang mới, ngọt dịu rượu mùi cà phê và lớp crema mịn màng.",
+    image: "images/espresso-martini.webp",
+    story: "Ra đời tại London cuối thập niên 1980 bởi Dick Bradsell với lời yêu cầu nổi tiếng: 'Hãy pha cho tôi thứ gì giúp tỉnh táo rồi say ngất'.",
+    ingredients: [
+      { item: "Vodka", amount: "45 ml" },
+      { item: "Rượu mùi cà phê (Kahlúa / Mr Black)", amount: "30 ml" },
+      { item: "Cà phê Espresso mới chiết xuất (để nguội bớt)", amount: "30 ml" },
+      { item: "Simple Syrup", amount: "7.5 ml" }
     ],
-    "desc": "Bột trà xanh Uji Nhật Bản đánh chổi Chasen thủ công giữ trọn vị Umami thanh khiết.",
-    "ingredients": [
-      "4g Bột Matcha Uji Nhật Bản",
-      "40ml Nước ấm 75°C",
-      "160ml Sữa tươi thanh trùng",
-      "15ml Simple Syrup"
+    steps: [
+      "Chiết xuất 1 shot Espresso nóng và để nguội khoảng 1 phút (không rót cà phê đang sôi trực tiếp lên đá).",
+      "Cho Vodka, rượu mùi cà phê, Espresso và syrup vào shaker đầy đá già.",
+      "Lắc thật mạnh và dứt khoát (Hard Shake) trong 15 giây để đánh bông lớp crema dày.",
+      "Lọc kép vào ly Coupe lạnh và đặt 3 hạt cà phê lên giữa lớp bọt (tượng trưng cho sức khỏe, tài lộc và hạnh phúc)."
     ],
-    "steps": [
-      "Rây mịn bột Matcha vào bát Chawan, thêm nước ấm 75°C và đánh chữ M bằng chổi Chasen đến khi sủi bọt mịn.",
-      "Rót sữa tươi và syrup vào ly đá, rót nhẹ lớp Matcha lên trên tạo 2 tầng xanh trắng."
-    ]
+    tip: "Cà phê Espresso tươi chứa dầu tự nhiên (crema) là chìa khóa tạo nên lớp bọt dày 1 cm trên mặt ly."
   },
   {
-    "id": "cacao-latte-daklak",
-    "name": "Cacao Nguyên Chất Đắk Lắk",
-    "category": "Matcha & Cacao",
-    "temp": "Hot",
-    "prep": "4 phút",
-    "price": "45.000đ",
-    "color": [
-      100,
-      60,
-      45
+    id: "moscow-mule",
+    name: "Moscow Mule",
+    spirit: "Vodka",
+    type: "Cocktail",
+    method: "Build (Rót trực tiếp)",
+    glass: "Cốc đồng (Copper Mug)",
+    ice: "Đá viên / Đá bào",
+    garnish: "Lát chanh xanh & ngọn bạc hà",
+    abv: "~11% ABV",
+    taste: "Cay nồng sảng khoái từ bia gừng (ginger beer), chua thanh chanh tươi và cực kỳ mát lạnh.",
+    image: "images/moscow-mule.svg",
+    story: "Thức uống đưa Vodka trở nên phổ biến tại Mỹ từ năm 1941, gắn liền với chiếc cốc đồng truyền nhiệt lạnh tức thì.",
+    ingredients: [
+      { item: "Vodka", amount: "50 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "15 ml" },
+      { item: "Ginger Beer (Bia gừng ướp lạnh)", amount: "120 ml" }
     ],
-    "desc": "100% bột cacao nguyên chất rang mộc hòa quyện sữa tươi nóng ấm áp, hậu vị trái cây nhẹ.",
-    "ingredients": [
-      "15g Bột Cacao nguyên chất",
-      "30ml Nước sôi 90°C",
-      "20ml Sữa đặc",
-      "160ml Sữa tươi thanh trùng"
+    steps: [
+      "Cho đầy đá vào cốc đồng đã ướp lạnh.",
+      "Rót 50 ml Vodka và 15 ml nước cốt chanh xanh lên đá.",
+      "Rót đầy Ginger Beer lạnh lên trên, khuấy nhẹ 1 vòng và trang trí lát chanh cùng bạc hà."
     ],
-    "steps": [
-      "Đánh tan bột cacao với nước nóng và sữa đặc thành hỗn hợp sệt mịn.",
-      "Đánh nóng sữa tươi ở 60°C và rót hòa quyện vào tách cacao."
-    ]
+    tip: "Chiếc cốc đồng giúp giữ nhiệt độ lạnh lâu hơn và làm tăng cảm giác sảng khoái khi chạm môi."
   },
   {
-    "id": "virgin-mojito-berry",
-    "name": "Virgin Berry Mojito",
-    "category": "Signature Mocktail",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "55.000đ",
-    "color": [
-      185,
-      45,
-      75
+    id: "cosmopolitan",
+    name: "Cosmopolitan",
+    spirit: "Vodka",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Martini Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Vỏ cam đốt tinh dầu (Flamed Orange)",
+    abv: "~22% ABV",
+    taste: "Chua ngọt thanh lịch từ nam việt quất (cranberry), hương cam chanh tươi sáng.",
+    image: "images/cosmopolitan.svg",
+    story: "Biểu tượng văn hóa đại chúng New York thập niên 1990, mang sắc hồng ruby tinh tế.",
+    ingredients: [
+      { item: "Citron Vodka (hoặc Vodka thường)", amount: "45 ml" },
+      { item: "Cointreau", amount: "15 ml" },
+      { item: "Nước ép nam việt quất (Cranberry)", amount: "30 ml" },
+      { item: "Nước cốt chanh xanh tươi", amount: "15 ml" }
     ],
-    "desc": "Mocktail sảng khoái từ dâu tây tươi dầm nhẹ, lá bạc hà vườn và soda mát lạnh.",
-    "ingredients": [
-      "40g Dâu tây tươi cắt lát",
-      "8-10 Lá bạc hà tươi",
-      "15ml Nước cốt chanh xanh",
-      "20ml Simple Syrup",
-      "120ml Soda lạnh"
+    steps: [
+      "Cho toàn bộ nguyên liệu vào shaker đầy đá viên già.",
+      "Lắc mạnh trong 12 giây cho ly đạt độ lạnh sâu.",
+      "Lọc kép vào ly Martini lạnh và vắt tinh dầu vỏ cam lên bề mặt."
     ],
-    "steps": [
-      "Dầm nhẹ dâu tây, lá bạc hà, nước cốt chanh và syrup dưới đáy ly.",
-      "Thêm đầy đá bào/đá viên nhỏ, rót đầy soda và khuấy nhẹ từ dưới lên."
-    ]
+    tip: "Dùng nước ép Cranberry không quá ngọt để giữ màu hồng trong trẻo thay vì đỏ sẫm."
   },
   {
-    "id": "pineapple-basil-smash",
-    "name": "Pineapple Basil Smash",
-    "category": "Signature Mocktail",
-    "temp": "Cold",
-    "prep": "5 phút",
-    "price": "55.000đ",
-    "color": [
-      215,
-      175,
-      50
+    id: "sidecar",
+    name: "Sidecar",
+    spirit: "Brandy",
+    type: "Cocktail",
+    method: "Shake (Lắc)",
+    glass: "Coupe Glass",
+    ice: "Không đá (Served Up)",
+    garnish: "Viền đường nửa miệng ly & vỏ cam",
+    abv: "~26% ABV",
+    taste: "Sang trọng, nồng ấm hương gỗ sồi của Cognac kết hợp vị cam chanh cân bằng.",
+    image: "images/sidecar.svg",
+    story: "Kiệt tác cổ điển từ Paris những năm 1920, đại diện tiêu biểu nhất của nhóm cocktail nền Brandy/Cognac.",
+    ingredients: [
+      { item: "Cognac (VSOP)", amount: "50 ml" },
+      { item: "Cointreau", amount: "25 ml" },
+      { item: "Nước cốt chanh vàng tươi", amount: "20 ml" }
     ],
-    "desc": "Sự kết hợp tinh tế giữa nước ép dứa chín ngọt, lá húng quế Tây và chanh vàng.",
-    "ingredients": [
-      "80ml Nước ép dứa tươi",
-      "6 Lá húng quế (Sweet Basil)",
-      "15ml Nước cốt chanh vàng",
-      "15ml Syrup đường mía"
+    steps: [
+      "Viền đường mịn lên nửa vành ngoài ly Coupe đã ướp lạnh.",
+      "Cho Cognac, Cointreau và nước cốt chanh vàng vào shaker với đá.",
+      "Lắc mạnh trong 12 giây và lọc kép vào ly Coupe."
     ],
-    "steps": [
-      "Vỗ nhẹ lá húng quế cho dậy tinh dầu, cho vào Shaker cùng dứa, chanh, syrup và đá.",
-      "Lắc mạnh 12 giây và lọc đôi (Double Strain) ra ly Rocks có viên đá lớn."
-    ]
+    tip: "Nếu dùng Cognac có vị khô, có thể thêm 5 ml Simple Syrup để làm tròn vị chua của chanh vàng."
   },
   {
-    "id": "sunset-grenadine",
-    "name": "Tropical Sunset Mocktail",
-    "category": "Signature Mocktail",
-    "temp": "Cold",
-    "prep": "4 phút",
-    "price": "55.000đ",
-    "color": [
-      225,
-      95,
-      55
+    id: "vieux-carre",
+    name: "Vieux Carré",
+    spirit: "Brandy",
+    type: "Cocktail",
+    method: "Stir (Khuấy)",
+    glass: "Rocks Glass",
+    ice: "Đá viên lớn",
+    garnish: "Vỏ chanh vàng xoắn",
+    abv: "~31% ABV",
+    taste: "Phức hợp, sâu lắng nhiều tầng hương từ Cognac, Rye Whiskey, thảo mộc Bénédictine và bitters.",
+    image: "images/vieux-carre.svg",
+    story: "Sáng tạo tại khách sạn Monteleone (New Orleans, 1938), tôn vinh sự giao thoa văn hóa Pháp – Mỹ.",
+    ingredients: [
+      { item: "Rye Whiskey", amount: "30 ml" },
+      { item: "Cognac", amount: "30 ml" },
+      { item: "Sweet Vermouth", amount: "30 ml" },
+      { item: "Bénédictine DOM", amount: "7.5 ml" },
+      { item: "Peychaud's & Angostura Bitters", amount: "Mỗi loại 2 dashes" }
     ],
-    "desc": "Hiệu ứng chuyển sắc hoàng hôn rực rỡ từ nước cam tươi và syrup lựu đỏ.",
-    "ingredients": [
-      "120ml Nước ép cam tươi",
-      "30ml Nước ép dứa",
-      "15ml Syrup lựu đỏ (Grenadine)",
-      "10ml Nước cốt chanh"
+    steps: [
+      "Cho tất cả nguyên liệu vào mixing glass đầy đá viên già.",
+      "Khuấy đều tay 25–30 giây.",
+      "Lọc ra ly Rocks có đá lớn và xịt tinh dầu vỏ chanh vàng lên trên."
     ],
-    "steps": [
-      "Lắc đều nước cam, nước dứa và chanh với đá, rót ra ly Hurricane.",
-      "Rót từ từ syrup lựu đỏ sát thành ly để lắng xuống đáy tạo hiệu ứng hoàng hôn."
-    ]
+    tip: "Bénédictine mang lại hậu vị mật ong thảo mộc đặc trưng không thể thay thế trong công thức này."
   },
   {
-    "id": "mango-coconut-smoothie",
-    "name": "Sinh Tố Xoài Cốt Dừa",
-    "category": "Đá Xay & Smoothie",
-    "temp": "Blended",
-    "prep": "5 phút",
-    "price": "55.000đ",
-    "color": [
-      230,
-      180,
-      55
+    id: "virgin-mojito",
+    name: "Virgin Mojito (No-jito)",
+    spirit: "Mocktail",
+    type: "Mocktail (0% Cồn)",
+    method: "Muddle & Build",
+    glass: "Highball Glass",
+    ice: "Đá viên nhỏ / Đá bào",
+    garnish: "Ngọn bạc hà & lát chanh xanh",
+    abv: "0.0% ABV",
+    taste: "Thanh mát, bùng nổ hương bạc hà và chanh tươi, sảng khoái không cồn.",
+    image: "images/virgin-mojito.webp",
+    story: "Phiên bản không cồn kinh điển phù hợp cho mọi bữa tiệc ban ngày hoặc người không dùng thức uống có cồn.",
+    ingredients: [
+      { item: "Nước cốt chanh xanh tươi", amount: "25 ml" },
+      { item: "Simple Syrup (hoặc syrup đường mía)", amount: "20 ml" },
+      { item: "Lá bạc hà tươi", amount: "10–12 lá" },
+      { item: "Nước Soda lạnh (hoặc Ginger Ale)", amount: "120 ml" }
     ],
-    "desc": "Xoài cát Hòa Lộc chín vàng xay mịn cùng nước cốt dừa béo thơm chuẩn vị nhiệt đới.",
-    "ingredients": [
-      "100g Thịt xoài chín",
-      "40ml Nước cốt dừa",
-      "20ml Sữa đặc",
-      "10g Bột Frappe chống tách lớp",
-      "180g Đá viên nhỏ"
+    steps: [
+      "Vỗ nhẹ lá bạc hà cho dậy hương rồi cho vào ly Highball.",
+      "Thêm nước cốt chanh và Simple Syrup, dầm nhẹ 2–3 lần.",
+      "Cho đầy đá vào ly, đảo đều hỗn hợp nước cốt dưới đáy lên.",
+      "Rót đầy Soda lạnh và trang trí bằng ngọn bạc hà tươi cùng lát chanh."
     ],
-    "steps": [
-      "Cho toàn bộ nguyên liệu vào cối xay công suất cao.",
-      "Xay ở tốc độ cao trong 30 giây đến khi hỗn hợp sánh mịn đồng nhất."
-    ]
+    tip: "Thay một nửa lượng Soda bằng nước ép táo xanh sẽ tạo ra biến tấu Apple No-jito rất cuốn hút."
   },
   {
-    "id": "cookies-cream-frappe",
-    "name": "Cookies & Cream Frappe",
-    "category": "Đá Xay & Smoothie",
-    "temp": "Blended",
-    "prep": "5 phút",
-    "price": "59.000đ",
-    "color": [
-      95,
-      85,
-      80
+    id: "shirley-temple",
+    name: "Shirley Temple",
+    spirit: "Mocktail",
+    type: "Mocktail (0% Cồn)",
+    method: "Build (Rót trực tiếp)",
+    glass: "Highball Glass",
+    ice: "Đá viên",
+    garnish: "Lát cam & Cherry đỏ",
+    abv: "0.0% ABV",
+    taste: "Ngọt dịu vị lựu đỏ (grenadine), cay nhẹ gừng tươi và tươi mát hương cam chanh.",
+    image: "images/shirley-temple.svg",
+    story: "Ra đời tại Hollywood thập niên 1930 dành tặng ngôi sao nhí Shirley Temple, là biểu tượng của dòng Mocktail cổ điển.",
+    ingredients: [
+      { item: "Ginger Ale ướp lạnh", amount: "150 ml" },
+      { item: "Grenadine Syrup (syrup lựu đỏ)", amount: "15 ml" },
+      { item: "Nước cốt chanh tươi", amount: "10 ml" }
     ],
-    "desc": "Bánh quy socola giòn tan hòa quyện sữa tươi đá xay phủ kem tươi Whipping béo ngậy.",
-    "ingredients": [
-      "3 Bánh quy Oreo",
-      "60ml Sữa tươi không đường",
-      "25ml Sữa đặc",
-      "15g Bột Frappe",
-      "180g Đá viên",
-      "Kem Whipping trang trí"
+    steps: [
+      "Cho đầy đá viên vào ly Highball.",
+      "Rót nước cốt chanh tươi và Ginger Ale ướp lạnh vào ly.",
+      "Rót từ từ 15 ml Grenadine Syrup để tạo hiệu ứng chuyển màu đỏ hồng đẹp mắt từ đáy ly.",
+      "Trang trí lát cam tươi và cherry đỏ."
     ],
-    "steps": [
-      "Xay nhuyễn 2.5 chiếc bánh Oreo cùng sữa, bột Frappe và đá viên.",
-      "Rót ra ly, xịt kem Whipping lên trên và cắm nửa chiếc bánh Oreo còn lại."
-    ]
+    tip: "Dùng Grenadine làm từ nước ép lựu thật sẽ cho màu đỏ ruby tự nhiên và vị chua ngọt thanh thay vì ngọt gắt."
   },
   {
-    "id": "avocado-coffee-shake",
-    "name": "Bơ Sáp Đắk Lắk Cà Phê",
-    "category": "Đá Xay & Smoothie",
-    "temp": "Blended",
-    "prep": "6 phút",
-    "price": "59.000đ",
-    "color": [
-      125,
-      165,
-      85
+    id: "nogroni-zero",
+    name: "Nogroni (Zero-Proof Negroni)",
+    spirit: "Mocktail",
+    type: "Mocktail (0% Cồn)",
+    method: "Stir (Khuấy)",
+    glass: "Rocks Glass",
+    ice: "Đá viên lớn",
+    garnish: "Vỏ cam tươi xoắn",
+    abv: "0.0% ABV",
+    taste: "Đắng nhẹ thảo mộc, thơm vỏ cam và gia vị ấm áp chuẩn phong cách aperitivo Ý nhưng 0% cồn.",
+    image: "images/nogroni-zero.svg",
+    story: "Giải pháp hoàn hảo cho người yêu hương vị phức hợp của Negroni nhưng muốn giữ sự tỉnh táo tuyệt đối.",
+    ingredients: [
+      { item: "Non-Alcoholic Botanical Spirit (hoặc trà thảo mộc đậm)", amount: "30 ml" },
+      { item: "Non-Alcoholic Italian Bitter Aperitif", amount: "30 ml" },
+      { item: "Nước ép nho đỏ không đường + 1 chút giấm táo", amount: "30 ml" }
     ],
-    "desc": "Bơ sáp dẻo mịn đánh bông kết hợp shot Espresso đậm đà tạo nên trải nghiệm vị giác độc đáo.",
-    "ingredients": [
-      "100g Bơ sáp chín",
-      "30ml Sữa đặc",
-      "40ml Sữa tươi",
-      "150g Đá viên",
-      "25ml Cốt cà phê Espresso"
+    steps: [
+      "Cho tất cả nguyên liệu vào mixing glass đầy đá già.",
+      "Khuấy đều trong 20 giây để làm lạnh sâu.",
+      "Lọc ra ly Rocks có viên đá lớn và xịt tinh dầu vỏ cam lên mặt ly."
     ],
-    "steps": [
-      "Xay mịn bơ sáp, sữa đặc, sữa tươi và đá viên thành hỗn hợp sinh tố sánh đặc.",
-      "Rót ra ly và rưới shot Espresso nóng/nguội lên trên cùng."
-    ]
-  }
-];
-
-const CURRICULUM_MODULES = [
-  {
-    id: "mod-1",
-    title: "Chương 1: Khoa học Nước, Đá & Cảm quan",
-    summary: "Tiêu chuẩn nước SCA (TDS 75-150ppm, pH 6.5-7.5), quản trị độ tan đá và 5 vị cơ bản.",
-    highlights: [
-      "Nước chiếm 98-99% tách cà phê/trà; Clo tự do phải bằng 0 ppm.",
-      "Muối nồng độ 0.1-0.3% giúp ức chế thụ thể vị đắng và làm bật vị ngọt.",
-      "Đá già (-10°C đến -18°C) dùng cho Cold Brew, Espresso đá và Cocktail khuấy."
-    ]
-  },
-  {
-    id: "mod-2",
-    title: "Chương 2: Chiết xuất Espresso & Thủ công",
-    summary: "Brew Ratio chuẩn (Ristretto 1:1.5, Normale 1:2, Lungo 1:3), chẩn đoán lỗi Dial-in và V60/Cold Brew.",
-    highlights: [
-      "Espresso chuẩn: 18g bột -> 36g nước cốt trong 27-30 giây ở 9 bar, nhiệt độ 92-94°C.",
-      "Chảy nhanh (<20s) = Under-extracted (chua gắt) -> Cần xay mịn hơn.",
-      "Cold Brew tỷ lệ 1:8 đến 1:12, xay thô, ủ lạnh 14-18 giờ."
-    ]
-  },
-  {
-    id: "mod-3",
-    title: "Chương 3: Kỹ thuật Ủ Trà & Sốc Nhiệt",
-    summary: "Kiểm soát nhiệt độ ủ theo từng dòng trà (Lục trà 78°C, Ô Long 90°C, Hồng trà 98°C) và quy trình nấu trân châu 25-25.",
-    highlights: [
-      "Sốc nhiệt (Ice Shock) hạ nhiệt độ cốt trà xuống <15°C ngay sau khi lọc để khóa hương và chống đục.",
-      "Trân châu đen chuẩn: Nấu sôi 25 phút + Ủ kín nắp 25 phút + Trộn đường nâu tỷ lệ 1kg : 150g."
-    ]
-  },
-  {
-    id: "mod-4",
-    title: "Chương 4: Mixology & Quản trị Cost (COGS)",
-    summary: "Công thức vàng Base : Sour : Sweet (2 : 1 : 1), 6 kỹ thuật pha chế và kiểm soát Food Cost 22-28%.",
-    highlights: [
-      "6 kỹ thuật cốt lõi: Build, Shake, Stir, Muddle, Blend, Layering.",
-      "Food Cost mục tiêu ngành F&B: 22% - 28% trên giá bán chưa VAT."
-    ]
+    tip: "Nếu tự pha tại nhà không dùng rượu không cồn đóng chai, hãy ủ trà Hibiscus đậm đặc với vỏ cam khô, quế và thảo quả."
   }
 ];
