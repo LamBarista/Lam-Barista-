@@ -1,54 +1,361 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="LamBarista — Khám phá bộ sưu tập cocktail & mocktail từ phổ biến đến kinh điển ít gặp, phân nhóm theo rượu nền và độ mạnh.">
-<title>LamBarista — Nghệ thuật pha chế</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lam's Barista — Thư Viện Công Thức & Giáo Trình Pha Chế</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav>
-  <div class="wrap">
-    <a class="logo" href="index.html">LamBarista</a>
-    <div class="nav-links">
-      <a href="index.html" class="active">Trang chủ</a>
-      <a href="recipes.html">Công thức</a>
-      <a href="learn.html">Học pha chế</a>
+  <header>
+    <div class="nav-wrap">
+      <a href="#" class="brand">
+        <div class="brand-badge">L</div>
+        <div>
+          <span class="brand-title serif">Lam’s Barista</span>
+          <span class="brand-sub">Cocktail Craft & Mixology Academy</span>
+        </div>
+      </a>
+      <nav>
+        <button type="button" class="nav-btn active" data-view="view-recipes">Danh Mục & Công Thức</button>
+        <button type="button" class="nav-btn" data-view="view-academy">Học Pha Chế Căn Bản</button>
+        <button type="button" class="nav-btn" data-view="view-lab">Phòng Lab Định Lượng</button>
+      </nav>
     </div>
-  </div>
-</nav>
+  </header>
 
-<section class="hero">
-  <div class="wrap">
-    <h1>Nghệ thuật<br><em>trong từng ly</em></h1>
-    <p>Bộ sưu tập 25 công thức cocktail &amp; mocktail từ kinh điển phổ biến đến những công thức ít gặp, sắp xếp khoa học theo rượu nền và độ mạnh.</p>
-    <div class="cta">
-      <a href="recipes.html" class="btn btn-gold">Khám phá thư viện (25 món)</a>
-      <a href="learn.html" class="btn btn-ghost">Bắt đầu học</a>
-    </div>
-  </div>
-</section>
+  <main class="container">
+    <!-- TAB 1: DANH MỤC & CÔNG THỨC -->
+    <section id="view-recipes" class="view-section active">
+      <div class="hero">
+        <h1>Thư Viện Cocktail & Mocktail</h1>
+        <p>Chọn tên bất kỳ thức uống nào bên dưới — giao diện sẽ tự động cuộn mượt đến khung công thức chi tiết kèm hình ảnh minh họa ly thành phẩm, định lượng chuẩn và bí quyết pha chế.</p>
+      </div>
 
-<section class="section">
-  <div class="wrap">
-    <h2>Khám phá nhanh theo rượu nền</h2>
-    <p class="sub">Chọn dòng rượu nền bạn yêu thích để đi thẳng đến nhóm công thức tương ứng</p>
-    <div class="base-grid" id="baseSummary"></div>
-  </div>
-</section>
+      <div class="toolbar">
+        <div class="filter-pills">
+          <button type="button" class="pill active" data-spirit="All">Tất cả (25)</button>
+          <button type="button" class="pill" data-spirit="Whiskey">Whiskey</button>
+          <button type="button" class="pill" data-spirit="Gin">Gin</button>
+          <button type="button" class="pill" data-spirit="Rum">Rum</button>
+          <button type="button" class="pill" data-spirit="Tequila">Tequila</button>
+          <button type="button" class="pill" data-spirit="Vodka">Vodka</button>
+          <button type="button" class="pill" data-spirit="Brandy">Brandy</button>
+          <button type="button" class="pill" data-spirit="Mocktail">Mocktail (0%)</button>
+        </div>
+        <input type="search" id="search-input" class="search-input" placeholder="Tìm tên cocktail, rượu nền, hương vị...">
+      </div>
 
-<section class="section" style="padding-top:16px">
-  <div class="wrap">
-    <h2>Nổi bật tuần này</h2>
-    <p class="sub">Những công thức kinh điển được yêu thích nhất — bấm vào từng thẻ để xem định lượng và cách pha</p>
-    <div class="cards" id="featured"></div>
-    <div id="detail"></div>
-  </div>
-</section>
+      <!-- Danh sách thẻ tên gọn gàng, không chứa ảnh thumbnail lỗi -->
+      <div id="menu-grid" class="menu-grid"></div>
 
-<footer>LamBarista • 2026</footer>
-<script src="data.js"></script>
-<script src="app.js"></script>
+      <!-- Khung công thức chi tiết đi kèm hình minh họa trực quan -->
+      <div id="recipe-panel" class="recipe-panel"></div>
+    </section>
+
+    <!-- TAB 2: HỌC PHA CHẾ CĂN BẢN (GIÁO TRÌNH TOÀN DIỆN) -->
+    <section id="view-academy" class="view-section">
+      <div class="hero">
+        <h1>Giáo Trình Căn Bản Bộ Môn Pha Chế</h1>
+        <p>Hệ thống kiến thức nền tảng từ dụng cụ quầy bar, phân loại rượu nền, khoa học về đá & độ loãng, 6 kỹ thuật pha chế cốt lõi đến công thức vàng cân bằng hương vị.</p>
+      </div>
+
+      <div class="curriculum-nav">
+        <button type="button" class="curr-tab active" data-module="all">Tất cả 6 Học Phần</button>
+        <button type="button" class="curr-tab" data-module="mod-1">1. Dụng Cụ & Ly Tách</button>
+        <button type="button" class="curr-tab" data-module="mod-2">2. 6 Dòng Rượu Nền</button>
+        <button type="button" class="curr-tab" data-module="mod-3">3. Nhiệt Độ & Đá</button>
+        <button type="button" class="curr-tab" data-module="mod-4">4. Kỹ Thuật Pha Chế</button>
+        <button type="button" class="curr-tab" data-module="mod-5">5. Nguyên Lý Cân Bằng Vị</button>
+        <button type="button" class="curr-tab" data-module="mod-6">6. Syrup & Trang Trí</button>
+      </div>
+
+      <!-- HỌC PHẦN 1 -->
+      <article class="module-card" data-module="mod-1">
+        <div class="module-header">
+          <span class="module-num">Học phần 01</span>
+          <h2 class="module-title">Dụng Cụ Quầy Bar & Phân Loại Ly (Barware & Glassware)</h2>
+        </div>
+        <p style="color:var(--text-muted);">Hiểu đúng công năng từng dụng cụ giúp thao tác chính xác, giữ vệ sinh quầy bar và kiểm soát tốc độ phục vụ.</p>
+        <div class="lesson-grid">
+          <div class="lesson-box">
+            <h4>Bộ dụng cụ pha chế thiết yếu</h4>
+            <ul>
+              <li><strong>Boston Shaker (2 mảnh):</strong> Gồm 1 cốc inox lớn (28 oz) và 1 cốc nhỏ (18 oz), kín khí tốt, dễ vệ sinh và tạo lực lắc mạnh.</li>
+              <li><strong>Cobbler Shaker (3 mảnh):</strong> Có nắp lọc tích hợp sẵn, phù hợp cho người mới bắt đầu tại nhà.</li>
+              <li><strong>Jigger (Ly đong 2 đầu):</strong> Chuẩn phổ biến 30 ml / 60 ml có vạch chia 7.5 ml, 15 ml, 22.5 ml giúp định lượng chính xác tuyệt đối.</li>
+              <li><strong>Barspoon (Thìa khuấy cán xoắn):</strong> Cán dài 30–40 cm giúp khuấy êm trong Mixing Glass và hỗ trợ kỹ thuật rót phân tầng (layering).</li>
+            </ul>
+          </div>
+          <div class="lesson-box">
+            <h4>Dụng cụ lọc & sơ chế</h4>
+            <ul>
+              <li><strong>Hawthorne Strainer:</strong> Lọc có vòng lò xo dùng đậy miệng Boston Shaker để giữ đá viên lớn.</li>
+              <li><strong>Julep Strainer:</strong> Lọc dạng muỗng đục lỗ dùng riêng cho ly khuấy (Mixing Glass).</li>
+              <li><strong>Fine Strainer (Rây lưới mịn):</strong> Dùng trong kỹ thuật Double Strain để loại bỏ vụn đá và tép chanh, giúp ly cocktail mịn mượt.</li>
+              <li><strong>Muddler (Chày dầm):</strong> Dầm nhẹ thảo mộc (bạc hà) hoặc trái cây tươi để chiết xuất tinh dầu mà không làm nát xác.</li>
+            </ul>
+          </div>
+          <div class="lesson-box">
+            <h4>Quy chuẩn chọn ly phục vụ</h4>
+            <ul>
+              <li><strong>Rocks / Old Fashioned (180–250 ml):</strong> Ly thấp đáy dày, dành cho cocktail phục vụ với đá khối lớn (Negroni, Old Fashioned).</li>
+              <li><strong>Highball / Collins (300–360 ml):</strong> Ly cao ống đứng, dành cho đồ uống nhiều mixer có ga (Mojito, Gin & Tonic, Paloma).</li>
+              <li><strong>Coupe / Martini (150–200 ml):</strong> Ly có chân cao giúp tay không truyền nhiệt vào rượu, dùng cho thức uống không đá (Served Up).</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- HỌC PHẦN 2 -->
+      <article class="module-card" data-module="mod-2">
+        <div class="module-header">
+          <span class="module-num">Học phần 02</span>
+          <h2 class="module-title">6 Dòng Rượu Nền (Base Spirits) & Rượu Bổ Trợ</h2>
+        </div>
+        <p style="color:var(--text-muted);">Rượu nền chiếm 45–60 ml trong mỗi ly cocktail, đóng vai trò khung xương quyết định cá tính hương vị.</p>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dòng rượu nền</th>
+              <th>Nguyên liệu chưng cất</th>
+              <th>Đặc trưng hương vị</th>
+              <th>Cocktail tiêu biểu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Whiskey / Whisky</strong></td>
+              <td>Ngũ cốc (ngô, lúa mạch đen, đại mạch), ủ thùng gỗ sồi</td>
+              <td>Vani, caramel, gỗ sồi nướng, gia vị cay hoặc khói than bùn</td>
+              <td>Old Fashioned, Whiskey Sour, Manhattan</td>
+            </tr>
+            <tr>
+              <td><strong>Gin</strong></td>
+              <td>Ngũ cốc chưng cất cùng quả bách xù (Juniper) & thảo mộc</td>
+              <td>Thơm thông bách xù, vỏ cam chanh, rau mùi, thảo mộc khô</td>
+              <td>Negroni, Gin & Tonic, Dry Martini</td>
+            </tr>
+            <tr>
+              <td><strong>Rum</strong></td>
+              <td>Nước mía tươi hoặc mật rỉ đường (Molasses)</td>
+              <td>Ngọt thanh mía đường (White Rum) hoặc đậm caramel, gia vị (Dark Rum)</td>
+              <td>Mojito, Daiquiri, Piña Colada</td>
+            </tr>
+            <tr>
+              <td><strong>Tequila & Mezcal</strong></td>
+              <td>Cây thùa xanh (Blue Agave) vùng Jalisco, Mexico</td>
+              <td>Tươi xanh thảo mộc, tiêu trắng, khoáng chất hoặc khói nướng (Mezcal)</td>
+              <td>Margarita, Paloma, Naked & Famous</td>
+            </tr>
+            <tr>
+              <td><strong>Vodka</strong></td>
+              <td>Ngũ cốc hoặc khoai tây chưng cất đa tầng tinh khiết</td>
+              <td>Trung tính, sạch vị, làm nền tôn vinh cà phê, trái cây và gia vị</td>
+              <td>Espresso Martini, Moscow Mule, Cosmopolitan</td>
+            </tr>
+            <tr>
+              <td><strong>Brandy / Cognac</strong></td>
+              <td>Rượu vang nho chưng cất và ủ lâu năm trong thùng sồi</td>
+              <td>Nồng ấm, hương trái cây khô, hoa nho, mật ong và gỗ sồi</td>
+              <td>Sidecar, Vieux Carré</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <!-- HỌC PHẦN 3 -->
+      <article class="module-card" data-module="mod-3">
+        <div class="module-header">
+          <span class="module-num">Học phần 03</span>
+          <h2 class="module-title">Khoa Học Về Đá, Nhiệt Độ & Độ Loãng (Dilution)</h2>
+        </div>
+        <p style="color:var(--text-muted);">Trong pha chế chuyên nghiệp, <strong>nước từ đá tan ra chính là một nguyên liệu</strong>. Không có độ loãng chuẩn, rượu sẽ gắt và các tầng vị không thể mở ra.</p>
+        <div class="lesson-grid">
+          <div class="lesson-box">
+            <h4>Nguyên tắc nhiệt động học</h4>
+            <p>Không thể làm lạnh cocktail bằng đá mà không làm đá tan. Khi đá hấp thụ nhiệt từ rượu để hạ nhiệt độ xuống khoảng -2°C đến 2°C, một lượng nước tinh khiết sẽ hòa vào rượu để làm dịu độ gắt cồn.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>Tỷ lệ độ loãng chuẩn (Dilution)</h4>
+            <ul>
+              <li><strong>Kỹ thuật Khuấy (Stir):</strong> Bổ sung khoảng <strong>20–25%</strong> lượng nước từ đá tan.</li>
+              <li><strong>Kỹ thuật Lắc (Shake):</strong> Bổ sung khoảng <strong>25–30%</strong> lượng nước + sục khí tạo độ sánh.</li>
+              <li><strong>Rót trực tiếp (Build):</strong> Bổ sung khoảng <strong>10–15%</strong> nước ban đầu.</li>
+            </ul>
+          </div>
+          <div class="lesson-box">
+            <h4>Chọn kích thước đá đúng mục đích</h4>
+            <ul>
+              <li><strong>Đá khối lớn (5×5 cm):</strong> Diện tích tiếp xúc nhỏ → tan chậm, giữ lạnh lâu cho Old Fashioned, Negroni.</li>
+              <li><strong>Đá viên già đặc ruột:</strong> Dùng trong shaker để tạo lực va đập tốt mà không vỡ vụn quá nhanh.</li>
+              <li><strong>Đá bào / Đá nhỏ:</strong> Làm lạnh tức thì và tạo kết cấu tuyết mát cho Mojito, Tiki.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- HỌC PHẦN 4 -->
+      <article class="module-card" data-module="mod-4">
+        <div class="module-header">
+          <span class="module-num">Học phần 04</span>
+          <h2 class="module-title">6 Kỹ Thuật Pha Chế Cốt Lõi (Core Techniques)</h2>
+        </div>
+        <div class="lesson-grid">
+          <div class="lesson-box">
+            <h4>1. Shake (Lắc với đá)</h4>
+            <p>Áp dụng khi công thức có <strong>nước cốt chanh, nước ép trái cây, syrup đặc, kem hoặc trứng</strong>. Thời gian chuẩn: 10–15 giây lắc dứt khoát theo quỹ đạo ngang để vừa làm lạnh sâu vừa tạo bọt khí.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>2. Dry Shake (Lắc khô không đá)</h4>
+            <p>Lắc trước các nguyên liệu có <strong>lòng trắng trứng hoặc Aquafaba</strong> trong 12 giây ở nhiệt độ phòng để protein bung bọt tối đa, sau đó mới thêm đá lắc lạnh (Wet Shake).</p>
+          </div>
+          <div class="lesson-box">
+            <h4>3. Stir (Khuấy trong Mixing Glass)</h4>
+            <p>Áp dụng cho cocktail <strong>100% thành phần là rượu</strong> (Manhattan, Dry Martini, Boulevardier). Khuấy áp lưng thìa vào thành ly trong 25–30 giây để giữ rượu trong vắt, mượt mà như lụa.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>4. Build (Rót trực tiếp vào ly)</h4>
+            <p>Rót từng nguyên liệu theo thứ tự trực tiếp vào ly phục vụ có sẵn đá (Gin & Tonic, Moscow Mule). Luôn rót nguyên liệu có ga (Soda, Tonic) sau cùng.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>5. Muddle (Dầm chiết xuất)</h4>
+            <p>Dùng chày ấn nhẹ và xoay cổ tay 2–3 nhịp để giải phóng tinh dầu từ vỏ chanh hoặc lá bạc hà. Tránh nghiền mạnh làm vỡ gân lá gây đắng.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>6. Float / Layering (Rót nổi phân tầng)</h4>
+            <p>Đặt đầu thìa bar sát bề mặt đồ uống và rót từ từ chất lỏng có tỷ trọng nhẹ hơn (hoặc rượu khói như trong Penicillin) để tạo lớp hương nổi bên trên.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- HỌC PHẦN 5 -->
+      <article class="module-card" data-module="mod-5">
+        <div class="module-header">
+          <span class="module-num">Học phần 05</span>
+          <h2 class="module-title">Nguyên Lý Cân Bằng Vị & Công Thức Khung (Golden Ratios)</h2>
+        </div>
+        <p style="color:var(--text-muted);">Mọi công thức cocktail kinh điển đều tuân theo cấu trúc cân bằng giữa <strong>Độ mạnh (Strong) – Độ chua (Sour) – Độ ngọt (Sweet) – Độ đắng/Thảo mộc (Bitter/Aromatic)</strong>.</p>
+        <div class="formula-banner">
+          <strong>Công thức Vàng dòng Sour (2 : 1 : 0.75):</strong> 60 ml Rượu nền (Strong) + 25–30 ml Nước cốt chanh tươi (Sour) + 15–22.5 ml Syrup đường (Sweet). Áp dụng trực tiếp cho Daiquiri, Whiskey Sour, Gimlet, Margarita.
+        </div>
+        <div class="lesson-grid">
+          <div class="lesson-box">
+            <h4>Khung Old Fashioned (Spirit-Forward)</h4>
+            <p><strong>60 ml Rượu nền + 5–7.5 ml Đường + 2–3 dashes Bitters.</strong> Tôn vinh trọn vẹn hương vị rượu ủ lâu năm.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>Khung Highball (Giải nhiệt có ga)</h4>
+            <p><strong>50 ml Rượu nền + 120–150 ml Mixer có ga (Tonic / Soda / Ginger Beer).</strong> Tỷ lệ 1:3 giúp hương rượu vẫn rõ nét trên nền bọt khí.</p>
+          </div>
+          <div class="lesson-box">
+            <h4>Khung Equal Parts (1 : 1 : 1 : 1)</h4>
+            <p><strong>4 nguyên liệu bằng lượng nhau (22.5 ml mỗi loại):</strong> Rượu nền + Rượu thảo mộc + Rượu mùi + Nước cốt chanh (The Last Word, Naked & Famous).</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- HỌC PHẦN 6 -->
+      <article class="module-card" data-module="mod-6">
+        <div class="module-header">
+          <span class="module-num">Học phần 06</span>
+          <h2 class="module-title">Chuẩn Bị Syrup Nền Tảng & Nghệ Thuật Trang Trí (Garnish)</h2>
+        </div>
+        <div class="lesson-grid">
+          <div class="lesson-box">
+            <h4>Simple Syrup 1:1 & Rich Syrup 2:1</h4>
+            <ul>
+              <li><strong>Simple Syrup (1:1):</strong> Hòa tan 100g đường cát trắng với 100 ml nước ấm. Dùng cho mọi công thức Sour hàng ngày.</li>
+              <li><strong>Rich Syrup (2:1):</strong> 200g đường + 100 ml nước. Tạo độ sánh (body) dày hơn và bảo quản được lâu hơn trong tủ mát.</li>
+              <li><strong>Honey Syrup (3:1):</strong> 3 phần mật ong + 1 phần nước ấm giúp mật ong không bị đông cứng khi gặp đá lạnh.</li>
+            </ul>
+          </div>
+          <div class="lesson-box">
+            <h4>Garnish là khứu giác đầu tiên</h4>
+            <ul>
+              <li><strong>Xịt tinh dầu vỏ cam/chanh (Express):</strong> Bóp nhẹ phần vỏ hướng xuống mặt ly để lớp tinh dầu li ti phủ lên bề mặt rượu.</li>
+              <li><strong>Đập thức tỉnh thảo mộc (Spank):</strong> Vỗ nhẹ ngọn bạc hà hoặc hương thảo giữa hai lòng bàn tay trước khi cắm vào ly.</li>
+              <li><strong>Viền muối / đường (Rim):</strong> Luôn làm ướt mặt ngoài vành ly để muối không rơi vào làm mặn nước uống bên trong.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- TAB 3: PHÒNG LAB ĐỊNH LƯỢNG -->
+    <section id="view-lab" class="view-section">
+      <div class="hero">
+        <h1>Phòng Lab Tính Toán Định Lượng & Độ Cồn</h1>
+        <p>Công cụ thực hành giúp bạn kiểm soát chính xác nồng độ cồn thực tế sau khi đá tan và quy đổi công thức pha sẵn (Pre-batching) cho các buổi tiệc.</p>
+      </div>
+
+      <div class="lab-grid">
+        <div class="lab-card">
+          <h2 style="font-size:1.65rem; margin-bottom:0.4rem;">1. Tính Nồng Độ Cồn Thực Tế (ABV)</h2>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1.25rem;">Tính toán độ cồn cuối cùng trong ly sau khi tính cả lượng nước tan ra từ đá.</p>
+          <div class="form-row">
+            <label>Thể tích rượu nền chính (ml) & Độ cồn (% ABV)</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+              <input type="number" id="spirit-vol" value="60" min="0">
+              <input type="number" id="spirit-abv" value="40" min="0" max="100">
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Thể tích rượu mùi / Vermouth (ml) & Độ cồn (% ABV)</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+              <input type="number" id="liqueur-vol" value="20" min="0">
+              <input type="number" id="liqueur-abv" value="20" min="0" max="100">
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Tổng thể tích nguyên liệu không cồn (chanh, syrup, soda - ml)</label>
+            <input type="number" id="mixer-vol" value="25" min="0">
+          </div>
+          <div class="form-row">
+            <label>Kỹ thuật pha chế (quyết định lượng nước đá tan)</label>
+            <select id="dilution-method">
+              <option value="shake">Shake — Lắc với đá (~28% nước tan)</option>
+              <option value="stir">Stir — Khuấy với đá (~22% nước tan)</option>
+              <option value="build">Build — Rót trực tiếp (~12% nước tan)</option>
+            </select>
+          </div>
+          <button type="button" id="calc-abv-btn" class="nav-btn active" style="width:100%; border-radius:10px; padding:0.75rem;">Tính Nồng Độ Cồn</button>
+          <div id="abv-result" class="result-box">Nhấn nút để xem nồng độ cồn thực tế sau pha chế.</div>
+        </div>
+
+        <div class="lab-card">
+          <h2 style="font-size:1.65rem; margin-bottom:0.4rem;">2. Quy Đổi Pha Sẵn Theo Bình (Batching)</h2>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1.25rem;">Nhân bản công thức cho nhiều khách mời và tính lượng nước lọc cần thêm nếu ướp lạnh sẵn trong chai.</p>
+          <div class="form-row">
+            <label>Số lượng ly phục vụ</label>
+            <input type="number" id="batch-servings" value="10" min="1">
+          </div>
+          <div class="form-row">
+            <label>Định lượng 1 ly: Rượu nền (ml) / Rượu mùi & Syrup (ml)</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+              <input type="number" id="batch-spirit" value="60" min="0">
+              <input type="number" id="batch-mod" value="20" min="0">
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Định lượng 1 ly: Nước cốt chanh/Juice (ml) & Bù nước tan đá (%)</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem;">
+              <input type="number" id="batch-citrus" value="25" min="0">
+              <input type="number" id="batch-water" value="20" min="0" max="40">
+            </div>
+          </div>
+          <button type="button" id="calc-batch-btn" class="nav-btn active" style="width:100%; border-radius:10px; padding:0.75rem;">Tính Định Lượng Bình Batch</button>
+          <div id="batch-result" class="result-box">Nhấn nút để tính tổng nguyên liệu cho cả bình.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Lam’s Barista • Thư Viện Công Thức & Giáo Trình Pha Chế Căn Bản
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

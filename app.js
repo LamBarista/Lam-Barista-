@@ -1,272 +1,233 @@
-const FAV_KEY = "lambarista_favorites_v1";
+document.addEventListener("DOMContentLoaded", () => {
+  // Navigation between main tabs
+  const navBtns = document.querySelectorAll(".nav-btn");
+  const views = document.querySelectorAll(".view-section");
 
-function getFavorites() {
-  try {
-    return JSON.parse(localStorage.getItem(FAV_KEY)) || [];
-  } catch {
-    return [];
-  }
-}
+  navBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.view;
+      navBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      views.forEach(v => {
+        v.classList.toggle("active", v.id === target);
+      });
+    });
+  });
 
-function toggleFavorite(event, id) {
-  event.stopPropagation();
-  const favs = new Set(getFavorites());
-  if (favs.has(id)) {
-    favs.delete(id);
-  } else {
-    favs.add(id);
-  }
-  localStorage.setItem(FAV_KEY, JSON.stringify([...favs]));
-  rerenderCurrentView();
-}
+  // Cocktail Directory & Detail Viewer
+  const menuGrid = document.getElementById("menu-grid");
+  const filterPills = document.querySelectorAll(".pill");
+  const searchInput = document.getElementById("search-input");
+  const recipePanel = document.getElementById("recipe-panel");
 
-function renderStrength(str) {
-  if (str === 0) return "Không cồn";
-  return `${"●".repeat(str)}${"○".repeat(5 - str)} (${str}/5)`;
-}
+  let activeSpirit = "All";
+  let searchQuery = "";
+  let selectedId = DRINKS[0].id;
 
-function getStrengthBucket(str) {
-  if (str === 0) return "0/5 — Không cồn (Mocktail)";
-  if (str <= 2) return "1–2/5 — Nhẹ nhàng, sảng khoái";
-  if (str === 3) return "3/5 — Cân bằng, vừa vặn";
-  return "4–5/5 — Mạnh & đậm vị";
-}
+  function renderDirectory() {
+    const filtered = DRINKS.filter(d => {
+      const matchSpirit = activeSpirit === "All" || d.spirit === activeSpirit;
+      const q = searchQuery.trim().toLowerCase();
+      const matchText = !q ||
+        d.name.toLowerCase().includes(q) ||
+        d.spirit.toLowerCase().includes(q) ||
+        d.taste.toLowerCase().includes(q) ||
+        d.ingredients.some(i => i.item.toLowerCase().includes(q));
+      return matchSpirit && matchText;
+    });
 
-function buildCardHTML(r, favs) {
-  const isSaved = favs.has(r.id);
-  const mediaHTML = r.img
-    ? `<img src="${r.img}" alt="${r.name}" loading="lazy">`
-    : `<div class="card-placeholder">
-         <span class="ph-base">${r.base}</span>
-         <span class="ph-title">${r.name}</span>
-         <span class="ph-glass">${r.glass || ""}</span>
-       </div>`;
-
-  return `
-    <div class="card" onclick="show('${r.id}')">
-      <div class="card-img-wrap">
-        <span class="rarity-badge">${r.rarity || "Kinh điển"}</span>
-        ${mediaHTML}
-      </div>
-      <div class="card-content">
-        <div class="card-top">
-          <h3>${r.name}</h3>
-          <button type="button" class="fav-btn ${isSaved ? "saved" : ""}" onclick="toggleFavorite(event, '${r.id}')">
-            ${isSaved ? "♥ Đã lưu" : "♡ Lưu"}
-          </button>
-        </div>
-        <div class="tags">${r.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-        <p class="card-desc">${r.desc}</p>
-        <div class="meta">
-          <span>${r.base} • ${r.diff}</span>
-          <span>${renderStrength(r.str)}</span>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function renderCards(list, target) {
-  const el = document.getElementById(target);
-  if (!el) return;
-  const favs = new Set(getFavorites());
-
-  if (!list.length) {
-    el.innerHTML = `<p style="color:var(--muted)">Không tìm thấy công thức phù hợp. Hãy thử từ khóa hoặc bộ lọc khác.</p>`;
-    return;
-  }
-  el.innerHTML = list.map(r => buildCardHTML(r, favs)).join("");
-}
-
-function ensureDetailContainer() {
-  let detailEl = document.getElementById("detail");
-  if (!detailEl) {
-    const mainSection = document.querySelector("section.section .wrap") || document.body;
-    detailEl = document.createElement("div");
-    detailEl.id = "detail";
-    mainSection.appendChild(detailEl);
-  }
-  return detailEl;
-}
-
-function show(id) {
-  const r = recipes.find(x => x.id === id);
-  if (!r) return;
-  const detailEl = ensureDetailContainer();
-  const isSaved = new Set(getFavorites()).has(r.id);
-
-  detailEl.innerHTML = `
-    <div class="detail">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-        <h2>${r.name}</h2>
-        <button type="button" class="fav-btn ${isSaved ? "saved" : ""}" onclick="toggleFavorite(event, '${r.id}')">
-          ${isSaved ? "♥ Đã lưu vào danh sách" : "♡ Lưu công thức"}
-        </button>
-      </div>
-      <p style="color:var(--muted);margin-top:6px;">
-        Rượu nền: <strong>${r.base}</strong> · Phân loại: <strong>${r.rarity || "Kinh điển"}</strong> · Độ mạnh: <strong>${renderStrength(r.str)}</strong> · Ly: <strong>${r.glass || "Tùy chọn"}</strong>
-      </p>
-      ${r.img ? `<img src="${r.img}" alt="${r.name}">` : ""}
-      <p style="color:var(--muted);margin:14px 0 16px;">${r.desc}</p>
-      <h3>Nguyên liệu</h3>
-      <ul style="margin:10px 0 20px 22px;">${r.ings.map(i => `<li>${i}</li>`).join("")}</ul>
-      <h3>Cách pha chế</h3>
-      <ol style="margin:10px 0 24px 22px;">${r.steps.map(s => `<li style="margin-bottom:8px;">${s}</li>`).join("")}</ol>
-      <button type="button" onclick="document.getElementById('detail').innerHTML=''" class="btn btn-ghost btn-sm">Đóng chi tiết</button>
-    </div>
-  `;
-  detailEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-let rerenderCurrentView = () => {};
-
-// Homepage: Base spirit shortcuts + Featured cards
-if (document.getElementById("baseSummary")) {
-  const bases = ["Whiskey", "Gin", "Rum", "Tequila", "Vodka", "Brandy", "Không cồn"];
-  document.getElementById("baseSummary").innerHTML = bases.map(b => {
-    const count = recipes.filter(r => r.base === b).length;
-    return `
-      <a class="base-pill" href="recipes.html?base=${encodeURIComponent(b)}">
-        <strong>${b}</strong>
-        <span>${count} công thức →</span>
-      </a>
-    `;
-  }).join("");
-}
-
-if (document.getElementById("featured")) {
-  const featuredIds = ["old-fashioned", "negroni", "mojito", "margarita", "espresso-martini", "virgin-mojito"];
-  const featuredList = featuredIds.map(id => recipes.find(r => r.id === id)).filter(Boolean);
-  const renderFeatured = () => renderCards(featuredList, "featured");
-  rerenderCurrentView = renderFeatured;
-  renderFeatured();
-}
-
-// Recipes library page
-if (document.getElementById("gridContainer")) {
-  let rarityFilter = "all";
-
-  // Pre-select base spirit if passed via URL (?base=Gin)
-  const params = new URLSearchParams(window.location.search);
-  const initialBase = params.get("base");
-  if (initialBase && document.getElementById("baseFilter")) {
-    document.getElementById("baseFilter").value = initialBase;
-    if (document.getElementById("groupMode")) {
-      document.getElementById("groupMode").value = "flat";
-    }
-  }
-
-  function update() {
-    let list = recipes.slice();
-    const favSet = new Set(getFavorites());
-    const q = (document.getElementById("q")?.value || "").trim().toLowerCase();
-    const baseVal = document.getElementById("baseFilter")?.value || "all";
-    const strVal = document.getElementById("strFilter")?.value || "all";
-    const groupMode = document.getElementById("groupMode")?.value || "flat";
-    const sortVal = document.getElementById("sort")?.value || "name";
-
-    if (q) {
-      list = list.filter(r =>
-        r.name.toLowerCase().includes(q) ||
-        r.desc.toLowerCase().includes(q) ||
-        r.base.toLowerCase().includes(q) ||
-        (r.rarity || "").toLowerCase().includes(q) ||
-        r.tags.some(t => t.toLowerCase().includes(q)) ||
-        r.ings.some(i => i.toLowerCase().includes(q))
-      );
-    }
-
-    if (baseVal !== "all") {
-      list = list.filter(r => r.base === baseVal);
-    }
-
-    if (strVal !== "all") {
-      if (strVal === "0") list = list.filter(r => r.str === 0);
-      else if (strVal === "light") list = list.filter(r => r.str >= 1 && r.str <= 2);
-      else if (strVal === "medium") list = list.filter(r => r.str === 3);
-      else if (strVal === "strong") list = list.filter(r => r.str >= 4);
-    }
-
-    if (rarityFilter === "fav") {
-      list = list.filter(r => favSet.has(r.id));
-    } else if (rarityFilter !== "all") {
-      list = list.filter(r => r.rarity === rarityFilter);
-    }
-
-    if (sortVal === "str-desc") {
-      list.sort((a, b) => b.str - a.str || a.name.localeCompare(b.name, "vi"));
-    } else if (sortVal === "str-asc") {
-      list.sort((a, b) => a.str - b.str || a.name.localeCompare(b.name, "vi"));
-    } else {
-      list.sort((a, b) => a.name.localeCompare(b.name, "vi"));
-    }
-
-    const countBadge = document.getElementById("countBadge");
-    if (countBadge) countBadge.textContent = `${list.length} công thức`;
-
-    const container = document.getElementById("gridContainer");
-    if (!list.length) {
-      container.innerHTML = `<p style="color:var(--muted)">Không tìm thấy công thức phù hợp. Hãy thử xóa bớt bộ lọc hoặc nhập từ khóa khác.</p>`;
+    if (filtered.length === 0) {
+      menuGrid.innerHTML = `<div style="grid-column: 1/-1; padding: 2rem; text-align: center; color: var(--text-muted); background: var(--surface); border-radius: 14px; border: 1px solid var(--border);">Không tìm thấy công thức phù hợp với từ khóa của bạn.</div>`;
       return;
     }
 
-    if (groupMode === "base") {
-      const baseOrder = ["Whiskey", "Gin", "Rum", "Tequila", "Vodka", "Brandy", "Không cồn"];
-      const groups = baseOrder
-        .map(b => ({ title: b === "Không cồn" ? "Không cồn (Mocktail)" : `Nhóm ${b}`, items: list.filter(r => r.base === b) }))
-        .filter(g => g.items.length > 0);
-
-      container.innerHTML = groups.map(g => `
-        <div class="group-block">
-          <div class="group-header">
-            <h3>${g.title}</h3>
-            <span>${g.items.length} món</span>
+    // Text-only clean directory cards (no thumbnail images in list view)
+    menuGrid.innerHTML = filtered.map(d => `
+      <button type="button" class="drink-card ${d.id === selectedId ? "selected" : ""}" data-id="${d.id}">
+        <div>
+          <div class="card-top">
+            <span class="tag ${d.spirit === "Mocktail" ? "mocktail" : ""}">${d.spirit}</span>
+            <span style="font-size:0.78rem; color:var(--text-muted);">${d.abv}</span>
           </div>
-          <div class="cards">${g.items.map(r => buildCardHTML(r, favSet)).join("")}</div>
+          <h3 class="drink-name">${d.name}</h3>
+          <p class="drink-taste">${d.taste}</p>
         </div>
-      `).join("");
-    } else if (groupMode === "strength") {
-      const strengthOrder = [
-        "4–5/5 — Mạnh & đậm vị",
-        "3/5 — Cân bằng, vừa vặn",
-        "1–2/5 — Nhẹ nhàng, sảng khoái",
-        "0/5 — Không cồn (Mocktail)"
-      ];
-      const groups = strengthOrder
-        .map(label => ({ title: label, items: list.filter(r => getStrengthBucket(r.str) === label) }))
-        .filter(g => g.items.length > 0);
+        <div class="card-footer">
+          <span>${d.method} • ${d.glass}</span>
+          <span class="card-cta">Xem công thức →</span>
+        </div>
+      </button>
+    `).join("");
 
-      container.innerHTML = groups.map(g => `
-        <div class="group-block">
-          <div class="group-header">
-            <h3>Độ mạnh: ${g.title}</h3>
-            <span>${g.items.length} món</span>
+    document.querySelectorAll(".drink-card").forEach(card => {
+      card.addEventListener("click", () => {
+        selectedId = card.dataset.id;
+        renderDirectory();
+        renderRecipe(selectedId, true);
+      });
+    });
+  }
+
+  function renderRecipe(drinkId, shouldScroll = false) {
+    const d = DRINKS.find(item => item.id === drinkId) || DRINKS[0];
+    recipePanel.innerHTML = `
+      <div class="recipe-layout">
+        <div class="recipe-visual">
+          <div>
+            <div class="recipe-img-box">
+              <img src="${d.image}" alt="Ly ${d.name}" loading="eager">
+            </div>
+            <p style="margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted); text-align:center;">
+              Minh họa phục vụ chuẩn: <strong style="color:var(--text);">${d.glass}</strong>
+            </p>
           </div>
-          <div class="cards">${g.items.map(r => buildCardHTML(r, favSet)).join("")}</div>
+          <div class="visual-specs">
+            <div class="spec-box">
+              <span class="spec-label">Kỹ thuật</span>
+              <span class="spec-val">${d.method}</span>
+            </div>
+            <div class="spec-box">
+              <span class="spec-label">Độ cồn ước tính</span>
+              <span class="spec-val">${d.abv}</span>
+            </div>
+            <div class="spec-box">
+              <span class="spec-label">Loại đá</span>
+              <span class="spec-val">${d.ice}</span>
+            </div>
+            <div class="spec-box">
+              <span class="spec-label">Trang trí</span>
+              <span class="spec-val">${d.garnish}</span>
+            </div>
+          </div>
         </div>
-      `).join("");
-    } else {
-      container.innerHTML = `<div class="cards">${list.map(r => buildCardHTML(r, favSet)).join("")}</div>`;
+
+        <div class="recipe-body">
+          <div class="recipe-header">
+            <div>
+              <span class="tag ${d.spirit === "Mocktail" ? "mocktail" : ""}">${d.spirit} • ${d.type}</span>
+              <h2 class="recipe-title">${d.name}</h2>
+            </div>
+          </div>
+          <p class="recipe-story">${d.story}</p>
+
+          <div class="recipe-cols">
+            <div>
+              <h4 class="sub-heading">Định lượng nguyên liệu</h4>
+              <ul class="ing-list">
+                ${d.ingredients.map(ing => `
+                  <li>
+                    <span>${ing.item}</span>
+                    <span class="ing-amt">${ing.amount}</span>
+                  </li>
+                `).join("")}
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="sub-heading">Quy trình thực hiện</h4>
+              <ol class="step-list">
+                ${d.steps.map(st => `<li>${st}</li>`).join("")}
+              </ol>
+            </div>
+          </div>
+
+          <div class="bartender-tip">
+            <strong style="color:var(--accent);">Bí quyết Bartender:</strong> ${d.tip}
+          </div>
+        </div>
+      </div>
+    `;
+
+    if (shouldScroll) {
+      recipePanel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }
 
-  rerenderCurrentView = update;
-
-  ["q", "baseFilter", "strFilter", "groupMode", "sort"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener(id === "q" ? "input" : "change", update);
-    }
+  filterPills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      filterPills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      activeSpirit = pill.dataset.spirit;
+      renderDirectory();
+    });
   });
 
-  document.querySelectorAll(".chip").forEach(c => {
-    c.onclick = () => {
-      document.querySelectorAll(".chip").forEach(x => x.classList.remove("on"));
-      c.classList.add("on");
-      rarityFilter = c.dataset.t;
-      update();
-    };
+  searchInput.addEventListener("input", e => {
+    searchQuery = e.target.value;
+    renderDirectory();
   });
 
-  update();
-}
+  renderDirectory();
+  renderRecipe(selectedId, false);
+
+  // Curriculum Filter Tabs (Học Pha Chế)
+  const currTabs = document.querySelectorAll(".curr-tab");
+  const modules = document.querySelectorAll(".module-card");
+
+  currTabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      const mod = tab.dataset.module;
+      currTabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      modules.forEach(m => {
+        if (mod === "all" || m.dataset.module === mod) {
+          m.style.display = "block";
+        } else {
+          m.style.display = "none";
+        }
+      });
+    });
+  });
+
+  // Lab Calculators
+  const abvBtn = document.getElementById("calc-abv-btn");
+  if (abvBtn) {
+    abvBtn.addEventListener("click", () => {
+      const v1 = parseFloat(document.getElementById("spirit-vol").value) || 0;
+      const a1 = parseFloat(document.getElementById("spirit-abv").value) || 0;
+      const v2 = parseFloat(document.getElementById("liqueur-vol").value) || 0;
+      const a2 = parseFloat(document.getElementById("liqueur-abv").value) || 0;
+      const mixer = parseFloat(document.getElementById("mixer-vol").value) || 0;
+      const method = document.getElementById("dilution-method").value;
+
+      const dilutionRate = method === "stir" ? 0.22 : method === "shake" ? 0.28 : 0.12;
+      const preVol = v1 + v2 + mixer;
+      const pureAlcohol = (v1 * (a1 / 100)) + (v2 * (a2 / 100));
+      const finalVol = preVol * (1 + dilutionRate);
+      const finalAbv = finalVol > 0 ? (pureAlcohol / finalVol) * 100 : 0;
+
+      document.getElementById("abv-result").innerHTML = `
+        <div style="font-size:0.9rem; color:var(--text-muted);">Thể tích trước pha: <strong style="color:var(--text);">${preVol.toFixed(0)} ml</strong> → Sau tan đá (~${(dilutionRate*100).toFixed(0)}%): <strong style="color:var(--text);">${finalVol.toFixed(1)} ml</strong></div>
+        <div style="font-size:1.25rem; margin-top:0.35rem; color:var(--accent); font-weight:700;">Nồng độ cồn thực tế trong ly: ${finalAbv.toFixed(1)}% ABV</div>
+      `;
+    });
+  }
+
+  const batchBtn = document.getElementById("calc-batch-btn");
+  if (batchBtn) {
+    batchBtn.addEventListener("click", () => {
+      const servings = parseInt(document.getElementById("batch-servings").value, 10) || 1;
+      const baseSpirit = parseFloat(document.getElementById("batch-spirit").value) || 0;
+      const modifier = parseFloat(document.getElementById("batch-mod").value) || 0;
+      const citrus = parseFloat(document.getElementById("batch-citrus").value) || 0;
+      const waterPct = parseFloat(document.getElementById("batch-water").value) || 0;
+
+      const totalBase = baseSpirit * servings;
+      const totalMod = modifier * servings;
+      const totalCitrus = citrus * servings;
+      const subTotal = totalBase + totalMod + totalCitrus;
+      const waterMl = subTotal * (waterPct / 100);
+      const grandTotal = subTotal + waterMl;
+
+      document.getElementById("batch-result").innerHTML = `
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:0.35rem; font-size:0.92rem;">
+          <li>• Rượu nền: <strong style="color:var(--accent);">${totalBase.toFixed(0)} ml</strong></li>
+          <li>• Rượu mùi / Syrup: <strong style="color:var(--accent);">${totalMod.toFixed(0)} ml</strong></li>
+          <li>• Nước cốt chanh / Juice: <strong style="color:var(--accent);">${totalCitrus.toFixed(0)} ml</strong></li>
+          <li>• Nước lọc bù độ loãng (${waterPct}%): <strong style="color:var(--accent);">${waterMl.toFixed(0)} ml</strong></li>
+          <li style="margin-top:0.3rem; padding-top:0.4rem; border-top:1px solid rgba(255,255,255,0.1);">Tổng dung tích bình Batch: <strong style="color:var(--emerald); font-size:1.05rem;">${grandTotal.toFixed(0)} ml (${(grandTotal/1000).toFixed(2)} Lít)</strong></li>
+        </ul>
+      `;
+    });
+  }
+});
