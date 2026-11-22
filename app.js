@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const rootEl = document.documentElement;
+  const themeToggleBtn = document.getElementById("theme-toggle");
+  const themeIconEl = document.getElementById("theme-icon");
+  const themeLabelEl = document.getElementById("theme-label");
+
   const navBtns = document.querySelectorAll(".nav-btn[data-view]");
   const viewSections = document.querySelectorAll(".view-section");
 
@@ -14,6 +19,28 @@ document.addEventListener("DOMContentLoaded", () => {
   let queryText = "";
   let selectedId = COCKTAIL_DATA[0]?.id || null;
 
+  // Theme management (Dark Lounge / Light Daylight) with localStorage persistence
+  function applyTheme(theme) {
+    rootEl.setAttribute("data-theme", theme);
+    localStorage.setItem("lams-barista-theme", theme);
+    if (theme === "dark") {
+      themeIconEl.textContent = "☀️";
+      themeLabelEl.textContent = "Giao diện Sáng";
+    } else {
+      themeIconEl.textContent = "🌙";
+      themeLabelEl.textContent = "Giao diện Tối";
+    }
+  }
+
+  const savedTheme = localStorage.getItem("lams-barista-theme") || "dark";
+  applyTheme(savedTheme);
+
+  themeToggleBtn.addEventListener("click", () => {
+    const current = rootEl.getAttribute("data-theme") || "dark";
+    applyTheme(current === "dark" ? "light" : "dark");
+  });
+
+  // Top navigation views
   navBtns.forEach(btn => {
     btn.addEventListener("click", () => {
       const targetId = btn.dataset.view;
@@ -26,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Academy curriculum module tabs
   currTabs.forEach(tab => {
     tab.addEventListener("click", () => {
       const mod = tab.dataset.module;
@@ -42,12 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   window.renderFallbackImg = function(imgEl, item) {
-    const [r, g, b] = item.color || [158, 103, 40];
+    const [r, g, b] = item.color || [212, 118, 42];
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
-      <rect width="1200" height="900" fill="#1d1815"/>
-      <rect x="44" y="44" width="1112" height="812" fill="none" stroke="#c89b5c" stroke-width="2"/>
-      <circle cx="290" cy="450" r="160" fill="rgb(${r},${g},${b})" stroke="#c89b5c" stroke-width="3"/>
-      <text x="515" y="340" fill="#c89b5c" font-family="sans-serif" font-size="22" font-weight="bold">${item.category.toUpperCase()}</text>
+      <rect width="1200" height="900" fill="#181310"/>
+      <rect x="44" y="44" width="1112" height="812" fill="none" stroke="#f09c38" stroke-width="2"/>
+      <circle cx="290" cy="450" r="160" fill="rgb(${r},${g},${b})" stroke="#f09c38" stroke-width="3"/>
+      <text x="515" y="340" fill="#f09c38" font-family="sans-serif" font-size="22" font-weight="bold">${item.category.toUpperCase()}</text>
       <text x="515" y="405" fill="#ffffff" font-family="sans-serif" font-size="42" font-weight="bold">${item.name}</text>
       <text x="515" y="465" fill="#e8dfd3" font-family="sans-serif" font-size="25">Ly: ${item.glass}</text>
       <text x="515" y="510" fill="#e8dfd3" font-family="sans-serif" font-size="25">Kỹ thuật: ${item.method}</text>
@@ -84,9 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
     menuGrid.innerHTML = list.map(item => {
       const globalIdx = String(COCKTAIL_DATA.indexOf(item) + 1).padStart(2, "0");
       const isSel = item.id === selectedId ? "selected" : "";
+      const rgbStr = (item.color || [212, 118, 42]).join(", ");
       return `
-        <button type="button" class="menu-item ${isSel}" data-id="${item.id}">
-          <span class="menu-num">#${globalIdx} • ${item.spirit}</span>
+        <button type="button" class="menu-item ${isSel}" data-id="${item.id}" style="--card-rgb: ${rgbStr};">
+          <span class="menu-num"><span class="spirit-dot"></span>#${globalIdx} • ${item.spirit}</span>
           <span class="menu-name">${item.name}</span>
           <span class="menu-meta">${item.glass}</span>
         </button>
@@ -108,6 +137,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderRecipePanel(id) {
     const item = COCKTAIL_DATA.find(c => c.id === id);
     if (!item) return;
+
+    const rgbStr = (item.color || [212, 118, 42]).join(", ");
+    const accStr = (item.accent || [250, 200, 95]).join(", ");
+    rootEl.style.setProperty("--drink-rgb", rgbStr);
+    rootEl.style.setProperty("--drink-accent-rgb", accStr);
 
     const safeJson = encodeURIComponent(JSON.stringify(item));
     recipePanel.innerHTML = `
@@ -164,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderMenuGrid();
   });
 
+  // Lab 1: Actual ABV after dilution
   document.getElementById("calc-abv-btn")?.addEventListener("click", () => {
     const sVol = parseFloat(document.getElementById("spirit-vol").value) || 0;
     const sAbv = parseFloat(document.getElementById("spirit-abv").value) || 0;
@@ -186,6 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   });
 
+  // Lab 2: Pre-batch calculator
   document.getElementById("calc-batch-btn")?.addEventListener("click", () => {
     const servings = Math.max(1, parseInt(document.getElementById("batch-servings").value, 10) || 1);
     const spirit = (parseFloat(document.getElementById("batch-spirit").value) || 0) * servings;
