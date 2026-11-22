@@ -11,8 +11,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentSpirit = "All";
   let searchTerm = "";
+  let currentUnit = localStorage.getItem("lamb-unit") || "ml";
+  let favorites = JSON.parse(localStorage.getItem("lamb-favorites") || "[]");
 
-  // Fallback SVG when image fails
+  function saveFavorites() {
+    localStorage.setItem("lamb-favorites", JSON.stringify(favorites));
+  }
+
+  function isFav(id) {
+    return favorites.includes(id);
+  }
+
+  function toggleFav(id) {
+    if (isFav(id)) {
+      favorites = favorites.filter(f => f !== id);
+    } else {
+      favorites.push(id);
+    }
+    saveFavorites();
+    renderCards();
+  }
+
+  // Convert ml numbers in text to oz (1 oz ≈ 30 ml)
+  function convertText(text, toOz) {
+    if (!toOz) return text;
+    return text.replace(/(\d+(?:\.\d+)?)\s*ml/gi, (match, num) => {
+      const ml = parseFloat(num);
+      const oz = ml / 30;
+      const formatted = oz % 1 === 0 ? oz.toFixed(0) : oz.toFixed(2).replace(/\.?0+$/, "");
+      return `${formatted} oz`;
+    });
+  }
+
   window.buildFallbackCard = function(imgEl, name, category, base, rgb) {
     const [r, g, b] = rgb || [180, 120, 70];
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
@@ -25,13 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <rect width="800" height="600" fill="url(#bg)"/>
       <rect x="30" y="30" width="740" height="540" fill="none" stroke="#d4af73" stroke-width="2"/>
       <circle cx="200" cy="300" r="110" fill="rgb(${r},${g},${b})" stroke="#d4af73" stroke-width="3"/>
-      <polygon points="145,255 255,255 215,310 185,310" fill="#f6f1eb"/>
-      <rect x="196" y="310" width="8" height="55" fill="#f6f1eb"/>
-      <rect x="168" y="365" width="64" height="6" fill="#f6f1eb"/>
-      <text x="340" y="230" fill="#d4af73" font-family="sans-serif" font-size="16" font-weight="bold">${(category || "").toUpperCase()}</text>
-      <text x="340" y="290" fill="#ffffff" font-family="sans-serif" font-size="32" font-weight="bold">${name}</text>
-      <line x1="340" y1="320" x2="740" y2="320" stroke="#d4af73" stroke-width="1.5"/>
-      <text x="340" y="365" fill="#e5ddd3" font-family="sans-serif" font-size="20">Nền: ${base || ""}</text>
+      <text x="340" y="290" fill="#ffffff" font-family="sans-serif" font-size="28" font-weight="bold">${name}</text>
+      <text x="340" y="340" fill="#d4af73" font-family="sans-serif" font-size="18">${base || ""}</text>
     </svg>`;
     imgEl.onerror = null;
     imgEl.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
@@ -40,7 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCards() {
     const query = searchTerm.trim().toLowerCase();
     const list = COCKTAIL_DATA.filter(c => {
-      const matchSpirit = currentSpirit === "All" || c.spirit === currentSpirit || (currentSpirit === "Mocktail" && (c.abv === "0%" || c.abv.includes("0%")));
+      let matchSpirit = true;
+      if (currentSpirit === "Favorites") {
+        matchSpirit = isFav(c.id);
+      } else if (currentSpirit !== "All") {
+        matchSpirit = c.spirit === currentSpirit || (currentSpirit === "Mocktail" && (c.abv === "0%" || (c.abv && c.abv.includes("0%"))));
+      }
       const matchQuery = !query ||
         c.name.toLowerCase().includes(query) ||
         (c.base && c.base.toLowerCase().includes(query)) ||
@@ -56,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuGrid.innerHTML = list.map(c => `
       <article class="card" data-id="${c.id}">
+        <button class="fav-btn ${isFav(c.id) ? "active" : ""}" data-id="${c.id}" title="Yêu thích">
+          ${isFav(c.id) ? "★" : "☆"}
+        </button>
         <div class="card-media">
           <img
             src="images/${c.id}.webp"
@@ -76,16 +109,30 @@ document.addEventListener("DOMContentLoaded", () => {
       </article>
     `).join("");
 
+    // Card click
     menuGrid.querySelectorAll(".card").forEach(card => {
-      card.addEventListener("click", () => {
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".fav-btn")) return;
         const item = COCKTAIL_DATA.find(c => c.id === card.dataset.id);
         if (item) showRecipe(item);
+      });
+    });
+
+    // Fav buttons
+    menuGrid.querySelectorAll(".fav-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleFav(btn.dataset.id);
       });
     });
   }
 
   function showRecipe(c) {
+    const useOz = currentUnit === "oz";
+    const ingredientsHtml = (c.ingredients || []).map(i => `<li>${convertText(i, useOz)}</li>`).join("");
+
     recipePanel.innerHTML = `
+      <button class="back-to-menu" id="backToMenu">← Quay lại danh mục</button>
       <div class="recipe-detail">
         <div class="recipe-image">
           <img
@@ -103,13 +150,23 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="spec-pill">Ly: ${c.glass || "-"}</span>
             <span class="spec-pill">${c.abv || ""}</span>
           </div>
+          <div class="recipe-actions">
+            <div class="unit-toggle">
+              <button type="button" class="${currentUnit === "ml" ? "active" : ""}" data-unit="ml">ml</button>
+              <button type="button" class="${currentUnit === "oz" ? "active" : ""}" data-unit="oz">oz</button>
+            </div>
+            <button type="button" class="btn-icon" id="copyRecipeBtn">📋 Copy công thức</button>
+            <button type="button" class="btn-icon fav-toggle" data-id="${c.id}">
+              ${isFav(c.id) ? "★ Bỏ yêu thích" : "☆ Thêm yêu thích"}
+            </button>
+          </div>
           <p class="recipe-desc">${c.desc || ""}</p>
           ${c.tip ? `<p class="recipe-tip"><strong>Bí quyết:</strong> ${c.tip}</p>` : ""}
           <div class="recipe-layout">
             <div>
               <h4>Nguyên liệu</h4>
-              <ul>
-                ${(c.ingredients || []).map(i => `<li>${i}</li>`).join("")}
+              <ul id="ingredientsList">
+                ${ingredientsHtml}
               </ul>
             </div>
             <div>
@@ -122,6 +179,42 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
     `;
+
+    // Back button
+    document.getElementById("backToMenu").addEventListener("click", () => {
+      recipePanel.innerHTML = "";
+      menuGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    // Unit toggle
+    recipePanel.querySelectorAll(".unit-toggle button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        currentUnit = btn.dataset.unit;
+        localStorage.setItem("lamb-unit", currentUnit);
+        showRecipe(c); // re-render
+      });
+    });
+
+    // Copy
+    document.getElementById("copyRecipeBtn").addEventListener("click", () => {
+      const useOz = currentUnit === "oz";
+      const ings = (c.ingredients || []).map(i => "- " + convertText(i, useOz)).join("\n");
+      const steps = (c.steps || []).map((s, i) => `${i+1}. ${s}`).join("\n");
+      const text = `${c.name}\n\nNguyên liệu:\n${ings}\n\nCách pha:\n${steps}`;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById("copyRecipeBtn");
+        const orig = btn.textContent;
+        btn.textContent = "✓ Đã copy";
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    });
+
+    // Fav toggle in recipe
+    recipePanel.querySelector(".fav-toggle").addEventListener("click", () => {
+      toggleFav(c.id);
+      showRecipe(c);
+    });
+
     recipePanel.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -173,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (saved) applyTheme(saved);
   }
 
-  // Lab calculators
+  // Lab calculators — upgraded
   const calcAbvBtn = document.getElementById("calc-abv-btn");
   const abvResult = document.getElementById("abv-result");
   if (calcAbvBtn && abvResult) {
@@ -187,12 +280,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const dilutionRate = method === "shake" ? 0.28 : method === "stir" ? 0.22 : 0.12;
 
       const pureAlcohol = (spiritVol * spiritAbv / 100) + (liqueurVol * liqueurAbv / 100);
-      const totalBeforeDilution = spiritVol + liqueurVol + mixerVol;
-      const waterFromIce = totalBeforeDilution * dilutionRate;
-      const finalVolume = totalBeforeDilution + waterFromIce;
+      const totalBefore = spiritVol + liqueurVol + mixerVol;
+      const waterFromIce = totalBefore * dilutionRate;
+      const finalVolume = totalBefore + waterFromIce;
       const finalAbv = finalVolume > 0 ? (pureAlcohol / finalVolume) * 100 : 0;
 
-      abvResult.innerHTML = `<strong>${finalAbv.toFixed(1)}% ABV</strong><br><small>Thể tích cuối ≈ ${finalVolume.toFixed(0)} ml (đã tính nước đá tan)</small>`;
+      // Standard drink ≈ 14g pure alcohol ≈ 17.7 ml pure alcohol
+      const standardDrinks = pureAlcohol / 17.7;
+
+      abvResult.innerHTML = `
+        <strong>${finalAbv.toFixed(1)}% ABV</strong><br>
+        <small>Thể tích cuối ≈ ${finalVolume.toFixed(0)} ml</small><br>
+        <span class="lab-extra">≈ ${standardDrinks.toFixed(1)} đơn vị cồn chuẩn (1 đơn vị ≈ 14g cồn nguyên chất)</span>
+      `;
     });
   }
 
@@ -211,20 +311,28 @@ document.addEventListener("DOMContentLoaded", () => {
       const totalCitrus = citrus * servings;
       const totalBase = totalSpirit + totalMod + totalCitrus;
       const waterToAdd = totalBase * (waterPct / 100);
+      const totalVolume = totalBase + waterToAdd;
+
+      // Recommend bottle size with ~15% headspace
+      const withHeadspace = totalVolume * 1.15;
+      let bottleSuggestion = "1 chai 750 ml";
+      if (withHeadspace > 750) bottleSuggestion = "2 chai 750 ml hoặc 1 chai 1.5L";
+      if (withHeadspace > 1500) bottleSuggestion = "2–3 chai 1L hoặc bình lớn hơn";
 
       batchResult.innerHTML = `
         <strong>Tổng cho ${servings} ly:</strong><br>
         Rượu nền: ${totalSpirit.toFixed(0)} ml<br>
         Rượu mùi / Syrup: ${totalMod.toFixed(0)} ml<br>
         Citrus / Juice: ${totalCitrus.toFixed(0)} ml<br>
-        Nước lọc bù: ${waterToAdd.toFixed(0)} ml
+        Nước lọc bù: ${waterToAdd.toFixed(0)} ml<br>
+        <strong>Tổng thể tích: ${totalVolume.toFixed(0)} ml</strong>
+        <div class="lab-extra">
+          Gợi ý bình/chai: ${bottleSuggestion} (đã tính ~15% khoảng trống)<br>
+          Chi phí ước tính: bạn có thể nhân với giá nguyên liệu/ml của mình để kiểm soát ngân sách tiệc.
+        </div>
       `;
     });
   }
-
-  // Initial render
-  renderCards();
-});
 
   // Academy curriculum tabs
   const currTabs = document.querySelectorAll(".curr-tab");
@@ -243,3 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  // Initial render
+  renderCards();
+});
