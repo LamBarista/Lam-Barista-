@@ -34,7 +34,7 @@ const COCKTAIL_DATA = [
       "Trang trí tùy theo sở thích, khuấy nhẹ và thưởng thức."
     ],
     "spirit": "Mocktail",
-    "tip": "Sử dụng Rocks (1 viên đá lớn) và kỹ thuật Shake & Top Soda đúng thời gian để giữ trọn độ cân bằng giữa rượu nền, chua, ngọt và nhiệt độ phục vụ."
+    "tip": "Dùng ly Rocks với 1 viên đá lớn và kỹ thuật Shake & Top Soda vừa đủ thời gian để giữ độ cân bằng giữa vị chanh dây, chua, ngọt nhẹ và độ lạnh sảng khoái. Vì không có cồn nên ly sẽ dễ uống và phù hợp cả ngày."
   },
   {
     "id": "negroni",
