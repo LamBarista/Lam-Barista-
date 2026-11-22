@@ -1,246 +1,158 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const rootEl = document.documentElement;
-  const themeToggleBtn = document.getElementById("theme-toggle");
-  const themeIconEl = document.getElementById("theme-icon");
-  const themeLabelEl = document.getElementById("theme-label");
+  const gridEl = document.getElementById("cocktailGrid");
+  const filterGroupEl = document.getElementById("filterGroup");
+  const searchInputEl = document.getElementById("searchInput");
+  const standardsGridEl = document.getElementById("standardsGrid");
+  const modalEl = document.getElementById("recipeModal");
+  const modalContentEl = document.getElementById("modalContent");
+  const closeModalBtn = document.getElementById("closeModalBtn");
 
-  const navBtns = document.querySelectorAll(".nav-btn[data-view]");
-  const viewSections = document.querySelectorAll(".view-section");
+  let selectedCategory = "Tất cả";
+  let searchTerm = "";
 
-  const filterPills = document.querySelectorAll(".pill[data-spirit]");
-  const searchInput = document.getElementById("search-input");
-  const menuGrid = document.getElementById("menu-grid");
-  const recipePanel = document.getElementById("recipe-panel");
+  const categories = ["Tất cả", ...new Set(COCKTAIL_DATA.map(item => item.category))];
 
-  const currTabs = document.querySelectorAll(".curr-tab[data-module]");
-  const moduleCards = document.querySelectorAll(".module-card[data-module]");
-
-  let activeSpirit = "All";
-  let queryText = "";
-  let selectedId = COCKTAIL_DATA[0]?.id || null;
-
-  // Theme management (Dark Lounge / Light Daylight) with localStorage persistence
-  function applyTheme(theme) {
-    rootEl.setAttribute("data-theme", theme);
-    localStorage.setItem("lams-barista-theme", theme);
-    if (theme === "dark") {
-      themeIconEl.textContent = "☀️";
-      themeLabelEl.textContent = "Giao diện Sáng";
-    } else {
-      themeIconEl.textContent = "🌙";
-      themeLabelEl.textContent = "Giao diện Tối";
-    }
-  }
-
-  const savedTheme = localStorage.getItem("lams-barista-theme") || "dark";
-  applyTheme(savedTheme);
-
-  themeToggleBtn.addEventListener("click", () => {
-    const current = rootEl.getAttribute("data-theme") || "dark";
-    applyTheme(current === "dark" ? "light" : "dark");
-  });
-
-  // Top navigation views
-  navBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const targetId = btn.dataset.view;
-      navBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      viewSections.forEach(sec => {
-        sec.classList.toggle("active", sec.id === targetId);
-      });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  });
-
-  // Academy curriculum module tabs
-  currTabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      const mod = tab.dataset.module;
-      currTabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      moduleCards.forEach(card => {
-        if (mod === "all" || card.dataset.module === mod) {
-          card.classList.remove("hidden-mod");
-        } else {
-          card.classList.add("hidden-mod");
-        }
-      });
-    });
-  });
-
-  window.renderFallbackImg = function(imgEl, item) {
-    const [r, g, b] = item.color || [212, 118, 42];
+  window.buildFallbackCard = function(imgEl, name, category, base, rgb) {
+    const [r, g, b] = rgb || [180, 120, 70];
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
-      <rect width="1200" height="900" fill="#181310"/>
-      <rect x="44" y="44" width="1112" height="812" fill="none" stroke="#f09c38" stroke-width="2"/>
-      <circle cx="290" cy="450" r="160" fill="rgb(${r},${g},${b})" stroke="#f09c38" stroke-width="3"/>
-      <text x="515" y="340" fill="#f09c38" font-family="sans-serif" font-size="22" font-weight="bold">${item.category.toUpperCase()}</text>
-      <text x="515" y="405" fill="#ffffff" font-family="sans-serif" font-size="42" font-weight="bold">${item.name}</text>
-      <text x="515" y="465" fill="#e8dfd3" font-family="sans-serif" font-size="25">Ly: ${item.glass}</text>
-      <text x="515" y="510" fill="#e8dfd3" font-family="sans-serif" font-size="25">Kỹ thuật: ${item.method}</text>
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#181412"/>
+          <stop offset="100%" stop-color="rgb(${Math.round(r*0.45)},${Math.round(g*0.45)},${Math.round(b*0.45)})"/>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="900" fill="url(#bg)"/>
+      <rect x="44" y="44" width="1112" height="812" fill="none" stroke="#d4af73" stroke-width="2"/>
+      <circle cx="290" cy="450" r="165" fill="rgb(${r},${g},${b})" stroke="#d4af73" stroke-width="3"/>
+      <polygon points="205,385 375,385 312,462 268,462" fill="#f6f1eb"/>
+      <rect x="286" y="462" width="8" height="80" fill="#f6f1eb"/>
+      <rect x="242" y="542" width="96" height="8" fill="#f6f1eb"/>
+      <text x="515" y="340" fill="#d4af73" font-family="sans-serif" font-size="22" font-weight="bold">${category.toUpperCase()}</text>
+      <text x="515" y="415" fill="#ffffff" font-family="sans-serif" font-size="44" font-weight="bold">${name}</text>
+      <line x1="515" y1="450" x2="1080" y2="450" stroke="#d4af73" stroke-width="2"/>
+      <text x="515" y="505" fill="#e5ddd3" font-family="sans-serif" font-size="26">Nền: ${base}</text>
     </svg>`;
     imgEl.onerror = null;
     imgEl.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   };
 
-  function getFilteredCocktails() {
-    const q = queryText.trim().toLowerCase();
-    return COCKTAIL_DATA.filter(item => {
-      const matchSpirit = activeSpirit === "All" || item.spirit === activeSpirit;
-      const matchQuery = !q ||
-        item.name.toLowerCase().includes(q) ||
-        item.base.toLowerCase().includes(q) ||
-        item.category.toLowerCase().includes(q) ||
-        item.ingredients.some(i => i.toLowerCase().includes(q));
-      return matchSpirit && matchQuery;
-    });
-  }
+  function renderCategories() {
+    filterGroupEl.innerHTML = categories.map(cat => `
+      <button class="filter-btn ${cat === selectedCategory ? 'active' : ''}" data-category="${cat}">
+        ${cat}
+      </button>
+    `).join("");
 
-  function renderMenuGrid() {
-    const list = getFilteredCocktails();
-    if (!list.length) {
-      menuGrid.innerHTML = `<p style="grid-column:1/-1; color:var(--text-muted);">Không tìm thấy công thức phù hợp.</p>`;
-      recipePanel.innerHTML = "";
-      return;
-    }
-
-    if (!list.some(item => item.id === selectedId)) {
-      selectedId = list[0].id;
-    }
-
-    menuGrid.innerHTML = list.map(item => {
-      const globalIdx = String(COCKTAIL_DATA.indexOf(item) + 1).padStart(2, "0");
-      const isSel = item.id === selectedId ? "selected" : "";
-      const rgbStr = (item.color || [212, 118, 42]).join(", ");
-      return `
-        <button type="button" class="menu-item ${isSel}" data-id="${item.id}" style="--card-rgb: ${rgbStr};">
-          <span class="menu-num"><span class="spirit-dot"></span>#${globalIdx} • ${item.spirit}</span>
-          <span class="menu-name">${item.name}</span>
-          <span class="menu-meta">${item.glass}</span>
-        </button>
-      `;
-    }).join("");
-
-    menuGrid.querySelectorAll(".menu-item").forEach(btn => {
+    filterGroupEl.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", () => {
-        selectedId = btn.dataset.id;
-        renderMenuGrid();
-        renderRecipePanel(selectedId);
-        recipePanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        selectedCategory = btn.dataset.category;
+        renderCategories();
+        renderCocktails();
       });
     });
-
-    renderRecipePanel(selectedId);
   }
 
-  function renderRecipePanel(id) {
-    const item = COCKTAIL_DATA.find(c => c.id === id);
-    if (!item) return;
+  function renderCocktails() {
+    const query = searchTerm.trim().toLowerCase();
+    const list = COCKTAIL_DATA.filter(c => {
+      const matchCategory = selectedCategory === "Tất cả" || c.category === selectedCategory;
+      const matchQuery = !query ||
+        c.name.toLowerCase().includes(query) ||
+        c.base.toLowerCase().includes(query) ||
+        c.ingredients.some(ing => ing.toLowerCase().includes(query));
+      return matchCategory && matchQuery;
+    });
 
-    const rgbStr = (item.color || [212, 118, 42]).join(", ");
-    const accStr = (item.accent || [250, 200, 95]).join(", ");
-    rootEl.style.setProperty("--drink-rgb", rgbStr);
-    rootEl.style.setProperty("--drink-accent-rgb", accStr);
-
-    const safeJson = encodeURIComponent(JSON.stringify(item));
-    recipePanel.innerHTML = `
-      <div class="panel-top">
-        <img
-          class="panel-img"
-          src="./images/${item.id}.webp"
-          alt="${item.name}"
-          onerror="renderFallbackImg(this, JSON.parse(decodeURIComponent('${safeJson}')))"
-        >
-        <div>
-          <span class="panel-eyebrow">${item.category}</span>
-          <h2 class="panel-title">${item.name}</h2>
-          <p class="panel-desc">${item.desc}</p>
-          <div class="spec-row">
-            <span class="spec-badge">Nền: ${item.base}</span>
-            <span class="spec-badge">Ly: ${item.glass}</span>
-            <span class="spec-badge">Kỹ thuật: ${item.method}</span>
-            <span class="spec-badge">Độ cồn: ${item.abv}</span>
-          </div>
-          <div class="tip-box">
-            <strong>Bí quyết pha chế:</strong> ${item.tip}
+    gridEl.innerHTML = list.map(c => `
+      <article class="card" data-id="${c.id}">
+        <div class="card-media">
+          <img
+            src="./images/${c.id}.webp"
+            alt="${c.name}"
+            width="1200"
+            height="900"
+            loading="lazy"
+            onerror="buildFallbackCard(this, '${c.name.replace(/'/g, "\'")}', '${c.category}', '${c.base}', [${c.color.join(',')}])"
+          >
+        </div>
+        <div class="card-body">
+          <div class="card-tag">${c.category}</div>
+          <h3 class="card-title">${c.name}</h3>
+          <p class="card-desc">${c.desc}</p>
+          <div class="card-meta">
+            <span>${c.base} • ${c.glass}</span>
+            <strong>Công thức →</strong>
           </div>
         </div>
+      </article>
+    `).join("");
+
+    gridEl.querySelectorAll(".card").forEach(card => {
+      card.addEventListener("click", () => {
+        const item = COCKTAIL_DATA.find(c => c.id === card.dataset.id);
+        if (item) openModal(item);
+      });
+    });
+  }
+
+  function openModal(c) {
+    modalContentEl.innerHTML = `
+      <img
+        class="modal-hero-img"
+        src="./images/${c.id}.webp"
+        alt="${c.name}"
+        onerror="buildFallbackCard(this, '${c.name.replace(/'/g, "\'")}', '${c.category}', '${c.base}', [${c.color.join(',')}])"
+      >
+      <div class="card-tag">${c.category}</div>
+      <h2 style="font-size: 1.65rem; color: var(--text-primary); margin-top: 0.2rem;">${c.name}</h2>
+      <div class="spec-pills">
+        <span class="spec-pill">Nền: ${c.base}</span>
+        <span class="spec-pill">Kỹ thuật: ${c.method}</span>
+        <span class="spec-pill">Ly: ${c.glass}</span>
+        <span class="spec-pill">${c.abv}</span>
       </div>
-      <div class="panel-columns">
+      <p style="color: var(--text-secondary); font-size: 0.94rem;">${c.desc}</p>
+      <div class="recipe-layout">
         <div>
-          <h3>Nguyên Liệu & Định Lượng</h3>
+          <h4>Định lượng Nguyên liệu</h4>
           <ul>
-            ${item.ingredients.map(ing => `<li>${ing}</li>`).join("")}
+            ${c.ingredients.map(i => `<li>${i}</li>`).join("")}
           </ul>
         </div>
         <div>
-          <h3>Các Bước Thực Hiện</h3>
+          <h4>Quy trình Pha chế</h4>
           <ol>
-            ${item.steps.map(st => `<li>${st}</li>`).join("")}
+            ${c.steps.map(s => `<li>${s}</li>`).join("")}
           </ol>
         </div>
       </div>
     `;
+    modalEl.classList.add("open");
   }
 
-  filterPills.forEach(pill => {
-    pill.addEventListener("click", () => {
-      activeSpirit = pill.dataset.spirit;
-      filterPills.forEach(p => p.classList.remove("active"));
-      pill.classList.add("active");
-      renderMenuGrid();
-    });
+  function renderStandards() {
+    standardsGridEl.innerHTML = MIXOLOGY_STANDARDS.map(std => `
+      <div class="standard-card">
+        <h3>${std.title}</h3>
+        <p>${std.summary}</p>
+        <ul>
+          ${std.points.map(pt => `<li>${pt}</li>`).join("")}
+        </ul>
+      </div>
+    `).join("");
+  }
+
+  searchInputEl.addEventListener("input", e => {
+    searchTerm = e.target.value;
+    renderCocktails();
   });
 
-  searchInput.addEventListener("input", e => {
-    queryText = e.target.value;
-    renderMenuGrid();
+  closeModalBtn.addEventListener("click", () => modalEl.classList.remove("open"));
+  modalEl.addEventListener("click", e => {
+    if (e.target === modalEl) modalEl.classList.remove("open");
   });
 
-  // Lab 1: Actual ABV after dilution
-  document.getElementById("calc-abv-btn")?.addEventListener("click", () => {
-    const sVol = parseFloat(document.getElementById("spirit-vol").value) || 0;
-    const sAbv = parseFloat(document.getElementById("spirit-abv").value) || 0;
-    const lVol = parseFloat(document.getElementById("liqueur-vol").value) || 0;
-    const lAbv = parseFloat(document.getElementById("liqueur-abv").value) || 0;
-    const mVol = parseFloat(document.getElementById("mixer-vol").value) || 0;
-    const method = document.getElementById("dilution-method").value;
-
-    const rateMap = { shake: 0.28, stir: 0.22, build: 0.12 };
-    const rate = rateMap[method] || 0.25;
-    const baseTotal = sVol + lVol + mVol;
-    const meltWater = baseTotal * rate;
-    const finalVol = baseTotal + meltWater;
-    const pureAlcohol = (sVol * (sAbv / 100)) + (lVol * (lAbv / 100));
-    const finalAbv = finalVol > 0 ? (pureAlcohol / finalVol) * 100 : 0;
-
-    document.getElementById("abv-result").innerHTML = `
-      <strong>ABV ước tính sau pha chế: ~${finalAbv.toFixed(1)}%</strong><br>
-      Thể tích trước đá tan: ${baseTotal.toFixed(0)} ml • Nước đá tan (~${Math.round(rate * 100)}%): +${meltWater.toFixed(1)} ml • Tổng thành phẩm: <strong>${finalVol.toFixed(0)} ml</strong>.
-    `;
-  });
-
-  // Lab 2: Pre-batch calculator
-  document.getElementById("calc-batch-btn")?.addEventListener("click", () => {
-    const servings = Math.max(1, parseInt(document.getElementById("batch-servings").value, 10) || 1);
-    const spirit = (parseFloat(document.getElementById("batch-spirit").value) || 0) * servings;
-    const mod = (parseFloat(document.getElementById("batch-mod").value) || 0) * servings;
-    const citrus = (parseFloat(document.getElementById("batch-citrus").value) || 0) * servings;
-    const waterPct = (parseFloat(document.getElementById("batch-water").value) || 0) / 100;
-
-    const liquidBeforeWater = spirit + mod + citrus;
-    const waterToAdd = liquidBeforeWater * waterPct;
-    const totalBatch = liquidBeforeWater + waterToAdd;
-
-    document.getElementById("batch-result").innerHTML = `
-      <strong>Tổng bình cho ${servings} ly: ${totalBatch.toFixed(0)} ml</strong><br>
-      • Rượu nền: <strong>${spirit.toFixed(0)} ml</strong><br>
-      • Rượu mùi & Syrup: <strong>${mod.toFixed(0)} ml</strong><br>
-      • Chanh / Juice: <strong>${citrus.toFixed(0)} ml</strong><br>
-      • Nước lọc bù độ loãng: <strong>${waterToAdd.toFixed(0)} ml</strong>
-    `;
-  });
-
-  renderMenuGrid();
+  renderCategories();
+  renderCocktails();
+  renderStandards();
 });
