@@ -743,7 +743,7 @@ const COCKTAIL_DATA = [
   },
   {
     "id": "amaretto-sour",
-    "name": "Morgenthaler Amaretto Sour",
+    "name": "Amaretto Sour",
     "category": "Sours & Fizz",
     "base": "Amaretto & Bourbon",
     "glass": "Old Fashioned (Rocks)",
@@ -1926,5 +1926,111 @@ const COCKTAIL_DATA = [
       "Lọc ra ly đầy đá khối, châm thêm nước Tonic lạnh và trang trí nhánh hương thảo."
     ],
     "tip": "Vị chát nhẹ và vị đắng quinine trong Tonic tạo cấu trúc phức hợp như một ly cocktail thực thụ mà hoàn toàn 0% cồn."
+  }
+,
+  {
+    "id": "jagerbomb",
+    "name": "Jägerbomb",
+    "category": "Party & Shot",
+    "base": "Jägermeister",
+    "glass": "Shot glass + Highball",
+    "method": "Drop",
+    "abv": "~15–18%",
+    "color": [40, 20, 10],
+    "accent": [200, 160, 60],
+    "desc": "Món drop shot phổ biến: ly shot Jägermeister thả vào ly energy drink (Red Bull hoặc tương đương) rồi uống một hơi.",
+    "ingredients": [
+      "30 ml Jägermeister",
+      "120–150 ml Energy drink (Red Bull hoặc tương đương, lạnh)",
+      "1 ly shot + 1 ly highball"
+    ],
+    "steps": [
+      "Rót energy drink lạnh vào ly highball.",
+      "Rót Jägermeister đầy ly shot.",
+      "Thả ly shot vào ly energy drink (drop).",
+      "Uống ngay một hơi."
+    ],
+    "spirit": "Liqueur",
+    "tip": "Dùng energy drink đã lạnh và thả ly shot nhẹ nhàng để không làm tràn. Uống có trách nhiệm vì đây là món mạnh và nhanh."
+  },
+  {
+    "id": "blue-margarita",
+    "name": "Blue Margarita",
+    "category": "Classic & Aperitif",
+    "base": "Tequila",
+    "glass": "Margarita / Coupe",
+    "method": "Shake & Strain",
+    "abv": "~18%",
+    "color": [30, 140, 200],
+    "accent": [180, 220, 240],
+    "desc": "Phiên bản màu xanh của Margarita cổ điển, dùng Blue Curaçao tạo màu và hương cam quýt đặc trưng.",
+    "ingredients": [
+      "45 ml Tequila Blanco",
+      "20 ml Blue Curaçao",
+      "25 ml nước cốt chanh tươi",
+      "10–15 ml siro đường (tùy khẩu vị)",
+      "Viền muối (tùy chọn)"
+    ],
+    "steps": [
+      "Làm ướt vành ly và rim muối nếu thích.",
+      "Cho tequila, blue curaçao, nước chanh và siro vào shaker với đá.",
+      "Lắc mạnh 10–12 giây.",
+      "Lọc vào ly Margarita hoặc Coupe.",
+      "Trang trí với lát chanh hoặc vỏ cam."
+    ],
+    "spirit": "Tequila",
+    "tip": "Blue Curaçao đã có độ ngọt, nên điều chỉnh siro đường nhẹ tay để không quá ngọt. Dùng tequila blanco để màu xanh nổi bật hơn."
+  },
+  {
+    "id": "blue-hawaiian",
+    "name": "Blue Hawaiian",
+    "category": "Tropical",
+    "base": "Rum",
+    "glass": "Hurricane / Highball",
+    "method": "Shake & Strain",
+    "abv": "~12–14%",
+    "color": [20, 160, 210],
+    "accent": [255, 200, 80],
+    "desc": "Cocktail nhiệt đới màu xanh biển, kết hợp rum, blue curaçao, nước dứa và kem dừa — ngọt mát và dễ uống.",
+    "ingredients": [
+      "45 ml White Rum",
+      "20 ml Blue Curaçao",
+      "60 ml nước dứa (pineapple juice)",
+      "30 ml kem dừa (coconut cream)",
+      "Đá viên"
+    ],
+    "steps": [
+      "Cho tất cả nguyên liệu vào shaker với đá.",
+      "Lắc mạnh 12–15 giây.",
+      "Lọc vào ly hurricane hoặc highball đã có đá.",
+      "Trang trí với lát dứa, ô dù hoặc cherry."
+    ],
+    "spirit": "Rum",
+    "tip": "Kem dừa tạo texture mịn. Nếu muốn nhẹ hơn có thể giảm kem dừa và tăng nước dứa. Phục vụ lạnh."
+  },
+  {
+    "id": "french-connection",
+    "name": "French Connection",
+    "category": "Classic",
+    "base": "Cognac",
+    "glass": "Rocks / Old Fashioned",
+    "method": "Build",
+    "abv": "~20%",
+    "color": [160, 90, 40],
+    "accent": [220, 180, 120],
+    "desc": "Cocktail đơn giản và thanh lịch: Cognac kết hợp với Amaretto, phục vụ trên đá — ấm và có hương hạnh nhân.",
+    "ingredients": [
+      "45 ml Cognac",
+      "45 ml Amaretto",
+      "Đá viên lớn"
+    ],
+    "steps": [
+      "Cho đá lớn vào ly rocks.",
+      "Rót Cognac và Amaretto vào ly.",
+      "Khuấy nhẹ để hòa quyện.",
+      "Thưởng thức chậm."
+    ],
+    "spirit": "Brandy",
+    "tip": "Tỷ lệ 1:1 là chuẩn. Có thể điều chỉnh theo khẩu vị — thêm Cognac nếu muốn đậm hơn, thêm Amaretto nếu thích ngọt hơn."
   }
 ];

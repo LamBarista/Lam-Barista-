@@ -79,8 +79,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return matchSpirit && matchQuery;
     });
 
+    if (currentSpirit === "Favorites" && list.length > 0) {
+      const shareBar = document.createElement("div");
+      shareBar.className = "share-bar";
+      shareBar.innerHTML = `<button type="button" class="btn-icon" id="shareFavBtn">📤 Chia sẻ / Gửi danh sách yêu thích</button>`;
+      menuGrid.parentNode.insertBefore(shareBar, menuGrid);
+      document.getElementById("shareFavBtn").onclick = shareFavorites;
+    } else {
+      document.querySelectorAll(".share-bar").forEach(el => el.remove());
+    }
+
     if (list.length === 0) {
-      menuGrid.innerHTML = `<p class="empty-msg">Không tìm thấy công thức nào phù hợp.</p>`;
+      menuGrid.innerHTML = `<p class="empty-msg">${currentSpirit === "Favorites" ? "Bạn chưa có món yêu thích nào. Hãy bấm ☆ trên các thẻ để thêm." : "Không tìm thấy công thức nào phù hợp."}</p>`;
       return;
     }
 
@@ -351,6 +361,42 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+
+  function shareFavorites() {
+    const favItems = COCKTAIL_DATA.filter(c => isFav(c.id));
+    if (favItems.length === 0) {
+      alert("Bạn chưa có món yêu thích nào.");
+      return;
+    }
+    const names = favItems.map(c => c.name).join(", ");
+    const text = `Danh sách yêu thích của tôi tại Lam's Barista:\n${names}\n\nXem thêm tại trang công thức.`;
+    const encoded = encodeURIComponent(text);
+
+    const modal = document.createElement("div");
+    modal.className = "share-modal";
+    modal.innerHTML = `
+      <div class="share-box">
+        <h3>Chia sẻ danh sách yêu thích</h3>
+        <textarea id="shareText" readonly rows="5">${text}</textarea>
+        <div class="share-actions">
+          <button type="button" class="btn-icon" id="copyShare">📋 Copy</button>
+          <a class="btn-icon" href="mailto:?subject=Danh sách cocktail yêu thích&body=${encoded}">✉️ Email</a>
+          <a class="btn-icon" href="https://zalo.me/share?url=${encodeURIComponent(location.href)}&text=${encoded}" target="_blank" rel="noopener">💬 Zalo</a>
+          <a class="btn-icon" href="https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url&entry.XXXX=${encodeURIComponent(names)}" target="_blank" rel="noopener">📝 Gửi form</a>
+        </div>
+        <button type="button" class="btn-icon" id="closeShare">Đóng</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById("copyShare").onclick = () => {
+      navigator.clipboard.writeText(text);
+      document.getElementById("copyShare").textContent = "✓ Đã copy";
+    };
+    document.getElementById("closeShare").onclick = () => modal.remove();
+    modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  }
 
   // Initial render
   renderCards();
