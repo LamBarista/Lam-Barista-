@@ -69,7 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (currentSpirit === "Favorites") {
         matchSpirit = isFav(c.id);
       } else if (currentSpirit !== "All") {
-        matchSpirit = c.spirit === currentSpirit || (currentSpirit === "Mocktail" && (c.abv === "0%" || (c.abv && c.abv.includes("0%"))));
+        matchSpirit = c.spirit === currentSpirit || (currentSpirit === "Mocktail" && (
+          c.spirit === "Mocktail" ||
+          (c.abv && (c.abv.startsWith("0%") || c.abv.includes("Non-Alcoholic") || c.abv.includes("Mocktail")))
+        ));
       }
       const matchQuery = !query ||
         c.name.toLowerCase().includes(query) ||
@@ -382,9 +385,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="share-actions">
           <button type="button" class="btn-icon" id="copyShare">📋 Copy</button>
           <a class="btn-icon" href="mailto:?subject=Danh sách cocktail yêu thích&body=${encoded}">✉️ Email</a>
-          <a class="btn-icon" href="https://zalo.me/share?url=${encodeURIComponent(location.href)}&text=${encoded}" target="_blank" rel="noopener">💬 Zalo</a>
+          <button type="button" class="btn-icon" id="openZalo">💬 Mở Zalo</button>
           <a class="btn-icon" href="https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url&entry.XXXX=${encodeURIComponent(names)}" target="_blank" rel="noopener">📝 Gửi form</a>
         </div>
+        <p class="share-note">Nút Zalo sẽ copy nội dung và mở ứng dụng Zalo (trên điện thoại). Bạn chỉ cần dán vào ô chat.</p>
         <button type="button" class="btn-icon" id="closeShare">Đóng</button>
       </div>
     `;
@@ -393,6 +397,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("copyShare").onclick = () => {
       navigator.clipboard.writeText(text);
       document.getElementById("copyShare").textContent = "✓ Đã copy";
+    };
+
+    document.getElementById("openZalo").onclick = () => {
+      navigator.clipboard.writeText(text).then(() => {
+        // Try deep link first (works on mobile with Zalo installed)
+        window.location.href = "zalo://";
+        // Fallback: open Zalo web after a short delay if deep link fails
+        setTimeout(() => {
+          window.open("https://chat.zalo.me/", "_blank");
+        }, 800);
+      });
     };
     document.getElementById("closeShare").onclick = () => modal.remove();
     modal.onclick = (e) => { if (e.target === modal) modal.remove(); };

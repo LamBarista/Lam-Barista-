@@ -781,3 +781,10 @@ footer {
 .share-actions .btn-icon {
   text-decoration: none;
 }
+
+.share-note {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0.4rem 0 0.6rem;
+  line-height: 1.4;
+}
